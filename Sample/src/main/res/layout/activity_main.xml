@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="3dp">
+
+        <com.sunfusheng.glideimageview.GlideImageView
+            android:id="@+id/image11"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_margin="3dp"
+            android:layout_weight="1"/>
+
+        <com.sunfusheng.glideimageview.GlideImageView
+            android:id="@+id/image12"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_margin="3dp"
+            android:layout_weight="1"/>
+
+        <com.sunfusheng.glideimageview.GlideImageView
+            android:id="@+id/image13"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_margin="3dp"
+            android:layout_weight="1"/>
+
+        <com.sunfusheng.glideimageview.GlideImageView
+            android:id="@+id/image14"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_margin="3dp"
+            android:layout_weight="1"/>
+    </LinearLayout>
+
+</LinearLayout>
