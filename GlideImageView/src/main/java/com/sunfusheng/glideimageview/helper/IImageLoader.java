@@ -5,7 +5,7 @@ import android.support.annotation.DrawableRes;
 /**
  * Created by sunfusheng on 2017/6/6.
  */
-public interface ILoadMethod {
+public interface IImageLoader {
 
     // 加载网络图片
     void loadImage(String url, int placeholderResId);

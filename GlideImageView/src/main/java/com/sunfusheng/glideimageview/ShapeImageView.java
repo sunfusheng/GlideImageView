@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
@@ -12,9 +13,12 @@ import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.ColorRes;
 import android.support.annotation.IntDef;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
+
+import com.sunfusheng.glideimageview.util.DensityUtil;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -22,6 +26,7 @@ import java.lang.annotation.RetentionPolicy;
 /**
  * Created by sunfusheng on 2017/6/12.
  */
+@SuppressWarnings("deprecation")
 public class ShapeImageView extends android.support.v7.widget.AppCompatImageView {
 
     // 定义Bitmap的默认配置
@@ -32,21 +37,20 @@ public class ShapeImageView extends android.support.v7.widget.AppCompatImageView
     private int width;
     private int height;
 
-    private int borderColor = 0xddffffff; // 边框颜色
+    private int borderColor = 0x1A000000; // 边框颜色
     private int borderWidth = 0; // 边框宽度
     private int radius = 0; // 圆角半径
-    private int shapeType = 2; // 图片类型（圆形, 矩形）
+    private int shapeType = ShapeType.RECTANGLE; // 图片类型（圆形, 矩形）
 
     private Paint pressedPaint; // 按下的画笔
-    private int pressedAlpha = 0x42; // 按下的透明度
-    private int pressedColor = 0x42000000; // 按下的颜色
+    private float pressedAlpha = 0.1f; // 按下的透明度
+    private int pressedColor = 0x1A000000; // 按下的颜色
 
-    @IntDef({ShapeType.NONE, ShapeType.ROUND, ShapeType.RECTANGLE})
+    @IntDef({ShapeType.RECTANGLE, ShapeType.CIRCLE})
     @Retention(RetentionPolicy.SOURCE)
     public @interface ShapeType {
-        int NONE = 0;
-        int ROUND = 1;
-        int RECTANGLE = 2;
+        int RECTANGLE = 0;
+        int CIRCLE = 1;
     }
 
     public ShapeImageView(Context context) {
@@ -65,15 +69,17 @@ public class ShapeImageView extends android.support.v7.widget.AppCompatImageView
     private void init(Context context, AttributeSet attrs) {
         if (attrs != null) {
             TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.ShapeImageViewStyle);
-            borderColor = array.getColor(R.styleable.ShapeImageViewStyle_siv_border_color, borderColor);
             borderWidth = array.getDimensionPixelOffset(R.styleable.ShapeImageViewStyle_siv_border_width, borderWidth);
-            pressedAlpha = array.getInteger(R.styleable.ShapeImageViewStyle_siv_pressed_alpha, pressedAlpha);
-            pressedColor = array.getColor(R.styleable.ShapeImageViewStyle_siv_pressed_color, pressedColor);
+            borderColor = array.getColor(R.styleable.ShapeImageViewStyle_siv_border_color, borderColor);
             radius = array.getDimensionPixelOffset(R.styleable.ShapeImageViewStyle_siv_radius, radius);
+            pressedAlpha = array.getFloat(R.styleable.ShapeImageViewStyle_siv_pressed_alpha, pressedAlpha);
+            if (pressedAlpha > 1) pressedAlpha = 1;
+            pressedColor = array.getColor(R.styleable.ShapeImageViewStyle_siv_pressed_color, pressedColor);
             shapeType = array.getInteger(R.styleable.ShapeImageViewStyle_siv_shape_type, shapeType);
             array.recycle();
         }
 
+        setBackgroundColor(Color.TRANSPARENT);
         initPressedPaint();
         setClickable(true);
         setDrawingCacheEnabled(true);
@@ -92,11 +98,6 @@ public class ShapeImageView extends android.support.v7.widget.AppCompatImageView
 
     @Override
     protected void onDraw(Canvas canvas) {
-        if (shapeType == 0) {
-            super.onDraw(canvas);
-            return;
-        }
-
         Drawable drawable = getDrawable();
         if (drawable == null) {
             return;
@@ -133,11 +134,11 @@ public class ShapeImageView extends android.support.v7.widget.AppCompatImageView
 
         canvas.saveLayer(0, 0, width, height, null, saveFlags);
 
-        if (shapeType == ShapeType.ROUND) {
-            canvas.drawCircle(width / 2, height / 2, width / 2 - 1, paint);
+        if (shapeType == ShapeType.CIRCLE) {
+            canvas.drawCircle(width / 2, height / 2, width / 2 - borderWidth, paint);
         } else if (shapeType == ShapeType.RECTANGLE) {
-            RectF rectf = new RectF(1, 1, getWidth() - 1, getHeight() - 1);
-            canvas.drawRoundRect(rectf, radius + 1, radius + 1, paint);
+            RectF rectf = new RectF(borderWidth / 2, borderWidth / 2, getWidth() - borderWidth / 2, getHeight() - borderWidth / 2);
+            canvas.drawRoundRect(rectf, radius, radius, paint);
         }
 
         paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN)); // SRC_IN 只显示两层图像交集部分的上层图像
@@ -152,16 +153,6 @@ public class ShapeImageView extends android.support.v7.widget.AppCompatImageView
         canvas.restore();
     }
 
-    // 绘制按下效果
-    private void drawPressed(Canvas canvas) {
-        if (shapeType == ShapeType.ROUND) {
-            canvas.drawCircle(width / 2, height / 2, width / 2 - 1, pressedPaint);
-        } else if (shapeType == ShapeType.RECTANGLE) {
-            RectF rectF = new RectF(1, 1, width - 1, height - 1);
-            canvas.drawRoundRect(rectF, radius + 1, radius + 1, pressedPaint);
-        }
-    }
-
     // 绘制边框
     private void drawBorder(Canvas canvas) {
         if (borderWidth > 0) {
@@ -170,15 +161,22 @@ public class ShapeImageView extends android.support.v7.widget.AppCompatImageView
             paint.setStyle(Paint.Style.STROKE);
             paint.setColor(borderColor);
             paint.setAntiAlias(true);
-            // 根据控件类型的属性去绘制圆形或者矩形
-            if (shapeType == ShapeType.ROUND) {
+            if (shapeType == ShapeType.CIRCLE) {
                 canvas.drawCircle(width / 2, height / 2, (width - borderWidth) / 2, paint);
             } else if (shapeType == ShapeType.RECTANGLE) {
-                // 当ShapeType = 1 时 图片为圆角矩形
-                RectF rectf = new RectF(borderWidth / 2, borderWidth / 2, getWidth() - borderWidth / 2,
-                        getHeight() - borderWidth / 2);
+                RectF rectf = new RectF(borderWidth / 2, borderWidth / 2, getWidth() - borderWidth / 2, getHeight() - borderWidth / 2);
                 canvas.drawRoundRect(rectf, radius, radius, paint);
             }
+        }
+    }
+
+    // 绘制按下效果
+    private void drawPressed(Canvas canvas) {
+        if (shapeType == ShapeType.CIRCLE) {
+            canvas.drawCircle(width / 2, height / 2, width / 2, pressedPaint);
+        } else if (shapeType == ShapeType.RECTANGLE) {
+            RectF rectf = new RectF(1, 1, width - 1, height - 1);
+            canvas.drawRoundRect(rectf, radius, radius, pressedPaint);
         }
     }
 
@@ -186,7 +184,7 @@ public class ShapeImageView extends android.support.v7.widget.AppCompatImageView
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                pressedPaint.setAlpha(pressedAlpha);
+                pressedPaint.setAlpha((int) (pressedAlpha * 255));
                 invalidate();
                 break;
             case MotionEvent.ACTION_UP:
@@ -225,29 +223,33 @@ public class ShapeImageView extends android.support.v7.widget.AppCompatImageView
     }
 
     // 设置边框颜色
-    public void setBorderColor(int borderColor) {
-        this.borderColor = borderColor;
+    public void setBorderColor(@ColorRes int id) {
+        this.borderColor = getResources().getColor(id);
         invalidate();
     }
 
     // 设置边框宽度
     public void setBorderWidth(int borderWidth) {
-        this.borderWidth = borderWidth;
+        this.borderWidth = DensityUtil.dip2px(getContext(), borderWidth);
+        invalidate();
     }
 
     // 设置图片按下颜色透明度
-    public void setPressedAlpha(int pressAlpha) {
+    public void setPressedAlpha(float pressAlpha) {
         this.pressedAlpha = pressAlpha;
     }
 
     // 设置图片按下的颜色
-    public void setPressedColor(int pressColor) {
-        this.pressedColor = pressColor;
+    public void setPressedColor(@ColorRes int id) {
+        this.pressedColor = getResources().getColor(id);
+        pressedPaint.setColor(pressedColor);
+        pressedPaint.setAlpha(0);
+        invalidate();
     }
 
     // 设置圆角半径
     public void setRadius(int radius) {
-        this.radius = radius;
+        this.radius = DensityUtil.dip2px(getContext(), radius);
         invalidate();
     }
 

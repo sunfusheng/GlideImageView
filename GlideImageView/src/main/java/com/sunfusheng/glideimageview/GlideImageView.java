@@ -4,12 +4,12 @@ import android.content.Context;
 import android.support.annotation.DrawableRes;
 import android.util.AttributeSet;
 
-import com.sunfusheng.glideimageview.helper.ILoadMethod;
+import com.sunfusheng.glideimageview.helper.IImageLoader;
 
 /**
  * Created by sunfusheng on 2017/6/6.
  */
-public class GlideImageView extends ShapeImageView implements ILoadMethod {
+public class GlideImageView extends ShapeImageView implements IImageLoader {
 
     private GlideImageLoader mLoader;
 
@@ -47,16 +47,19 @@ public class GlideImageView extends ShapeImageView implements ILoadMethod {
 
     @Override
     public void loadCircleImage(String url, int placeholderResId) {
+        setShapeType(ShapeType.CIRCLE);
         mLoader.loadCircleImage(url, placeholderResId);
     }
 
     @Override
     public void loadLocalCircleImage(int resId, int placeholderResId) {
+        setShapeType(ShapeType.CIRCLE);
         mLoader.loadLocalCircleImage(resId, placeholderResId);
     }
 
     @Override
     public void loadLocalCircleImage(String localPath, int placeholderResId) {
+        setShapeType(ShapeType.CIRCLE);
         mLoader.loadLocalCircleImage(localPath, placeholderResId);
     }
 }

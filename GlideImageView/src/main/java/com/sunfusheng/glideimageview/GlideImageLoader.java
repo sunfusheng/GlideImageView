@@ -8,7 +8,7 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.sunfusheng.glideimageview.helper.ILoadMethod;
+import com.sunfusheng.glideimageview.helper.IImageLoader;
 import com.sunfusheng.glideimageview.transformation.GlideCircleTransformation;
 
 import java.lang.ref.WeakReference;
@@ -16,7 +16,7 @@ import java.lang.ref.WeakReference;
 /**
  * Created by sunfusheng on 2017/6/6.
  */
-public class GlideImageLoader implements ILoadMethod {
+public class GlideImageLoader implements IImageLoader {
 
     private static final String ANDROID_RESOURCE = "android.resource://";
     private static final String FILE = "file://";

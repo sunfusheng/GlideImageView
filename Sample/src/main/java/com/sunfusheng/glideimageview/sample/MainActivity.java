@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 import com.sunfusheng.glideimageview.GlideImageView;
+import com.sunfusheng.glideimageview.ShapeImageView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -16,6 +17,11 @@ public class MainActivity extends AppCompatActivity {
     GlideImageView image22;
     GlideImageView image23;
     GlideImageView image24;
+
+    GlideImageView image31;
+    GlideImageView image32;
+    GlideImageView image33;
+    GlideImageView image34;
 
     String url1 = "http://img3.imgtn.bdimg.com/it/u=3336351749,2467482848&fm=23&gp=0.jpg";
     String url2 = "http://img1.imgtn.bdimg.com/it/u=4027212837,1228313366&fm=23&gp=0.jpg";
@@ -38,14 +44,37 @@ public class MainActivity extends AppCompatActivity {
         image23 = (GlideImageView) findViewById(R.id.image23);
         image24 = (GlideImageView) findViewById(R.id.image24);
 
-        image11.loadCircleImage(url1, R.mipmap.ic_launcher);
-        image12.loadImage(url1, R.mipmap.ic_launcher);
-        image13.loadLocalImage(R.drawable.gif_robot_walk, R.mipmap.ic_launcher);
-        image14.loadImage(gif1, R.mipmap.ic_launcher);
+        image31 = (GlideImageView) findViewById(R.id.image31);
+        image32 = (GlideImageView) findViewById(R.id.image32);
+        image33 = (GlideImageView) findViewById(R.id.image33);
+        image34 = (GlideImageView) findViewById(R.id.image34);
+
+        image11.loadImage(url1, R.mipmap.ic_launcher);
+
+        image12.setBorderWidth(3);
+        image12.setBorderColor(R.color.gray);
+        image12.loadCircleImage(url1, R.mipmap.ic_launcher);
+
+        image13.setRadius(15);
+        image13.setBorderWidth(3);
+        image13.setBorderColor(R.color.blue);
+        image13.setPressedAlpha(0.5f);
+        image13.setPressedColor(R.color.blue);
+        image13.loadImage(url1, R.mipmap.ic_launcher);
+
+        image14.setShapeType(ShapeImageView.ShapeType.CIRCLE);
+        image14.setBorderWidth(2);
+        image14.setBorderColor(R.color.red);
+        image14.loadImage(url1, R.mipmap.ic_launcher);
 
         image21.loadImage(url2, R.mipmap.ic_launcher);
         image22.loadImage(url2, R.mipmap.ic_launcher);
         image23.loadImage(url2, R.mipmap.ic_launcher);
         image24.loadImage(url2, R.mipmap.ic_launcher);
+
+        image31.loadCircleImage(gif2, R.mipmap.ic_launcher);
+        image32.loadImage(gif2, R.mipmap.ic_launcher);
+        image33.loadLocalImage(R.drawable.gif_robot_walk, R.mipmap.ic_launcher);
+        image34.loadImage(gif1, R.mipmap.ic_launcher);
     }
 }

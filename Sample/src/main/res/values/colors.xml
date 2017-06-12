@@ -5,4 +5,14 @@
     <color name="colorPrimaryDark">#00796b</color>
     <color name="colorAccent">#00796b</color>
 
+    <color name="white">#FFFFFF</color>  <!-- 白色 -->
+    <color name="yellow">#fbc02d</color> <!-- 黄色 -->
+    <color name="gold">#FFD700</color>   <!-- 金色 -->
+    <color name="orange">#f57c00</color> <!-- 橙色 -->
+    <color name="red">#d01716</color>    <!-- 红色 -->
+    <color name="gray">#808080</color>   <!-- 灰色 -->
+    <color name="green">#0a7e07</color>  <!-- 绿色 -->
+    <color name="blue">#455ede</color>   <!-- 蓝色 -->
+    <color name="black">#000000</color>  <!-- 黑色 -->
+
 </resources>
