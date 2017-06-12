@@ -4,10 +4,12 @@ import android.content.Context;
 import android.support.annotation.DrawableRes;
 import android.util.AttributeSet;
 
+import com.sunfusheng.glideimageview.helper.ILoadMethod;
+
 /**
  * Created by sunfusheng on 2017/6/6.
  */
-public class GlideImageView extends android.support.v7.widget.AppCompatImageView implements IGlideImageView {
+public class GlideImageView extends ShapeImageView implements ILoadMethod {
 
     private GlideImageLoader mLoader;
 

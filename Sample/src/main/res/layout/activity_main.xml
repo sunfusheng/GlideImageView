@@ -1,42 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="3dp">
+        android:padding="5dp">
 
         <com.sunfusheng.glideimageview.GlideImageView
             android:id="@+id/image11"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:layout_margin="3dp"
+            android:layout_margin="5dp"
             android:layout_weight="1"/>
 
         <com.sunfusheng.glideimageview.GlideImageView
             android:id="@+id/image12"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:layout_margin="3dp"
+            android:layout_margin="5dp"
             android:layout_weight="1"/>
 
         <com.sunfusheng.glideimageview.GlideImageView
             android:id="@+id/image13"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:layout_margin="3dp"
+            android:layout_margin="5dp"
             android:layout_weight="1"/>
 
         <com.sunfusheng.glideimageview.GlideImageView
             android:id="@+id/image14"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:layout_margin="3dp"
+            android:layout_margin="5dp"
             android:layout_weight="1"/>
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="5dp">
+
+        <com.sunfusheng.glideimageview.GlideImageView
+            android:id="@+id/image21"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:src="@mipmap/ic_launcher"
+            app:siv_border_color="@color/colorPrimary"
+            app:siv_border_width="2dp"
+            app:siv_shape_type="round"/>
+
+        <com.sunfusheng.glideimageview.GlideImageView
+            android:id="@+id/image22"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_margin="5dp"
+            android:layout_weight="1"/>
+
+        <com.sunfusheng.glideimageview.GlideImageView
+            android:id="@+id/image23"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_margin="5dp"
+            android:layout_weight="1"/>
+
+        <com.sunfusheng.glideimageview.GlideImageView
+            android:id="@+id/image24"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_margin="5dp"
+            android:layout_weight="1"/>
+    </LinearLayout>
 </LinearLayout>

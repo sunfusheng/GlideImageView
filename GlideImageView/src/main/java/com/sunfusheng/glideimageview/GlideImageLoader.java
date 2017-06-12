@@ -8,13 +8,15 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.sunfusheng.glideimageview.helper.ILoadMethod;
+import com.sunfusheng.glideimageview.transformation.GlideCircleTransformation;
 
 import java.lang.ref.WeakReference;
 
 /**
  * Created by sunfusheng on 2017/6/6.
  */
-public class GlideImageLoader implements IGlideImageView {
+public class GlideImageLoader implements ILoadMethod {
 
     private static final String ANDROID_RESOURCE = "android.resource://";
     private static final String FILE = "file://";
@@ -23,7 +25,7 @@ public class GlideImageLoader implements IGlideImageView {
     private WeakReference<ImageView> mImageView;
 
     public GlideImageLoader(ImageView imageView) {
-        mImageView = new WeakReference<ImageView>(imageView);
+        mImageView = new WeakReference<>(imageView);
     }
 
     public ImageView getImageView() {
@@ -40,7 +42,6 @@ public class GlideImageLoader implements IGlideImageView {
         return null;
     }
 
-    // 将资源ID转为Uri
     public Uri resId2Uri(int resourceId) {
         if (getContext() == null) {
             return null;
@@ -53,7 +54,7 @@ public class GlideImageLoader implements IGlideImageView {
     }
 
     public void load(Uri uri, RequestOptions options) {
-        if (uri == null || getImageView() == null || getContext() == null) {
+        if (uri == null || getContext() == null) {
             return;
         }
 
@@ -64,7 +65,7 @@ public class GlideImageLoader implements IGlideImageView {
     }
 
     public void load(String url, RequestOptions options) {
-        if (TextUtils.isEmpty(url) || getImageView() == null || getContext() == null) {
+        if (TextUtils.isEmpty(url) || getContext() == null) {
             return;
         }
 
@@ -89,17 +90,8 @@ public class GlideImageLoader implements IGlideImageView {
     }
 
     public RequestOptions circleRequestOptions(int placeholderResId, int errorResId) {
-        if (getContext() == null) {
-            return requestOptions(placeholderResId, errorResId);
-        }
         return requestOptions(placeholderResId, errorResId)
-                .transform(new GlideCircleTransform(getContext()));
-    }
-
-    public boolean isGif(String url) {
-        if (TextUtils.isEmpty(url)) return false;
-        if (url.endsWith(".gif")) return true;
-        return false;
+                .transform(new GlideCircleTransformation());
     }
 
     @Override

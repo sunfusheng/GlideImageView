@@ -12,6 +12,11 @@ public class MainActivity extends AppCompatActivity {
     GlideImageView image13;
     GlideImageView image14;
 
+    GlideImageView image21;
+    GlideImageView image22;
+    GlideImageView image23;
+    GlideImageView image24;
+
     String url1 = "http://img3.imgtn.bdimg.com/it/u=3336351749,2467482848&fm=23&gp=0.jpg";
     String url2 = "http://img1.imgtn.bdimg.com/it/u=4027212837,1228313366&fm=23&gp=0.jpg";
 
@@ -28,9 +33,19 @@ public class MainActivity extends AppCompatActivity {
         image13 = (GlideImageView) findViewById(R.id.image13);
         image14 = (GlideImageView) findViewById(R.id.image14);
 
-        image11.loadImage(url1, R.mipmap.ic_launcher);
-        image12.loadCircleImage(url1, R.mipmap.ic_launcher);
+        image21 = (GlideImageView) findViewById(R.id.image21);
+        image22 = (GlideImageView) findViewById(R.id.image22);
+        image23 = (GlideImageView) findViewById(R.id.image23);
+        image24 = (GlideImageView) findViewById(R.id.image24);
+
+        image11.loadCircleImage(url1, R.mipmap.ic_launcher);
+        image12.loadImage(url1, R.mipmap.ic_launcher);
         image13.loadLocalImage(R.drawable.gif_robot_walk, R.mipmap.ic_launcher);
-        image14.loadImage(gif2, R.mipmap.ic_launcher);
+        image14.loadImage(gif1, R.mipmap.ic_launcher);
+
+        image21.loadImage(url2, R.mipmap.ic_launcher);
+        image22.loadImage(url2, R.mipmap.ic_launcher);
+        image23.loadImage(url2, R.mipmap.ic_launcher);
+        image24.loadImage(url2, R.mipmap.ic_launcher);
     }
 }
