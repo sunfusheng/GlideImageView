@@ -1,14 +1,20 @@
 package com.sunfusheng.glideimageview;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.annotation.DrawableRes;
+import android.support.annotation.Nullable;
 import android.widget.ImageView;
 
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.Target;
 import com.sunfusheng.glideimageview.progress.GlideApp;
-import com.sunfusheng.glideimageview.progress.ProgressListener;
+import com.sunfusheng.glideimageview.progress.OnGlideImageViewListener;
+import com.sunfusheng.glideimageview.progress.OnProgressListener;
 import com.sunfusheng.glideimageview.progress.ProgressManager;
 import com.sunfusheng.glideimageview.transformation.GlideCircleTransformation;
 
@@ -22,8 +28,18 @@ public class GlideImageLoader {
     private static final String ANDROID_RESOURCE = "android.resource://";
     private static final String FILE = "file://";
     private static final String SEPARATOR = "/";
+    private static final String HTTP = "http";
+    private static final String HTTPS = "https";
 
+    private Object imageUrlObj;
     private WeakReference<ImageView> mImageView;
+
+    private long lastBytesRead = 0;
+    private boolean lastStatus = false;
+
+    private OnProgressListener internalProgressListener;
+    private OnGlideImageViewListener onGlideImageViewListener;
+    private OnProgressListener onProgressListener;
 
     public GlideImageLoader(ImageView imageView) {
         mImageView = new WeakReference<>(imageView);
@@ -63,48 +79,27 @@ public class GlideImageLoader {
     }
 
     private void loadByGlide(Object obj, RequestOptions options) {
+        this.imageUrlObj = obj;
         if (obj == null || getContext() == null) {
             return;
         }
-
-        addProgressListener(obj);
-        GlideApp.with(getContext()).load(obj).apply(options).into(getImageView());
-    }
-
-    private long lastBytesRead = 0;
-    private boolean lastStatus = false;
-
-    private void addProgressListener(Object obj) {
-        if (obj instanceof String) {
-            final String url = (String) obj;
-            if (url.startsWith("http") || url.startsWith("https")) {
-                ProgressManager.addProgressListener(new ProgressListener() {
+        GlideApp.with(getContext())
+                .load(obj)
+                .apply(options)
+                .listener(new RequestListener<Drawable>() {
                     @Override
-                    public void onProgress(String imageUrl, long bytesRead, long totalBytes, boolean isDone) {
-                        if (totalBytes == 0) return;
-                        if (!url.equals(imageUrl)) return;
-                        if (onGlideImageViewListener == null) return;
-
-                        if (lastBytesRead != bytesRead || lastStatus != isDone) {
-                            lastBytesRead = bytesRead;
-                            lastStatus = isDone;
-                            int percent = (int) ((bytesRead * 1.0f / totalBytes) * 100.0f);
-                            onGlideImageViewListener.onProgress(percent, isDone);
-                        }
+                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                        ProgressManager.removeProgressListener(internalProgressListener);
+                        return false;
                     }
-                });
-            }
-        }
-    }
 
-    private OnGlideImageViewListener onGlideImageViewListener;
-
-    public void setOnGlideImageViewListener(OnGlideImageViewListener onGlideImageViewListener) {
-        this.onGlideImageViewListener = onGlideImageViewListener;
-    }
-
-    public interface OnGlideImageViewListener {
-        void onProgress(int percent, boolean isDone);
+                    @Override
+                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                        ProgressManager.removeProgressListener(internalProgressListener);
+                        return false;
+                    }
+                })
+                .into(getImageView());
     }
 
     public RequestOptions requestOptions(int placeholderResId) {
@@ -123,8 +118,6 @@ public class GlideImageLoader {
 
     public RequestOptions circleRequestOptions(int placeholderResId, int errorResId) {
         return requestOptions(placeholderResId, errorResId)
-                .skipMemoryCache(true)
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .transform(new GlideCircleTransformation());
     }
 
@@ -150,5 +143,50 @@ public class GlideImageLoader {
 
     public void loadLocalCircleImage(String localPath, int placeholderResId) {
         load(FILE + localPath, circleRequestOptions(placeholderResId));
+    }
+
+    private void addProgressListener() {
+        if (imageUrlObj == null) return;
+        if (!(imageUrlObj instanceof String)) return;
+
+        final String url = (String) imageUrlObj;
+
+        if (url.startsWith(HTTP) || url.startsWith(HTTPS)) {
+            internalProgressListener = new OnProgressListener() {
+                @Override
+                public void onProgress(String imageUrl, long bytesRead, long totalBytes, boolean isDone) {
+                    if (totalBytes == 0) return;
+                    if (!url.equals(imageUrl)) return;
+                    if (lastBytesRead == bytesRead && lastStatus == isDone) return;
+
+                    lastBytesRead = bytesRead;
+                    lastStatus = isDone;
+
+                    if (onProgressListener != null) {
+                        onProgressListener.onProgress(imageUrl, bytesRead, totalBytes, isDone);
+                    }
+
+                    if (onGlideImageViewListener != null) {
+                        int percent = (int) ((bytesRead * 1.0f / totalBytes) * 100.0f);
+                        onGlideImageViewListener.onProgress(percent, isDone);
+                    }
+
+                    if (isDone) {
+                        ProgressManager.removeProgressListener(this);
+                    }
+                }
+            };
+            ProgressManager.addProgressListener(internalProgressListener);
+        }
+    }
+
+    public void setOnGlideImageViewListener(OnGlideImageViewListener onGlideImageViewListener) {
+        this.onGlideImageViewListener = onGlideImageViewListener;
+        addProgressListener();
+    }
+
+    public void setOnProgressListener(OnProgressListener onProgressListener) {
+        this.onProgressListener = onProgressListener;
+        addProgressListener();
     }
 }

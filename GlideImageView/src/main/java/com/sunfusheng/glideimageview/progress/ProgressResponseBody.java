@@ -19,10 +19,10 @@ public class ProgressResponseBody extends ResponseBody {
 
     private String url;
     private ResponseBody responseBody;
-    private ProgressListener progressListener;
+    private OnProgressListener progressListener;
     private BufferedSource bufferedSource;
 
-    public ProgressResponseBody(String url, ResponseBody responseBody, ProgressListener progressListener) {
+    public ProgressResponseBody(String url, ResponseBody responseBody, OnProgressListener progressListener) {
         this.url = url;
         this.responseBody = responseBody;
         this.progressListener = progressListener;

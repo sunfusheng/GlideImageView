@@ -1,6 +1,7 @@
 package com.sunfusheng.glideimageview.progress;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import java.io.IOException;
 import java.lang.ref.WeakReference;
@@ -17,31 +18,14 @@ import okhttp3.Response;
  */
 public class ProgressManager {
 
+    private static OkHttpClient okHttpClient;
+
+    private static final List<WeakReference<OnProgressListener>> progressListenerList = Collections.synchronizedList(new ArrayList<WeakReference<OnProgressListener>>());
+
     private ProgressManager() {
     }
 
-    private static OkHttpClient okHttpClient;
-
-    private static final List<WeakReference<ProgressListener>> progressListenerList = Collections.synchronizedList(new ArrayList<WeakReference<ProgressListener>>());
-
-    private static final ProgressListener progressListener = new ProgressListener() {
-        @Override
-        public void onProgress(String url, long bytesRead, long contentLength, boolean done) {
-            if (progressListenerList != null && progressListenerList.size() > 0) {
-                for (int i = 0; i < progressListenerList.size(); i++) {
-                    WeakReference<ProgressListener> progressListener = progressListenerList.get(i);
-                    ProgressListener listener = progressListener.get();
-                    if (listener == null) {
-                        progressListenerList.remove(i);
-                    } else {
-                        listener.onProgress(url, bytesRead, contentLength, done);
-                    }
-                }
-            }
-        }
-    };
-
-    public static OkHttpClient getGlideOkHttpClient() {
+    public static OkHttpClient getOkHttpClient() {
         if (okHttpClient == null) {
             okHttpClient = new OkHttpClient.Builder()
                     .addNetworkInterceptor(new Interceptor() {
@@ -57,30 +41,50 @@ public class ProgressManager {
         return okHttpClient;
     }
 
-    public static void addProgressListener(ProgressListener listener) {
+    private static final OnProgressListener progressListener = new OnProgressListener() {
+        @Override
+        public void onProgress(String imageUrl, long bytesRead, long totalBytes, boolean isDone) {
+            if (progressListenerList != null && progressListenerList.size() > 0) {
+                for (int i = 0; i < progressListenerList.size(); i++) {
+                    WeakReference<OnProgressListener> progressListener = progressListenerList.get(i);
+                    OnProgressListener listener = progressListener.get();
+                    if (listener == null) {
+                        progressListenerList.remove(i);
+                    } else {
+                        listener.onProgress(imageUrl, bytesRead, totalBytes, isDone);
+                    }
+                }
+            }
+        }
+    };
+
+    public static void addProgressListener(OnProgressListener listener) {
         if (listener == null) return;
 
         if (findProgressListener(listener) == null) {
-            progressListenerList.add(new WeakReference<>(listener));
+            WeakReference<OnProgressListener> progressListener = new WeakReference<>(listener);
+            progressListenerList.add(progressListener);
+            Log.d("--->", "addProgressListener: " + progressListener.toString());
         }
     }
 
-    public static void removeProgressListener(ProgressListener listener) {
+    public static void removeProgressListener(OnProgressListener listener) {
         if (listener == null) return;
 
-        WeakReference<ProgressListener> progressListener = findProgressListener(listener);
+        WeakReference<OnProgressListener> progressListener = findProgressListener(listener);
         if (progressListener != null) {
             progressListenerList.remove(progressListener);
+            Log.d("--->", "removeProgressListener: " + progressListener.toString());
         }
     }
 
-    private static WeakReference<ProgressListener> findProgressListener(ProgressListener listener) {
+    private static WeakReference<OnProgressListener> findProgressListener(OnProgressListener listener) {
         if (listener == null) return null;
 
-        List<WeakReference<ProgressListener>> listeners = progressListenerList;
+        List<WeakReference<OnProgressListener>> listeners = progressListenerList;
         if (listeners != null && listeners.size() > 0) {
             for (int i = 0; i < listeners.size(); i++) {
-                WeakReference<ProgressListener> progressListener = listeners.get(i);
+                WeakReference<OnProgressListener> progressListener = listeners.get(i);
                 if (progressListener.get() == listener) {
                     return progressListener;
                 }

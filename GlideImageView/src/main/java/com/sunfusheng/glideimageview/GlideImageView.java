@@ -4,6 +4,9 @@ import android.content.Context;
 import android.support.annotation.DrawableRes;
 import android.util.AttributeSet;
 
+import com.sunfusheng.glideimageview.progress.OnGlideImageViewListener;
+import com.sunfusheng.glideimageview.progress.OnProgressListener;
+
 /**
  * Created by sunfusheng on 2017/6/6.
  */
@@ -61,8 +64,14 @@ public class GlideImageView extends ShapeImageView {
         return this;
     }
 
-    public GlideImageView listener(GlideImageLoader.OnGlideImageViewListener listener) {
+    public GlideImageView listener(OnGlideImageViewListener listener) {
         mImageLoader.setOnGlideImageViewListener(listener);
         return this;
     }
+
+    public GlideImageView listener(OnProgressListener listener) {
+        mImageLoader.setOnProgressListener(listener);
+        return this;
+    }
+
 }

@@ -4,9 +4,10 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
-import com.sunfusheng.glideimageview.GlideImageLoader;
 import com.sunfusheng.glideimageview.GlideImageView;
 import com.sunfusheng.glideimageview.ShapeImageView;
+import com.sunfusheng.glideimageview.progress.OnGlideImageViewListener;
+import com.sunfusheng.glideimageview.progress.OnProgressListener;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -52,7 +53,18 @@ public class MainActivity extends AppCompatActivity {
         image33 = (GlideImageView) findViewById(R.id.image33);
         image34 = (GlideImageView) findViewById(R.id.image34);
 
-        image11.loadImage(url1, R.mipmap.ic_launcher);
+        line1();
+        line2();
+        line3();
+    }
+
+    private void line1() {
+        image11.loadImage(url1, R.mipmap.ic_launcher).listener(new OnProgressListener() {
+            @Override
+            public void onProgress(String imageUrl, long bytesRead, long totalBytes, boolean isDone) {
+                Log.d("--->", "bytesRead: " + bytesRead + " totalBytes: " + totalBytes + " isDone: " + isDone);
+            }
+        });
 
         image12.setBorderWidth(3);
         image12.setBorderColor(R.color.gray);
@@ -69,19 +81,25 @@ public class MainActivity extends AppCompatActivity {
         image14.setBorderWidth(1);
         image14.setBorderColor(R.color.red);
         image14.loadImage(url1, R.mipmap.ic_launcher);
+    }
 
+    private void line2() {
         image21.loadImage(url2, R.mipmap.ic_launcher);
         image22.loadImage(url2, R.mipmap.ic_launcher);
         image23.loadImage(url2, R.mipmap.ic_launcher);
         image24.loadImage(url2, R.mipmap.ic_launcher);
+    }
 
-        image31.loadLocalImage(R.drawable.gif_robot_walk, R.mipmap.ic_launcher);
-        image32.loadCircleImage(gif1, R.mipmap.ic_launcher).listener(new GlideImageLoader.OnGlideImageViewListener() {
+    private void line3() {
+        image31.loadLocalCircleImage(R.drawable.gif_robot_walk, R.mipmap.ic_launcher);
+
+        image32.loadCircleImage(gif1, R.mipmap.ic_launcher).listener(new OnGlideImageViewListener() {
             @Override
             public void onProgress(int percent, boolean isDone) {
-                Log.d("--->", "percent: "+percent+" isDone: "+isDone);
+                Log.d("--->", "percent: " + percent + " isDone: " + isDone);
             }
         });
+
         image33.loadImage(gif2, R.mipmap.ic_launcher);
         image34.loadImage(gif3, R.mipmap.ic_launcher);
     }

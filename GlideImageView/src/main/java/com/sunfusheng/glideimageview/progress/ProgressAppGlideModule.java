@@ -14,10 +14,10 @@ import java.io.InputStream;
  * Created by sunfusheng on 2017/6/14.
  */
 @GlideModule
-public class OkHttpGlideModule extends AppGlideModule {
+public class ProgressAppGlideModule extends AppGlideModule {
 
     @Override
     public void registerComponents(Context context, Registry registry) {
-        registry.replace(GlideUrl.class, InputStream.class, new OkHttpUrlLoader.Factory(ProgressManager.getGlideOkHttpClient()));
+        registry.replace(GlideUrl.class, InputStream.class, new OkHttpUrlLoader.Factory(ProgressManager.getOkHttpClient()));
     }
 }
