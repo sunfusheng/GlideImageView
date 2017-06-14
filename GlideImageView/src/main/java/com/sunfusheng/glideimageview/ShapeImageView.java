@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
@@ -17,6 +16,7 @@ import android.support.annotation.ColorRes;
 import android.support.annotation.IntDef;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
+import android.widget.ImageView;
 
 import com.sunfusheng.glideimageview.util.DensityUtil;
 
@@ -27,7 +27,7 @@ import java.lang.annotation.RetentionPolicy;
  * Created by sunfusheng on 2017/6/12.
  */
 @SuppressWarnings("deprecation")
-public class ShapeImageView extends android.support.v7.widget.AppCompatImageView {
+public class ShapeImageView extends ImageView {
 
     // 定义Bitmap的默认配置
     private static final Bitmap.Config BITMAP_CONFIG = Bitmap.Config.ARGB_8888;
@@ -79,7 +79,6 @@ public class ShapeImageView extends android.support.v7.widget.AppCompatImageView
             array.recycle();
         }
 
-        setBackgroundColor(Color.TRANSPARENT);
         initPressedPaint();
         setClickable(true);
         setDrawingCacheEnabled(true);
@@ -134,11 +133,11 @@ public class ShapeImageView extends android.support.v7.widget.AppCompatImageView
 
         canvas.saveLayer(0, 0, width, height, null, saveFlags);
 
-        if (shapeType == ShapeType.CIRCLE) {
-            canvas.drawCircle(width / 2, height / 2, width / 2 - borderWidth, paint);
-        } else if (shapeType == ShapeType.RECTANGLE) {
+        if (shapeType == ShapeType.RECTANGLE) {
             RectF rectf = new RectF(borderWidth / 2, borderWidth / 2, getWidth() - borderWidth / 2, getHeight() - borderWidth / 2);
             canvas.drawRoundRect(rectf, radius, radius, paint);
+        } else {
+            canvas.drawCircle(width / 2, height / 2, width / 2 - borderWidth, paint);
         }
 
         paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN)); // SRC_IN 只显示两层图像交集部分的上层图像
@@ -161,22 +160,22 @@ public class ShapeImageView extends android.support.v7.widget.AppCompatImageView
             paint.setStyle(Paint.Style.STROKE);
             paint.setColor(borderColor);
             paint.setAntiAlias(true);
-            if (shapeType == ShapeType.CIRCLE) {
-                canvas.drawCircle(width / 2, height / 2, (width - borderWidth) / 2, paint);
-            } else if (shapeType == ShapeType.RECTANGLE) {
+            if (shapeType == ShapeType.RECTANGLE) {
                 RectF rectf = new RectF(borderWidth / 2, borderWidth / 2, getWidth() - borderWidth / 2, getHeight() - borderWidth / 2);
                 canvas.drawRoundRect(rectf, radius, radius, paint);
+            } else {
+                canvas.drawCircle(width / 2, height / 2, (width - borderWidth) / 2, paint);
             }
         }
     }
 
     // 绘制按下效果
     private void drawPressed(Canvas canvas) {
-        if (shapeType == ShapeType.CIRCLE) {
-            canvas.drawCircle(width / 2, height / 2, width / 2, pressedPaint);
-        } else if (shapeType == ShapeType.RECTANGLE) {
+        if (shapeType == ShapeType.RECTANGLE) {
             RectF rectf = new RectF(1, 1, width - 1, height - 1);
             canvas.drawRoundRect(rectf, radius, radius, pressedPaint);
+        } else {
+            canvas.drawCircle(width / 2, height / 2, width / 2, pressedPaint);
         }
     }
 

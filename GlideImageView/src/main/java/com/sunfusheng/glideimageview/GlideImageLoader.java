@@ -3,12 +3,13 @@ package com.sunfusheng.glideimageview;
 import android.content.Context;
 import android.net.Uri;
 import android.support.annotation.DrawableRes;
-import android.text.TextUtils;
 import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
-import com.sunfusheng.glideimageview.helper.IImageLoader;
+import com.sunfusheng.glideimageview.progress.GlideApp;
+import com.sunfusheng.glideimageview.progress.ProgressListener;
+import com.sunfusheng.glideimageview.progress.ProgressManager;
 import com.sunfusheng.glideimageview.transformation.GlideCircleTransformation;
 
 import java.lang.ref.WeakReference;
@@ -16,7 +17,7 @@ import java.lang.ref.WeakReference;
 /**
  * Created by sunfusheng on 2017/6/6.
  */
-public class GlideImageLoader implements IImageLoader {
+public class GlideImageLoader {
 
     private static final String ANDROID_RESOURCE = "android.resource://";
     private static final String FILE = "file://";
@@ -54,25 +55,56 @@ public class GlideImageLoader implements IImageLoader {
     }
 
     public void load(Uri uri, RequestOptions options) {
-        if (uri == null || getContext() == null) {
-            return;
-        }
-
-        Glide.with(getContext())
-                .load(uri)
-                .apply(options)
-                .into(getImageView());
+        loadByGlide(uri, options);
     }
 
     public void load(String url, RequestOptions options) {
-        if (TextUtils.isEmpty(url) || getContext() == null) {
+        loadByGlide(url, options);
+    }
+
+    private void loadByGlide(Object obj, RequestOptions options) {
+        if (obj == null || getContext() == null) {
             return;
         }
 
-        Glide.with(getContext())
-                .load(url)
-                .apply(options)
-                .into(getImageView());
+        addProgressListener(obj);
+        GlideApp.with(getContext()).load(obj).apply(options).into(getImageView());
+    }
+
+    private long lastBytesRead = 0;
+    private boolean lastStatus = false;
+
+    private void addProgressListener(Object obj) {
+        if (obj instanceof String) {
+            final String url = (String) obj;
+            if (url.startsWith("http") || url.startsWith("https")) {
+                ProgressManager.addProgressListener(new ProgressListener() {
+                    @Override
+                    public void onProgress(String imageUrl, long bytesRead, long totalBytes, boolean isDone) {
+                        if (totalBytes == 0) return;
+                        if (!url.equals(imageUrl)) return;
+                        if (onGlideImageViewListener == null) return;
+
+                        if (lastBytesRead != bytesRead || lastStatus != isDone) {
+                            lastBytesRead = bytesRead;
+                            lastStatus = isDone;
+                            int percent = (int) ((bytesRead * 1.0f / totalBytes) * 100.0f);
+                            onGlideImageViewListener.onProgress(percent, isDone);
+                        }
+                    }
+                });
+            }
+        }
+    }
+
+    private OnGlideImageViewListener onGlideImageViewListener;
+
+    public void setOnGlideImageViewListener(OnGlideImageViewListener onGlideImageViewListener) {
+        this.onGlideImageViewListener = onGlideImageViewListener;
+    }
+
+    public interface OnGlideImageViewListener {
+        void onProgress(int percent, boolean isDone);
     }
 
     public RequestOptions requestOptions(int placeholderResId) {
@@ -91,35 +123,31 @@ public class GlideImageLoader implements IImageLoader {
 
     public RequestOptions circleRequestOptions(int placeholderResId, int errorResId) {
         return requestOptions(placeholderResId, errorResId)
+                .skipMemoryCache(true)
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .transform(new GlideCircleTransformation());
     }
 
-    @Override
     public void loadImage(String url, int placeholderResId) {
         load(url, requestOptions(placeholderResId));
     }
 
-    @Override
     public void loadLocalImage(@DrawableRes int resId, int placeholderResId) {
         load(resId, requestOptions(placeholderResId));
     }
 
-    @Override
     public void loadLocalImage(String localPath, int placeholderResId) {
         load(FILE + localPath, requestOptions(placeholderResId));
     }
 
-    @Override
     public void loadCircleImage(String url, int placeholderResId) {
         load(url, circleRequestOptions(placeholderResId));
     }
 
-    @Override
     public void loadLocalCircleImage(int resId, int placeholderResId) {
         load(resId, circleRequestOptions(placeholderResId));
     }
 
-    @Override
     public void loadLocalCircleImage(String localPath, int placeholderResId) {
         load(FILE + localPath, circleRequestOptions(placeholderResId));
     }

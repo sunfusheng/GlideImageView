@@ -2,7 +2,9 @@ package com.sunfusheng.glideimageview.sample;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
+import com.sunfusheng.glideimageview.GlideImageLoader;
 import com.sunfusheng.glideimageview.GlideImageView;
 import com.sunfusheng.glideimageview.ShapeImageView;
 
@@ -27,7 +29,8 @@ public class MainActivity extends AppCompatActivity {
     String url2 = "http://img1.imgtn.bdimg.com/it/u=4027212837,1228313366&fm=23&gp=0.jpg";
 
     String gif1 = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1496754078616&di=cc68338a66a36de619fa11d0c1b2e6f3&imgtype=0&src=http%3A%2F%2Fapp.576tv.com%2FUploads%2Foltz%2F201609%2F25%2F1474813626468299.gif";
-    String gif2 = "https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1079460472,383809553&fm=21&gp=0.jpg";
+    String gif2 = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1497276275707&di=57c8c7917e91afc1bc86b1b57e743425&imgtype=0&src=http%3A%2F%2Fimg.haatoo.com%2Fpics%2F2016%2F05%2F14%2F9%2F4faf3f52b8e8315af7a469731dc7dce5.jpg";
+    String gif3 = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1497276379533&di=71435f66d66221eb36dab266deb9d6d2&imgtype=0&src=http%3A%2F%2Fatt.bbs.duowan.com%2Fforum%2F201608%2F02%2F190418bmy9zqm94qxlmqf4.gif";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
         image13.loadImage(url1, R.mipmap.ic_launcher);
 
         image14.setShapeType(ShapeImageView.ShapeType.CIRCLE);
-        image14.setBorderWidth(2);
+        image14.setBorderWidth(1);
         image14.setBorderColor(R.color.red);
         image14.loadImage(url1, R.mipmap.ic_launcher);
 
@@ -72,9 +75,15 @@ public class MainActivity extends AppCompatActivity {
         image23.loadImage(url2, R.mipmap.ic_launcher);
         image24.loadImage(url2, R.mipmap.ic_launcher);
 
-        image31.loadCircleImage(gif2, R.mipmap.ic_launcher);
-        image32.loadImage(gif2, R.mipmap.ic_launcher);
-        image33.loadLocalImage(R.drawable.gif_robot_walk, R.mipmap.ic_launcher);
-        image34.loadImage(gif1, R.mipmap.ic_launcher);
+        image31.loadLocalImage(R.drawable.gif_robot_walk, R.mipmap.ic_launcher);
+        image32.loadCircleImage(gif1, R.mipmap.ic_launcher).listener(new GlideImageLoader.OnGlideImageViewListener() {
+            @Override
+            public void onProgress(int percent, boolean isDone) {
+                Log.d("--->", "percent: "+percent+" isDone: "+isDone);
+            }
+        });
+        image33.loadImage(gif2, R.mipmap.ic_launcher);
+        image34.loadImage(gif3, R.mipmap.ic_launcher);
     }
+
 }

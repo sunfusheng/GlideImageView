@@ -4,14 +4,12 @@ import android.content.Context;
 import android.support.annotation.DrawableRes;
 import android.util.AttributeSet;
 
-import com.sunfusheng.glideimageview.helper.IImageLoader;
-
 /**
  * Created by sunfusheng on 2017/6/6.
  */
-public class GlideImageView extends ShapeImageView implements IImageLoader {
+public class GlideImageView extends ShapeImageView {
 
-    private GlideImageLoader mLoader;
+    private GlideImageLoader mImageLoader;
 
     public GlideImageView(Context context) {
         this(context, null);
@@ -27,39 +25,44 @@ public class GlideImageView extends ShapeImageView implements IImageLoader {
     }
 
     private void init() {
-        mLoader = new GlideImageLoader(this);
+        mImageLoader = new GlideImageLoader(this);
     }
 
-    @Override
-    public void loadImage(String url, int placeholderResId) {
-        mLoader.loadImage(url, placeholderResId);
+    public GlideImageView loadImage(String url, int placeholderResId) {
+        mImageLoader.loadImage(url, placeholderResId);
+        return this;
     }
 
-    @Override
-    public void loadLocalImage(@DrawableRes int resId, int placeholderResId) {
-        mLoader.loadLocalImage(resId, placeholderResId);
+    public GlideImageView loadLocalImage(@DrawableRes int resId, int placeholderResId) {
+        mImageLoader.loadLocalImage(resId, placeholderResId);
+        return this;
     }
 
-    @Override
-    public void loadLocalImage(String localPath, int placeholderResId) {
-        mLoader.loadLocalImage(localPath, placeholderResId);
+    public GlideImageView loadLocalImage(String localPath, int placeholderResId) {
+        mImageLoader.loadLocalImage(localPath, placeholderResId);
+        return this;
     }
 
-    @Override
-    public void loadCircleImage(String url, int placeholderResId) {
+    public GlideImageView loadCircleImage(String url, int placeholderResId) {
         setShapeType(ShapeType.CIRCLE);
-        mLoader.loadCircleImage(url, placeholderResId);
+        mImageLoader.loadCircleImage(url, placeholderResId);
+        return this;
     }
 
-    @Override
-    public void loadLocalCircleImage(int resId, int placeholderResId) {
+    public GlideImageView loadLocalCircleImage(int resId, int placeholderResId) {
         setShapeType(ShapeType.CIRCLE);
-        mLoader.loadLocalCircleImage(resId, placeholderResId);
+        mImageLoader.loadLocalCircleImage(resId, placeholderResId);
+        return this;
     }
 
-    @Override
-    public void loadLocalCircleImage(String localPath, int placeholderResId) {
+    public GlideImageView loadLocalCircleImage(String localPath, int placeholderResId) {
         setShapeType(ShapeType.CIRCLE);
-        mLoader.loadLocalCircleImage(localPath, placeholderResId);
+        mImageLoader.loadLocalCircleImage(localPath, placeholderResId);
+        return this;
+    }
+
+    public GlideImageView listener(GlideImageLoader.OnGlideImageViewListener listener) {
+        mImageLoader.setOnGlideImageViewListener(listener);
+        return this;
     }
 }
