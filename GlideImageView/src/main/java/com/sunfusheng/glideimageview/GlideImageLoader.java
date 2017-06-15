@@ -3,6 +3,8 @@ package com.sunfusheng.glideimageview;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
 import android.widget.ImageView;
@@ -33,6 +35,7 @@ public class GlideImageLoader {
 
     private Object imageUrlObj;
     private WeakReference<ImageView> imageView;
+    private Handler mainThreadHandler;
 
     private long lastBytesRead = 0;
     private boolean lastStatus = false;
@@ -43,6 +46,7 @@ public class GlideImageLoader {
 
     public GlideImageLoader(ImageView iv) {
         imageView = new WeakReference<>(iv);
+        mainThreadHandler = new Handler(Looper.getMainLooper());
     }
 
     public ImageView getImageView() {
@@ -154,26 +158,31 @@ public class GlideImageLoader {
         if (url.startsWith(HTTP) || url.startsWith(HTTPS)) {
             internalProgressListener = new OnProgressListener() {
                 @Override
-                public void onProgress(String imageUrl, long bytesRead, long totalBytes, boolean isDone) {
+                public void onProgress(final String imageUrl, final long bytesRead, final long totalBytes, final boolean isDone) {
                     if (totalBytes == 0) return;
                     if (!url.equals(imageUrl)) return;
                     if (lastBytesRead == bytesRead && lastStatus == isDone) return;
 
                     lastBytesRead = bytesRead;
                     lastStatus = isDone;
-
-                    if (onProgressListener != null) {
-                        onProgressListener.onProgress(imageUrl, bytesRead, totalBytes, isDone);
-                    }
-
-                    if (onGlideImageViewListener != null) {
-                        int percent = (int) ((bytesRead * 1.0f / totalBytes) * 100.0f);
-                        onGlideImageViewListener.onProgress(percent, isDone);
-                    }
+                    final int percent = (int) ((bytesRead * 1.0f / totalBytes) * 100.0f);
 
                     if (isDone) {
                         ProgressManager.removeProgressListener(this);
                     }
+
+                    mainThreadHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (onProgressListener != null) {
+                                onProgressListener.onProgress(imageUrl, bytesRead, totalBytes, isDone);
+                            }
+
+                            if (onGlideImageViewListener != null) {
+                                onGlideImageViewListener.onProgress(percent, isDone);
+                            }
+                        }
+                    });
                 }
             };
             ProgressManager.addProgressListener(internalProgressListener);

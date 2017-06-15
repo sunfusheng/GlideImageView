@@ -48,16 +48,19 @@ public class GlideImageView extends ShapeImageView {
         return getImageLoader().circleRequestOptions(placeholderResId);
     }
 
-    public void load(int resId, RequestOptions options) {
+    public GlideImageView load(int resId, RequestOptions options) {
         getImageLoader().load(resId, options);
+        return this;
     }
 
-    public void load(Uri uri, RequestOptions options) {
+    public GlideImageView load(Uri uri, RequestOptions options) {
         getImageLoader().load(uri, options);
+        return this;
     }
 
-    public void load(String url, RequestOptions options) {
+    public GlideImageView load(String url, RequestOptions options) {
         getImageLoader().load(url, options);
+        return this;
     }
 
     public GlideImageView loadImage(String url, int placeholderResId) {

@@ -3,9 +3,13 @@ package com.sunfusheng.glideimageview.sample;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.sunfusheng.glideimageview.GlideImageView;
 import com.sunfusheng.glideimageview.ShapeImageView;
+import com.sunfusheng.glideimageview.progress.CircleProgressView;
 import com.sunfusheng.glideimageview.progress.OnGlideImageViewListener;
 import com.sunfusheng.glideimageview.progress.OnProgressListener;
 
@@ -26,8 +30,14 @@ public class MainActivity extends AppCompatActivity {
     GlideImageView image33;
     GlideImageView image34;
 
+    GlideImageView image41;
+    CircleProgressView progressView1;
+
     String url1 = "http://img3.imgtn.bdimg.com/it/u=3336351749,2467482848&fm=23&gp=0.jpg";
     String url2 = "http://img1.imgtn.bdimg.com/it/u=4027212837,1228313366&fm=23&gp=0.jpg";
+
+    String girl = "https://raw.githubusercontent.com/sfsheng0322/GlideImageView/master/screenshot/girl.jpg";
+    String girl_thumbnail = "https://raw.githubusercontent.com/sfsheng0322/GlideImageView/master/screenshot/girl_thumbnail.jpg";
 
     String gif1 = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1496754078616&di=cc68338a66a36de619fa11d0c1b2e6f3&imgtype=0&src=http%3A%2F%2Fapp.576tv.com%2FUploads%2Foltz%2F201609%2F25%2F1474813626468299.gif";
     String gif2 = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1497276275707&di=57c8c7917e91afc1bc86b1b57e743425&imgtype=0&src=http%3A%2F%2Fimg.haatoo.com%2Fpics%2F2016%2F05%2F14%2F9%2F4faf3f52b8e8315af7a469731dc7dce5.jpg";
@@ -53,9 +63,13 @@ public class MainActivity extends AppCompatActivity {
         image33 = (GlideImageView) findViewById(R.id.image33);
         image34 = (GlideImageView) findViewById(R.id.image34);
 
+        image41 = (GlideImageView) findViewById(R.id.image41);
+        progressView1 = (CircleProgressView) findViewById(R.id.progressView1);
+
         line1();
         line2();
         line3();
+        line4();
     }
 
     private void line1() {
@@ -102,6 +116,21 @@ public class MainActivity extends AppCompatActivity {
 
         image33.loadImage(gif2, R.mipmap.ic_launcher);
         image34.loadImage(gif3, R.mipmap.ic_launcher);
+    }
+
+    private void line4() {
+        RequestOptions requestOptions = image41.requestOptions(R.color.placeholder_color)
+                .centerCrop()
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .skipMemoryCache(true);
+
+        image41.load(girl_thumbnail, requestOptions).listener(new OnGlideImageViewListener() {
+            @Override
+            public void onProgress(int percent, boolean isDone) {
+                progressView1.setProgress(percent);
+                progressView1.setVisibility(isDone ? View.GONE : View.VISIBLE);
+            }
+        });
     }
 
 }
