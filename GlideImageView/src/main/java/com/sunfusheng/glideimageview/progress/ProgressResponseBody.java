@@ -56,7 +56,7 @@ public class ProgressResponseBody extends ResponseBody {
                 totalBytesRead += (bytesRead == -1) ? 0 : bytesRead;
 
                 if (progressListener != null) {
-                    progressListener.onProgress(imageUrl, totalBytesRead, contentLength(), (bytesRead == -1));
+                    progressListener.onProgress(imageUrl, totalBytesRead, contentLength(), (bytesRead == -1), null);
                 }
                 return bytesRead;
             }

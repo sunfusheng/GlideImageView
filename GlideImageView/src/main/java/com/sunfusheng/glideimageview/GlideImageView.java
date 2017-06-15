@@ -14,7 +14,7 @@ import com.sunfusheng.glideimageview.progress.OnProgressListener;
  */
 public class GlideImageView extends ShapeImageView {
 
-    private GlideImageLoader imageLoader;
+    private GlideImageLoader mImageLoader;
 
     public GlideImageView(Context context) {
         this(context, null);
@@ -30,14 +30,18 @@ public class GlideImageView extends ShapeImageView {
     }
 
     private void init() {
-        imageLoader = new GlideImageLoader(this);
+        mImageLoader = new GlideImageLoader(this);
     }
 
     public GlideImageLoader getImageLoader() {
-        if (imageLoader == null) {
-            imageLoader = new GlideImageLoader(this);
+        if (mImageLoader == null) {
+            mImageLoader = new GlideImageLoader(this);
         }
-        return imageLoader;
+        return mImageLoader;
+    }
+
+    public String getImageUrl() {
+        return getImageLoader().getImageUrl();
     }
 
     public RequestOptions requestOptions(int placeholderResId) {
@@ -97,12 +101,12 @@ public class GlideImageView extends ShapeImageView {
     }
 
     public GlideImageView listener(OnGlideImageViewListener listener) {
-        getImageLoader().setOnGlideImageViewListener(listener);
+        getImageLoader().setOnGlideImageViewListener(getImageUrl(), listener);
         return this;
     }
 
     public GlideImageView listener(OnProgressListener listener) {
-        getImageLoader().setOnProgressListener(listener);
+        getImageLoader().setOnProgressListener(getImageUrl(), listener);
         return this;
     }
 }

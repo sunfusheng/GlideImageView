@@ -78,7 +78,7 @@ public class ShapeImageView extends ImageView {
             shapeType = array.getInteger(R.styleable.ShapeImageViewStyle_siv_shape_type, shapeType);
             array.recycle();
         }
-
+        
         initPressedPaint();
         setClickable(true);
         setDrawingCacheEnabled(true);

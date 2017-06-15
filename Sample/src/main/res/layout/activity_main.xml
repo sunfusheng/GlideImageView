@@ -160,14 +160,13 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_centerInParent="true"
-                android:progress="0"
+                android:visibility="gone"
                 app:cpv_innerPadding="2dp"
                 app:cpv_outerColor="@color/transparent90_white"
                 app:cpv_outerSize="1dp"
                 app:cpv_progressNormalColor="@color/transparent"
                 app:cpv_progressReachColor="@color/transparent90_white"
                 app:cpv_progressStyle="FillInnerArc"/>
-
         </RelativeLayout>
 
     </LinearLayout>

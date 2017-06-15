@@ -2,6 +2,8 @@ package com.sunfusheng.glideimageview.progress;
 
 import android.support.annotation.NonNull;
 
+import com.bumptech.glide.load.engine.GlideException;
+
 import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -44,7 +46,7 @@ public class ProgressManager {
 
     private static final OnProgressListener LISTENER = new OnProgressListener() {
         @Override
-        public void onProgress(String imageUrl, long bytesRead, long totalBytes, boolean isDone) {
+        public void onProgress(String imageUrl, long bytesRead, long totalBytes, boolean isDone, GlideException exception) {
             if (listeners == null || listeners.size() == 0) return;
 
             for (int i = 0; i < listeners.size(); i++) {
@@ -53,7 +55,7 @@ public class ProgressManager {
                 if (progressListener == null) {
                     listeners.remove(i);
                 } else {
-                    progressListener.onProgress(imageUrl, bytesRead, totalBytes, isDone);
+                    progressListener.onProgress(imageUrl, bytesRead, totalBytes, isDone, exception);
                 }
             }
         }

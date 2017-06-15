@@ -2,11 +2,16 @@ package com.sunfusheng.glideimageview.sample;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestOptions;
+import com.sunfusheng.glideimageview.GlideImageLoader;
 import com.sunfusheng.glideimageview.GlideImageView;
 import com.sunfusheng.glideimageview.ShapeImageView;
 import com.sunfusheng.glideimageview.progress.CircleProgressView;
@@ -75,8 +80,8 @@ public class MainActivity extends AppCompatActivity {
     private void line1() {
         image11.loadImage(url1, R.mipmap.ic_launcher).listener(new OnProgressListener() {
             @Override
-            public void onProgress(String imageUrl, long bytesRead, long totalBytes, boolean isDone) {
-                Log.d("--->", "bytesRead: " + bytesRead + " totalBytes: " + totalBytes + " isDone: " + isDone);
+            public void onProgress(String imageUrl, long bytesRead, long totalBytes, boolean isDone, GlideException exception) {
+                Log.d("---> image11", "bytesRead: " + bytesRead + " totalBytes: " + totalBytes + " isDone: " + isDone);
             }
         });
 
@@ -109,8 +114,8 @@ public class MainActivity extends AppCompatActivity {
 
         image32.loadCircleImage(gif1, R.mipmap.ic_launcher).listener(new OnGlideImageViewListener() {
             @Override
-            public void onProgress(int percent, boolean isDone) {
-                Log.d("--->", "percent: " + percent + " isDone: " + isDone);
+            public void onProgress(int percent, boolean isDone, GlideException exception) {
+                Log.d("---> image32", "percent: " + percent + " isDone: " + isDone);
             }
         });
 
@@ -124,13 +129,34 @@ public class MainActivity extends AppCompatActivity {
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .skipMemoryCache(true);
 
-        image41.load(girl_thumbnail, requestOptions).listener(new OnGlideImageViewListener() {
+//        image41.load(girl, requestOptions).listener(new OnGlideImageViewListener() {
+//            @Override
+//            public void onProgress(int percent, boolean isDone, GlideException exception) {
+//                if (exception != null && !TextUtils.isEmpty(exception.getMessage())) {
+//                    Toast.makeText(getApplicationContext(), exception.getMessage(), Toast.LENGTH_LONG).show();
+//                }
+//                progressView1.setProgress(percent);
+//                progressView1.setVisibility(isDone ? View.GONE : View.VISIBLE);
+//            }
+//        });
+
+        GlideImageLoader imageLoader = image41.getImageLoader();
+
+        imageLoader.setOnGlideImageViewListener(girl_thumbnail, new OnGlideImageViewListener() {
             @Override
-            public void onProgress(int percent, boolean isDone) {
+            public void onProgress(int percent, boolean isDone, GlideException exception) {
+                Log.d("---> image41", "percent: " + percent + " isDone: " + isDone);
+                if (exception != null && !TextUtils.isEmpty(exception.getMessage())) {
+                    Toast.makeText(getApplicationContext(), exception.getMessage(), Toast.LENGTH_LONG).show();
+                }
                 progressView1.setProgress(percent);
                 progressView1.setVisibility(isDone ? View.GONE : View.VISIBLE);
             }
         });
+
+        imageLoader.requestBuilder(girl_thumbnail, requestOptions)
+                .transition(DrawableTransitionOptions.withCrossFade())
+                .into(image41);
     }
 
 }
