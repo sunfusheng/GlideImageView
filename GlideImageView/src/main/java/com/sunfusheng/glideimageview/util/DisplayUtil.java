@@ -7,7 +7,7 @@ import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.WindowManager;
 
-public class DensityUtil {
+public class DisplayUtil {
 
     public static final int STANDARD_SCREEN_WIDTH = 720;
     public static final int STANDARD_SCREEN_HEIGHT = 1280;

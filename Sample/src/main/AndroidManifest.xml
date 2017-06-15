@@ -24,6 +24,8 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".ImageActivity"/>
+
     </application>
 
 </manifest>

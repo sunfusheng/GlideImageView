@@ -18,7 +18,7 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.widget.ImageView;
 
-import com.sunfusheng.glideimageview.util.DensityUtil;
+import com.sunfusheng.glideimageview.util.DisplayUtil;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -228,7 +228,7 @@ public class ShapeImageView extends ImageView {
 
     // 设置边框宽度
     public void setBorderWidth(int borderWidth) {
-        this.borderWidth = DensityUtil.dip2px(getContext(), borderWidth);
+        this.borderWidth = DisplayUtil.dip2px(getContext(), borderWidth);
         invalidate();
     }
 
@@ -247,7 +247,7 @@ public class ShapeImageView extends ImageView {
 
     // 设置圆角半径
     public void setRadius(int radius) {
-        this.radius = DensityUtil.dip2px(getContext(), radius);
+        this.radius = DisplayUtil.dip2px(getContext(), radius);
         invalidate();
     }
 
