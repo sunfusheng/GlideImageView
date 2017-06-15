@@ -17,13 +17,13 @@ import okio.Source;
  */
 public class ProgressResponseBody extends ResponseBody {
 
-    private String url;
+    private String imageUrl;
     private ResponseBody responseBody;
     private OnProgressListener progressListener;
     private BufferedSource bufferedSource;
 
     public ProgressResponseBody(String url, ResponseBody responseBody, OnProgressListener progressListener) {
-        this.url = url;
+        this.imageUrl = url;
         this.responseBody = responseBody;
         this.progressListener = progressListener;
     }
@@ -35,40 +35,29 @@ public class ProgressResponseBody extends ResponseBody {
 
     @Override
     public long contentLength() {
-        try {
-            return responseBody.contentLength();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return 0;
+        return responseBody.contentLength();
     }
 
     @Override
     public BufferedSource source() {
         if (bufferedSource == null) {
-            try {
-                bufferedSource = Okio.buffer(source(responseBody.source()));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            bufferedSource = Okio.buffer(source(responseBody.source()));
         }
         return bufferedSource;
     }
 
     private Source source(Source source) {
         return new ForwardingSource(source) {
-
-            long totalBytes = 0;
+            long totalBytesRead = 0;
 
             @Override
             public long read(@NonNull Buffer sink, long byteCount) throws IOException {
                 long bytesRead = super.read(sink, byteCount);
-                totalBytes += (bytesRead == -1) ? 0 : bytesRead;
+                totalBytesRead += (bytesRead == -1) ? 0 : bytesRead;
 
                 if (progressListener != null) {
-                    progressListener.onProgress(url, totalBytes, contentLength(), (bytesRead == -1));
+                    progressListener.onProgress(imageUrl, totalBytesRead, contentLength(), (bytesRead == -1));
                 }
-
                 return bytesRead;
             }
         };

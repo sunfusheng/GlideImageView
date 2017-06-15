@@ -1,9 +1,11 @@
 package com.sunfusheng.glideimageview;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.annotation.DrawableRes;
 import android.util.AttributeSet;
 
+import com.bumptech.glide.request.RequestOptions;
 import com.sunfusheng.glideimageview.progress.OnGlideImageViewListener;
 import com.sunfusheng.glideimageview.progress.OnProgressListener;
 
@@ -12,7 +14,7 @@ import com.sunfusheng.glideimageview.progress.OnProgressListener;
  */
 public class GlideImageView extends ShapeImageView {
 
-    private GlideImageLoader mImageLoader;
+    private GlideImageLoader imageLoader;
 
     public GlideImageView(Context context) {
         this(context, null);
@@ -28,50 +30,76 @@ public class GlideImageView extends ShapeImageView {
     }
 
     private void init() {
-        mImageLoader = new GlideImageLoader(this);
+        imageLoader = new GlideImageLoader(this);
+    }
+
+    public GlideImageLoader getImageLoader() {
+        if (imageLoader == null) {
+            imageLoader = new GlideImageLoader(this);
+        }
+        return imageLoader;
+    }
+
+    public RequestOptions requestOptions(int placeholderResId) {
+        return getImageLoader().requestOptions(placeholderResId);
+    }
+
+    public RequestOptions circleRequestOptions(int placeholderResId) {
+        return getImageLoader().circleRequestOptions(placeholderResId);
+    }
+
+    public void load(int resId, RequestOptions options) {
+        getImageLoader().load(resId, options);
+    }
+
+    public void load(Uri uri, RequestOptions options) {
+        getImageLoader().load(uri, options);
+    }
+
+    public void load(String url, RequestOptions options) {
+        getImageLoader().load(url, options);
     }
 
     public GlideImageView loadImage(String url, int placeholderResId) {
-        mImageLoader.loadImage(url, placeholderResId);
+        getImageLoader().loadImage(url, placeholderResId);
         return this;
     }
 
     public GlideImageView loadLocalImage(@DrawableRes int resId, int placeholderResId) {
-        mImageLoader.loadLocalImage(resId, placeholderResId);
+        getImageLoader().loadLocalImage(resId, placeholderResId);
         return this;
     }
 
     public GlideImageView loadLocalImage(String localPath, int placeholderResId) {
-        mImageLoader.loadLocalImage(localPath, placeholderResId);
+        getImageLoader().loadLocalImage(localPath, placeholderResId);
         return this;
     }
 
     public GlideImageView loadCircleImage(String url, int placeholderResId) {
         setShapeType(ShapeType.CIRCLE);
-        mImageLoader.loadCircleImage(url, placeholderResId);
+        getImageLoader().loadCircleImage(url, placeholderResId);
         return this;
     }
 
     public GlideImageView loadLocalCircleImage(int resId, int placeholderResId) {
         setShapeType(ShapeType.CIRCLE);
-        mImageLoader.loadLocalCircleImage(resId, placeholderResId);
+        getImageLoader().loadLocalCircleImage(resId, placeholderResId);
         return this;
     }
 
     public GlideImageView loadLocalCircleImage(String localPath, int placeholderResId) {
         setShapeType(ShapeType.CIRCLE);
-        mImageLoader.loadLocalCircleImage(localPath, placeholderResId);
+        getImageLoader().loadLocalCircleImage(localPath, placeholderResId);
         return this;
     }
 
     public GlideImageView listener(OnGlideImageViewListener listener) {
-        mImageLoader.setOnGlideImageViewListener(listener);
+        getImageLoader().setOnGlideImageViewListener(listener);
         return this;
     }
 
     public GlideImageView listener(OnProgressListener listener) {
-        mImageLoader.setOnProgressListener(listener);
+        getImageLoader().setOnProgressListener(listener);
         return this;
     }
-
 }

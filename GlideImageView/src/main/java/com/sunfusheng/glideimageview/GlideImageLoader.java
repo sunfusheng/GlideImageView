@@ -32,7 +32,7 @@ public class GlideImageLoader {
     private static final String HTTPS = "https";
 
     private Object imageUrlObj;
-    private WeakReference<ImageView> mImageView;
+    private WeakReference<ImageView> imageView;
 
     private long lastBytesRead = 0;
     private boolean lastStatus = false;
@@ -41,20 +41,20 @@ public class GlideImageLoader {
     private OnGlideImageViewListener onGlideImageViewListener;
     private OnProgressListener onProgressListener;
 
-    public GlideImageLoader(ImageView imageView) {
-        mImageView = new WeakReference<>(imageView);
+    public GlideImageLoader(ImageView iv) {
+        imageView = new WeakReference<>(iv);
     }
 
     public ImageView getImageView() {
-        if (mImageView != null) {
-            return mImageView.get();
+        if (imageView != null) {
+            return imageView.get();
         }
         return null;
     }
 
     public Context getContext() {
-        if (mImageView != null) {
-            return mImageView.get().getContext();
+        if (getImageView() != null) {
+            return getImageView().getContext();
         }
         return null;
     }

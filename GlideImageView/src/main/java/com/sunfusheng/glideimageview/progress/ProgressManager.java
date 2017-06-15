@@ -1,16 +1,17 @@
 package com.sunfusheng.glideimageview.progress;
 
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
 import okhttp3.Response;
 
 /**
@@ -18,9 +19,8 @@ import okhttp3.Response;
  */
 public class ProgressManager {
 
+    private static List<WeakReference<OnProgressListener>> listeners = Collections.synchronizedList(new ArrayList<WeakReference<OnProgressListener>>());
     private static OkHttpClient okHttpClient;
-
-    private static final List<WeakReference<OnProgressListener>> progressListenerList = Collections.synchronizedList(new ArrayList<WeakReference<OnProgressListener>>());
 
     private ProgressManager() {
     }
@@ -28,66 +28,64 @@ public class ProgressManager {
     public static OkHttpClient getOkHttpClient() {
         if (okHttpClient == null) {
             okHttpClient = new OkHttpClient.Builder()
+                    .connectTimeout(10, TimeUnit.SECONDS)
                     .addNetworkInterceptor(new Interceptor() {
                         @Override
                         public Response intercept(@NonNull Chain chain) throws IOException {
-                            Response originalResponse = chain.proceed(chain.request());
-                            return originalResponse.newBuilder()
-                                    .body(new ProgressResponseBody(chain.request().url().toString(), originalResponse.body(), progressListener))
+                            Request request = chain.request();
+                            Response response = chain.proceed(request);
+                            return response.newBuilder()
+                                    .body(new ProgressResponseBody(request.url().toString(), response.body(), LISTENER))
                                     .build();
                         }
-                    }).build();
+                    })
+                    .build();
         }
         return okHttpClient;
     }
 
-    private static final OnProgressListener progressListener = new OnProgressListener() {
+    private static final OnProgressListener LISTENER = new OnProgressListener() {
         @Override
         public void onProgress(String imageUrl, long bytesRead, long totalBytes, boolean isDone) {
-            if (progressListenerList != null && progressListenerList.size() > 0) {
-                for (int i = 0; i < progressListenerList.size(); i++) {
-                    WeakReference<OnProgressListener> progressListener = progressListenerList.get(i);
-                    OnProgressListener listener = progressListener.get();
-                    if (listener == null) {
-                        progressListenerList.remove(i);
-                    } else {
-                        listener.onProgress(imageUrl, bytesRead, totalBytes, isDone);
-                    }
+            if (listeners == null || listeners.size() == 0) return;
+
+            for (int i = 0; i < listeners.size(); i++) {
+                WeakReference<OnProgressListener> listener = listeners.get(i);
+                OnProgressListener progressListener = listener.get();
+                if (progressListener == null) {
+                    listeners.remove(i);
+                } else {
+                    progressListener.onProgress(imageUrl, bytesRead, totalBytes, isDone);
                 }
             }
         }
     };
 
-    public static void addProgressListener(OnProgressListener listener) {
-        if (listener == null) return;
+    public static void addProgressListener(OnProgressListener progressListener) {
+        if (progressListener == null) return;
 
-        if (findProgressListener(listener) == null) {
-            WeakReference<OnProgressListener> progressListener = new WeakReference<>(listener);
-            progressListenerList.add(progressListener);
-            Log.d("--->", "addProgressListener: " + progressListener.toString());
+        if (findProgressListener(progressListener) == null) {
+            listeners.add(new WeakReference<>(progressListener));
         }
     }
 
-    public static void removeProgressListener(OnProgressListener listener) {
-        if (listener == null) return;
+    public static void removeProgressListener(OnProgressListener progressListener) {
+        if (progressListener == null) return;
 
-        WeakReference<OnProgressListener> progressListener = findProgressListener(listener);
-        if (progressListener != null) {
-            progressListenerList.remove(progressListener);
-            Log.d("--->", "removeProgressListener: " + progressListener.toString());
+        WeakReference<OnProgressListener> listener = findProgressListener(progressListener);
+        if (listener != null) {
+            listeners.remove(listener);
         }
     }
 
     private static WeakReference<OnProgressListener> findProgressListener(OnProgressListener listener) {
         if (listener == null) return null;
+        if (listeners == null || listeners.size() == 0) return null;
 
-        List<WeakReference<OnProgressListener>> listeners = progressListenerList;
-        if (listeners != null && listeners.size() > 0) {
-            for (int i = 0; i < listeners.size(); i++) {
-                WeakReference<OnProgressListener> progressListener = listeners.get(i);
-                if (progressListener.get() == listener) {
-                    return progressListener;
-                }
+        for (int i = 0; i < listeners.size(); i++) {
+            WeakReference<OnProgressListener> progressListener = listeners.get(i);
+            if (progressListener.get() == listener) {
+                return progressListener;
             }
         }
         return null;

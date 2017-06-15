@@ -106,8 +106,7 @@ public class ShapeImageView extends ImageView {
             return;
         }
 
-        Bitmap bitmap = getBitmapFromDrawable(drawable);
-        drawDrawable(canvas, bitmap);
+        drawDrawable(canvas, getBitmapFromDrawable(drawable));
         drawBorder(canvas);
         drawPressed(canvas);
     }
