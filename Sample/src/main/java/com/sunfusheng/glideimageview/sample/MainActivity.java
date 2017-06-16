@@ -1,6 +1,12 @@
 package com.sunfusheng.glideimageview.sample;
 
+import android.content.Context;
+import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
@@ -9,9 +15,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.engine.GlideException;
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestOptions;
-import com.sunfusheng.glideimageview.GlideImageLoader;
 import com.sunfusheng.glideimageview.GlideImageView;
 import com.sunfusheng.glideimageview.ShapeImageView;
 import com.sunfusheng.glideimageview.progress.CircleProgressView;
@@ -37,12 +41,17 @@ public class MainActivity extends AppCompatActivity {
 
     GlideImageView image41;
     CircleProgressView progressView1;
+    GlideImageView image42;
+    CircleProgressView progressView2;
 
     String url1 = "http://img3.imgtn.bdimg.com/it/u=3336351749,2467482848&fm=23&gp=0.jpg";
     String url2 = "http://img1.imgtn.bdimg.com/it/u=4027212837,1228313366&fm=23&gp=0.jpg";
 
-    String girl = "https://raw.githubusercontent.com/sfsheng0322/GlideImageView/master/screenshot/girl.jpg";
-    String girl_thumbnail = "https://raw.githubusercontent.com/sfsheng0322/GlideImageView/master/screenshot/girl_thumbnail.jpg";
+    public static final String cat = "https://raw.githubusercontent.com/sfsheng0322/GlideImageView/master/screenshot/cat.jpg";
+    public static final String cat_thumbnail = "https://raw.githubusercontent.com/sfsheng0322/GlideImageView/master/screenshot/cat_thumbnail.jpg";
+
+    public static final String girl = "https://raw.githubusercontent.com/sfsheng0322/GlideImageView/master/screenshot/girl.jpg";
+    public static final String girl_thumbnail = "https://raw.githubusercontent.com/sfsheng0322/GlideImageView/master/screenshot/girl_thumbnail.jpg";
 
     String gif1 = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1496754078616&di=cc68338a66a36de619fa11d0c1b2e6f3&imgtype=0&src=http%3A%2F%2Fapp.576tv.com%2FUploads%2Foltz%2F201609%2F25%2F1474813626468299.gif";
     String gif2 = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1497276275707&di=57c8c7917e91afc1bc86b1b57e743425&imgtype=0&src=http%3A%2F%2Fimg.haatoo.com%2Fpics%2F2016%2F05%2F14%2F9%2F4faf3f52b8e8315af7a469731dc7dce5.jpg";
@@ -74,14 +83,15 @@ public class MainActivity extends AppCompatActivity {
         line1();
         line2();
         line3();
-        line4();
+        line41();
+        line42();
     }
 
     private void line1() {
         image11.loadImage(url1, R.mipmap.ic_launcher).listener(new OnProgressListener() {
             @Override
             public void onProgress(String imageUrl, long bytesRead, long totalBytes, boolean isDone, GlideException exception) {
-                Log.d("---> image11", "bytesRead: " + bytesRead + " totalBytes: " + totalBytes + " isDone: " + isDone);
+                Log.d("--->image11", "bytesRead: " + bytesRead + " totalBytes: " + totalBytes + " isDone: " + isDone);
             }
         });
 
@@ -115,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
         image32.loadCircleImage(gif1, R.mipmap.ic_launcher).listener(new OnGlideImageViewListener() {
             @Override
             public void onProgress(int percent, boolean isDone, GlideException exception) {
-                Log.d("---> image32", "percent: " + percent + " isDone: " + isDone);
+                Log.d("--->image32", "percent: " + percent + " isDone: " + isDone);
             }
         });
 
@@ -123,13 +133,38 @@ public class MainActivity extends AppCompatActivity {
         image34.loadImage(gif3, R.mipmap.ic_launcher);
     }
 
-    private void line4() {
+    private void line41() {
+        image41.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, ImageActivity.class);
+                ActivityOptionsCompat compat = ActivityOptionsCompat
+                        .makeSceneTransitionAnimation(MainActivity.this, image41, getString(R.string.transition_image));
+                ActivityCompat.startActivity(MainActivity.this, intent, compat.toBundle());
+            }
+        });
+
+        String imageUrl = isWiFiAvailable(this) ? cat : cat_thumbnail;
         RequestOptions requestOptions = image41.requestOptions(R.color.placeholder_color)
                 .centerCrop()
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .skipMemoryCache(true);
 
-//        image41.load(girl, requestOptions).listener(new OnGlideImageViewListener() {
+        // 第一种方式加载
+        image41.load(imageUrl, requestOptions).listener(new OnGlideImageViewListener() {
+            @Override
+            public void onProgress(int percent, boolean isDone, GlideException exception) {
+                if (exception != null && !TextUtils.isEmpty(exception.getMessage())) {
+                    Toast.makeText(getApplicationContext(), exception.getMessage(), Toast.LENGTH_LONG).show();
+                }
+                progressView1.setProgress(percent);
+                progressView1.setVisibility(isDone ? View.GONE : View.VISIBLE);
+            }
+        });
+
+        // 第二种方式加载：可以解锁更多功能
+//        GlideImageLoader imageLoader = image41.getImageLoader();
+//        imageLoader.setOnGlideImageViewListener(imageUrl, new OnGlideImageViewListener() {
 //            @Override
 //            public void onProgress(int percent, boolean isDone, GlideException exception) {
 //                if (exception != null && !TextUtils.isEmpty(exception.getMessage())) {
@@ -139,24 +174,48 @@ public class MainActivity extends AppCompatActivity {
 //                progressView1.setVisibility(isDone ? View.GONE : View.VISIBLE);
 //            }
 //        });
+//        imageLoader.requestBuilder(imageUrl, requestOptions)
+//                .transition(DrawableTransitionOptions.withCrossFade())
+//                .into(image41);
+    }
 
-        GlideImageLoader imageLoader = image41.getImageLoader();
-
-        imageLoader.setOnGlideImageViewListener(girl_thumbnail, new OnGlideImageViewListener() {
+    private void line42() {
+        image42.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onProgress(int percent, boolean isDone, GlideException exception) {
-                Log.d("---> image41", "percent: " + percent + " isDone: " + isDone);
-                if (exception != null && !TextUtils.isEmpty(exception.getMessage())) {
-                    Toast.makeText(getApplicationContext(), exception.getMessage(), Toast.LENGTH_LONG).show();
-                }
-                progressView1.setProgress(percent);
-                progressView1.setVisibility(isDone ? View.GONE : View.VISIBLE);
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, ImageActivity.class);
+                ActivityOptionsCompat compat = ActivityOptionsCompat
+                        .makeSceneTransitionAnimation(MainActivity.this, image42, getString(R.string.transition_image));
+                ActivityCompat.startActivity(MainActivity.this, intent, compat.toBundle());
             }
         });
 
-        imageLoader.requestBuilder(girl_thumbnail, requestOptions)
-                .transition(DrawableTransitionOptions.withCrossFade())
-                .into(image41);
+        String imageUrl = isWiFiAvailable(this) ? girl : girl_thumbnail;
+        RequestOptions requestOptions = image42.requestOptions(R.color.placeholder_color)
+                .centerCrop()
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .skipMemoryCache(true);
+
+        image42.load(imageUrl, requestOptions).listener(new OnGlideImageViewListener() {
+            @Override
+            public void onProgress(int percent, boolean isDone, GlideException exception) {
+                if (exception != null && !TextUtils.isEmpty(exception.getMessage())) {
+                    Toast.makeText(getApplicationContext(), exception.getMessage(), Toast.LENGTH_LONG).show();
+                }
+                progressView2.setProgress(percent);
+                progressView2.setVisibility(isDone ? View.GONE : View.VISIBLE);
+            }
+        });
+    }
+
+    // WiFi是否连接
+    public static boolean isWiFiAvailable(Context context) {
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        if (networkInfo != null && networkInfo.isAvailable() && networkInfo.getType() == ConnectivityManager.TYPE_WIFI) {
+            return true;
+        }
+        return false;
     }
 
 }

@@ -142,32 +142,88 @@
                 app:siv_radius="5dp"/>
         </LinearLayout>
 
-        <RelativeLayout
-            xmlns:android="http://schemas.android.com/apk/res/android"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="150dp"
+            android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:background="@color/placeholder_color"
-            android:padding="1px">
+            android:orientation="horizontal">
 
-            <com.sunfusheng.glideimageview.GlideImageView
-                android:id="@+id/image41"
+            <RelativeLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_weight="1">
 
-            <com.sunfusheng.glideimageview.progress.CircleProgressView
-                android:id="@+id/progressView1"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_centerInParent="true"
-                android:visibility="gone"
-                app:cpv_innerPadding="2dp"
-                app:cpv_outerColor="@color/transparent90_white"
-                app:cpv_outerSize="1dp"
-                app:cpv_progressNormalColor="@color/transparent"
-                app:cpv_progressReachColor="@color/transparent90_white"
-                app:cpv_progressStyle="FillInnerArc"/>
-        </RelativeLayout>
+                <android.support.percent.PercentRelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/placeholder_color">
+
+                    <com.sunfusheng.glideimageview.GlideImageView
+                        android:id="@+id/image41"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:transitionName="@string/transition_image"
+                        app:layout_aspectRatio="178%"
+                        app:layout_widthPercent="100%"/>
+                </android.support.percent.PercentRelativeLayout>
+
+                <com.sunfusheng.glideimageview.progress.CircleProgressView
+                    android:id="@+id/progressView1"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_centerInParent="true"
+                    android:progress="1"
+                    app:cpv_innerPadding="2dp"
+                    app:cpv_outerColor="@color/transparent90_white"
+                    app:cpv_outerSize="1dp"
+                    app:cpv_progressNormalColor="@color/transparent"
+                    app:cpv_progressReachColor="@color/transparent90_white"
+                    app:cpv_progressStyle="FillInnerArc"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_weight="1">
+
+                <android.support.percent.PercentRelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/placeholder_color">
+
+                    <com.sunfusheng.glideimageview.GlideImageView
+                        android:id="@+id/image42"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:transitionName="@string/transition_image"
+                        app:layout_aspectRatio="178%"
+                        app:layout_widthPercent="100%"/>
+                </android.support.percent.PercentRelativeLayout>
+
+                <com.sunfusheng.glideimageview.progress.CircleProgressView
+                    android:id="@+id/progressView2"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_centerInParent="true"
+                    android:layout_margin="10dp"
+                    android:progress="0"
+                    app:cpv_progressNormalColor="@color/transparent10_white"
+                    app:cpv_progressReachColor="@color/transparent90_white"
+                    app:cpv_progressStyle="FillInner"
+                    app:cpv_progressTextColor="@color/red"
+                    app:cpv_progressTextSize="13sp"
+                    app:cpv_progressTextVisible="false"/>
+            </RelativeLayout>
+
+        </LinearLayout>
 
     </LinearLayout>
 </ScrollView>
