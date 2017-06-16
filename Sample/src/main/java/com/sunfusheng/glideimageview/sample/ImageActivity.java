@@ -16,8 +16,6 @@ import com.sunfusheng.glideimageview.progress.OnGlideImageViewListener;
 
 import java.util.Random;
 
-import static com.sunfusheng.glideimageview.sample.MainActivity.girl;
-import static com.sunfusheng.glideimageview.sample.MainActivity.girl_thumbnail;
 import static com.sunfusheng.glideimageview.sample.MainActivity.isWiFiAvailable;
 
 /**
@@ -32,6 +30,12 @@ public class ImageActivity extends AppCompatActivity {
     CircleProgressView progressView2;
     CircleProgressView progressView3;
 
+    public static final String KEY_IMAGE_URL = "image_url";
+    public static final String KEY_IMAGE_URL_THUMBNAIL = "image_url_thumbnail";
+
+    String image_url;
+    String image_url_thumbnail;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +45,9 @@ public class ImageActivity extends AppCompatActivity {
         progressView1 = (CircleProgressView) findViewById(R.id.progressView1);
         progressView2 = (CircleProgressView) findViewById(R.id.progressView2);
         progressView3 = (CircleProgressView) findViewById(R.id.progressView3);
+
+        image_url = getIntent().getStringExtra(KEY_IMAGE_URL);
+        image_url_thumbnail = getIntent().getStringExtra(KEY_IMAGE_URL_THUMBNAIL);
 
         initProgressView();
         loadImage();
@@ -74,7 +81,7 @@ public class ImageActivity extends AppCompatActivity {
             }
         });
 
-        String imageUrl = isWiFiAvailable(this) ? girl : girl_thumbnail;
+        String imageUrl = isWiFiAvailable(this) ? image_url : image_url_thumbnail;
         RequestOptions requestOptions = glideImageView.requestOptions(R.color.placeholder_color)
                 .centerCrop();
 //                .diskCacheStrategy(DiskCacheStrategy.NONE)

@@ -22,6 +22,9 @@ import com.sunfusheng.glideimageview.progress.CircleProgressView;
 import com.sunfusheng.glideimageview.progress.OnGlideImageViewListener;
 import com.sunfusheng.glideimageview.progress.OnProgressListener;
 
+import static com.sunfusheng.glideimageview.sample.ImageActivity.KEY_IMAGE_URL;
+import static com.sunfusheng.glideimageview.sample.ImageActivity.KEY_IMAGE_URL_THUMBNAIL;
+
 public class MainActivity extends AppCompatActivity {
 
     GlideImageView image11;
@@ -79,6 +82,8 @@ public class MainActivity extends AppCompatActivity {
 
         image41 = (GlideImageView) findViewById(R.id.image41);
         progressView1 = (CircleProgressView) findViewById(R.id.progressView1);
+        image42 = (GlideImageView) findViewById(R.id.image42);
+        progressView2 = (CircleProgressView) findViewById(R.id.progressView2);
 
         line1();
         line2();
@@ -138,6 +143,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, ImageActivity.class);
+                intent.putExtra(KEY_IMAGE_URL, cat);
+                intent.putExtra(KEY_IMAGE_URL_THUMBNAIL, cat_thumbnail);
                 ActivityOptionsCompat compat = ActivityOptionsCompat
                         .makeSceneTransitionAnimation(MainActivity.this, image41, getString(R.string.transition_image));
                 ActivityCompat.startActivity(MainActivity.this, intent, compat.toBundle());
@@ -184,6 +191,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, ImageActivity.class);
+                intent.putExtra(KEY_IMAGE_URL, girl);
+                intent.putExtra(KEY_IMAGE_URL_THUMBNAIL, girl_thumbnail);
                 ActivityOptionsCompat compat = ActivityOptionsCompat
                         .makeSceneTransitionAnimation(MainActivity.this, image42, getString(R.string.transition_image));
                 ActivityCompat.startActivity(MainActivity.this, intent, compat.toBundle());
