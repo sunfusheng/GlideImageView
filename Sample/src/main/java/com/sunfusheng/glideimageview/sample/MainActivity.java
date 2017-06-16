@@ -15,12 +15,16 @@ import android.widget.Toast;
 
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestOptions;
+import com.sunfusheng.glideimageview.GlideImageLoader;
 import com.sunfusheng.glideimageview.GlideImageView;
 import com.sunfusheng.glideimageview.ShapeImageView;
 import com.sunfusheng.glideimageview.progress.CircleProgressView;
 import com.sunfusheng.glideimageview.progress.OnGlideImageViewListener;
 import com.sunfusheng.glideimageview.progress.OnProgressListener;
+
+import java.util.Random;
 
 import static com.sunfusheng.glideimageview.sample.ImageActivity.KEY_IMAGE_URL;
 import static com.sunfusheng.glideimageview.sample.ImageActivity.KEY_IMAGE_URL_THUMBNAIL;
@@ -49,6 +53,8 @@ public class MainActivity extends AppCompatActivity {
 
     String url1 = "http://img3.imgtn.bdimg.com/it/u=3336351749,2467482848&fm=23&gp=0.jpg";
     String url2 = "http://img1.imgtn.bdimg.com/it/u=4027212837,1228313366&fm=23&gp=0.jpg";
+
+    public static boolean isLoadAgain = false; // Just for fun !
 
     public static final String cat = "https://raw.githubusercontent.com/sfsheng0322/GlideImageView/master/screenshot/cat.jpg";
     public static final String cat_thumbnail = "https://raw.githubusercontent.com/sfsheng0322/GlideImageView/master/screenshot/cat_thumbnail.jpg";
@@ -84,6 +90,8 @@ public class MainActivity extends AppCompatActivity {
         progressView1 = (CircleProgressView) findViewById(R.id.progressView1);
         image42 = (GlideImageView) findViewById(R.id.image42);
         progressView2 = (CircleProgressView) findViewById(R.id.progressView2);
+
+        isLoadAgain = new Random().nextInt(3) == 1;
 
         line1();
         line2();
@@ -146,16 +154,16 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra(KEY_IMAGE_URL, cat);
                 intent.putExtra(KEY_IMAGE_URL_THUMBNAIL, cat_thumbnail);
                 ActivityOptionsCompat compat = ActivityOptionsCompat
-                        .makeSceneTransitionAnimation(MainActivity.this, image41, getString(R.string.transition_image));
+                        .makeSceneTransitionAnimation(MainActivity.this, image41, getString(R.string.transitional_image));
                 ActivityCompat.startActivity(MainActivity.this, intent, compat.toBundle());
             }
         });
 
-        String imageUrl = isWiFiAvailable(this) ? cat : cat_thumbnail;
-        RequestOptions requestOptions = image41.requestOptions(R.color.placeholder_color)
-                .centerCrop()
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
-                .skipMemoryCache(true);
+        String imageUrl = cat_thumbnail; // isWiFiAvailable(this) ? cat : cat_thumbnail;
+        RequestOptions requestOptions = image41.requestOptions(R.color.placeholder_color).centerCrop();
+        if (isLoadAgain) {
+            requestOptions.diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true);
+        }
 
         // 第一种方式加载
         image41.load(imageUrl, requestOptions).listener(new OnGlideImageViewListener() {
@@ -168,22 +176,6 @@ public class MainActivity extends AppCompatActivity {
                 progressView1.setVisibility(isDone ? View.GONE : View.VISIBLE);
             }
         });
-
-        // 第二种方式加载：可以解锁更多功能
-//        GlideImageLoader imageLoader = image41.getImageLoader();
-//        imageLoader.setOnGlideImageViewListener(imageUrl, new OnGlideImageViewListener() {
-//            @Override
-//            public void onProgress(int percent, boolean isDone, GlideException exception) {
-//                if (exception != null && !TextUtils.isEmpty(exception.getMessage())) {
-//                    Toast.makeText(getApplicationContext(), exception.getMessage(), Toast.LENGTH_LONG).show();
-//                }
-//                progressView1.setProgress(percent);
-//                progressView1.setVisibility(isDone ? View.GONE : View.VISIBLE);
-//            }
-//        });
-//        imageLoader.requestBuilder(imageUrl, requestOptions)
-//                .transition(DrawableTransitionOptions.withCrossFade())
-//                .into(image41);
     }
 
     private void line42() {
@@ -194,18 +186,20 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra(KEY_IMAGE_URL, girl);
                 intent.putExtra(KEY_IMAGE_URL_THUMBNAIL, girl_thumbnail);
                 ActivityOptionsCompat compat = ActivityOptionsCompat
-                        .makeSceneTransitionAnimation(MainActivity.this, image42, getString(R.string.transition_image));
+                        .makeSceneTransitionAnimation(MainActivity.this, image42, getString(R.string.transitional_image));
                 ActivityCompat.startActivity(MainActivity.this, intent, compat.toBundle());
             }
         });
 
-        String imageUrl = isWiFiAvailable(this) ? girl : girl_thumbnail;
-        RequestOptions requestOptions = image42.requestOptions(R.color.placeholder_color)
-                .centerCrop()
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
-                .skipMemoryCache(true);
+        String imageUrl = girl_thumbnail; // isWiFiAvailable(this) ? girl : girl_thumbnail;
+        RequestOptions requestOptions = image42.requestOptions(R.color.placeholder_color).centerCrop();
+        if (isLoadAgain) {
+            requestOptions.diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true);
+        }
 
-        image42.load(imageUrl, requestOptions).listener(new OnGlideImageViewListener() {
+        // 第二种方式加载：可以解锁更多功能
+        GlideImageLoader imageLoader = image42.getImageLoader();
+        imageLoader.setOnGlideImageViewListener(imageUrl, new OnGlideImageViewListener() {
             @Override
             public void onProgress(int percent, boolean isDone, GlideException exception) {
                 if (exception != null && !TextUtils.isEmpty(exception.getMessage())) {
@@ -215,6 +209,9 @@ public class MainActivity extends AppCompatActivity {
                 progressView2.setVisibility(isDone ? View.GONE : View.VISIBLE);
             }
         });
+        imageLoader.requestBuilder(imageUrl, requestOptions)
+                .transition(DrawableTransitionOptions.withCrossFade())
+                .into(image42);
     }
 
     // WiFi是否连接

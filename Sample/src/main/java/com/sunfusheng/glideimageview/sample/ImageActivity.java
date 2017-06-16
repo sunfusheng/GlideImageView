@@ -8,15 +8,19 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestOptions;
+import com.sunfusheng.glideimageview.GlideImageLoader;
 import com.sunfusheng.glideimageview.GlideImageView;
 import com.sunfusheng.glideimageview.progress.CircleProgressView;
 import com.sunfusheng.glideimageview.progress.OnGlideImageViewListener;
 
 import java.util.Random;
 
-import static com.sunfusheng.glideimageview.sample.MainActivity.isWiFiAvailable;
+import static com.sunfusheng.glideimageview.sample.MainActivity.isLoadAgain;
 
 /**
  * Created by sunfusheng on 2017/6/15.
@@ -54,6 +58,7 @@ public class ImageActivity extends AppCompatActivity {
     }
 
     private void initProgressView() {
+        isLoadAgain = new Random().nextInt(3) == 1;
         int randomNum = new Random().nextInt(3);
         switch (randomNum) {
             case 1:
@@ -81,13 +86,16 @@ public class ImageActivity extends AppCompatActivity {
             }
         });
 
-        String imageUrl = isWiFiAvailable(this) ? image_url : image_url_thumbnail;
-        RequestOptions requestOptions = glideImageView.requestOptions(R.color.placeholder_color)
+        RequestOptions requestOptions = glideImageView.requestOptions(R.color.black)
                 .centerCrop();
-//                .diskCacheStrategy(DiskCacheStrategy.NONE)
-//                .skipMemoryCache(true);
+        RequestOptions requestOptionsWithoutCache = glideImageView.requestOptions(R.color.black)
+                .centerCrop()
+                .skipMemoryCache(true)
+                .diskCacheStrategy(DiskCacheStrategy.NONE);
 
-        glideImageView.load(imageUrl, requestOptions).listener(new OnGlideImageViewListener() {
+        GlideImageLoader imageLoader = glideImageView.getImageLoader();
+
+        imageLoader.setOnGlideImageViewListener(image_url, new OnGlideImageViewListener() {
             @Override
             public void onProgress(int percent, boolean isDone, GlideException exception) {
                 if (exception != null && !TextUtils.isEmpty(exception.getMessage())) {
@@ -97,5 +105,12 @@ public class ImageActivity extends AppCompatActivity {
                 progressView.setVisibility(isDone ? View.GONE : View.VISIBLE);
             }
         });
+
+        imageLoader.requestBuilder(image_url, requestOptionsWithoutCache)
+                .thumbnail(Glide.with(ImageActivity.this)
+                        .load(image_url_thumbnail)
+                        .apply(requestOptions))
+                .transition(DrawableTransitionOptions.withCrossFade())
+                .into(glideImageView);
     }
 }

@@ -1,5 +1,5 @@
 <resources>
 
     <string name="app_name">GlideImageView</string>
-    <string name="transition_image">transition-image</string>
+    <string name="transitional_image">the image of transition</string>
 </resources>
