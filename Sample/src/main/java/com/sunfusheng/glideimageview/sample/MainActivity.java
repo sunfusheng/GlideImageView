@@ -159,14 +159,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        String imageUrl = cat_thumbnail; // isWiFiAvailable(this) ? cat : cat_thumbnail;
         RequestOptions requestOptions = image41.requestOptions(R.color.placeholder_color).centerCrop();
         if (isLoadAgain) {
             requestOptions.diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true);
         }
 
         // 第一种方式加载
-        image41.load(imageUrl, requestOptions).listener(new OnGlideImageViewListener() {
+        image41.load(cat_thumbnail, requestOptions).listener(new OnGlideImageViewListener() {
             @Override
             public void onProgress(int percent, boolean isDone, GlideException exception) {
                 if (exception != null && !TextUtils.isEmpty(exception.getMessage())) {
@@ -191,7 +190,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        String imageUrl = girl_thumbnail; // isWiFiAvailable(this) ? girl : girl_thumbnail;
         RequestOptions requestOptions = image42.requestOptions(R.color.placeholder_color).centerCrop();
         if (isLoadAgain) {
             requestOptions.diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true);
@@ -199,7 +197,7 @@ public class MainActivity extends AppCompatActivity {
 
         // 第二种方式加载：可以解锁更多功能
         GlideImageLoader imageLoader = image42.getImageLoader();
-        imageLoader.setOnGlideImageViewListener(imageUrl, new OnGlideImageViewListener() {
+        imageLoader.setOnGlideImageViewListener(girl_thumbnail, new OnGlideImageViewListener() {
             @Override
             public void onProgress(int percent, boolean isDone, GlideException exception) {
                 if (exception != null && !TextUtils.isEmpty(exception.getMessage())) {
@@ -209,7 +207,7 @@ public class MainActivity extends AppCompatActivity {
                 progressView2.setVisibility(isDone ? View.GONE : View.VISIBLE);
             }
         });
-        imageLoader.requestBuilder(imageUrl, requestOptions)
+        imageLoader.requestBuilder(girl_thumbnail, requestOptions)
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .into(image42);
     }

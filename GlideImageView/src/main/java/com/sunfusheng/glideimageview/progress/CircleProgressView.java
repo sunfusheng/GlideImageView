@@ -142,8 +142,7 @@ public class CircleProgressView extends ProgressBar {
                 break;
             case ProgressStyle.FILL_IN_ARC:
                 mStartArc = ta.getInt(R.styleable.CircleProgressView_cpv_progressStartArc, 0) + 270;
-                mInnerPadding =
-                        (int) ta.getDimension(R.styleable.CircleProgressView_cpv_innerPadding, mInnerPadding);
+                mInnerPadding = (int) ta.getDimension(R.styleable.CircleProgressView_cpv_innerPadding, mInnerPadding);
                 mOuterColor = ta.getColor(R.styleable.CircleProgressView_cpv_outerColor, mReachBarColor);
                 mOuterSize = (int) ta.getDimension(R.styleable.CircleProgressView_cpv_outerSize, mOuterSize);
                 mReachBarSize = 0;// 将画笔大小重置为0

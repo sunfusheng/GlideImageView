@@ -33,6 +33,7 @@ public class ImageActivity extends AppCompatActivity {
     CircleProgressView progressView1;
     CircleProgressView progressView2;
     CircleProgressView progressView3;
+    View maskView;
 
     public static final String KEY_IMAGE_URL = "image_url";
     public static final String KEY_IMAGE_URL_THUMBNAIL = "image_url_thumbnail";
@@ -49,6 +50,7 @@ public class ImageActivity extends AppCompatActivity {
         progressView1 = (CircleProgressView) findViewById(R.id.progressView1);
         progressView2 = (CircleProgressView) findViewById(R.id.progressView2);
         progressView3 = (CircleProgressView) findViewById(R.id.progressView3);
+        maskView = findViewById(R.id.maskView);
 
         image_url = getIntent().getStringExtra(KEY_IMAGE_URL);
         image_url_thumbnail = getIntent().getStringExtra(KEY_IMAGE_URL_THUMBNAIL);
@@ -103,6 +105,7 @@ public class ImageActivity extends AppCompatActivity {
                 }
                 progressView.setProgress(percent);
                 progressView.setVisibility(isDone ? View.GONE : View.VISIBLE);
+                maskView.setVisibility(isDone ? View.GONE : View.VISIBLE);
             }
         });
 

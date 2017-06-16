@@ -1,8 +1,9 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.novoda.bintray-release'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    buildToolsVersion "25.0.3"
 
     defaultConfig {
         minSdkVersion 14
@@ -29,4 +30,13 @@ dependencies {
     compile "com.github.bumptech.glide:okhttp3-integration:4.0.0-RC0"
 
     compile 'com.squareup.okhttp3:okhttp:3.8.0'
+}
+
+publish {
+    userOrg = 'sfsheng0322'
+    groupId = 'com.sunfusheng'
+    artifactId = 'glideimageview'
+    publishVersion = '1.0.0'
+    desc = 'GlideImageView is a lib for loading image.'
+    website = 'https://github.com/sfsheng0322/GlideImageView'
 }

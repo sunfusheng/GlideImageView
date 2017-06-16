@@ -215,7 +215,7 @@
                     android:layout_centerInParent="true"
                     android:layout_margin="10dp"
                     android:progress="0"
-                    app:cpv_progressNormalColor="@color/transparent10_white"
+                    app:cpv_progressNormalColor="@color/transparent10"
                     app:cpv_progressReachColor="@color/transparent90_white"
                     app:cpv_progressStyle="FillInner"
                     app:cpv_progressTextColor="@color/red"
