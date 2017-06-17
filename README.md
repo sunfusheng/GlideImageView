@@ -1,5 +1,23 @@
-# GlideImageView  [ ![Download](https://api.bintray.com/packages/sfsheng0322/maven/marqueeview/images/download.svg?version=1.2.0) ](https://bintray.com/sfsheng0322/maven/marqueeview/1.2.0/link)
+# GlideImageView  [ ![Download](https://api.bintray.com/packages/sfsheng0322/maven/glideimageview/images/download.svg) ](https://bintray.com/sfsheng0322/maven/glideimageview/_latestVersion)
 
+### 使用
+
+#### Gradle:
+
+    compile 'com.sunfusheng:glideimageview:1.0.0'
+
+#### 属性
+
+| Attribute 属性          | Description 描述 | 
+|:---				     |:---| 
+| siv_border_color       | 边框颜色 | 
+| siv_border_width       | 边框宽度 | 
+| siv_pressed_color         | 触摸图片时的颜色 | 
+| siv_pressed_alpha         | 触摸图片时的颜色透明度: 0.0f - 1.0f | 
+| siv_radius                | 圆角弧度 | 
+| siv_shape_type         | 两种形状类型：默认是0:rectangle、1:circle | 
+
+#### XML
 
 ### [APK下载地址](http://fir.im/MarqueeView)
 

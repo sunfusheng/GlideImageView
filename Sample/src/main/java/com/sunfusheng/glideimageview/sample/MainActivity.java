@@ -51,10 +51,10 @@ public class MainActivity extends AppCompatActivity {
     GlideImageView image42;
     CircleProgressView progressView2;
 
-    String url1 = "http://img3.imgtn.bdimg.com/it/u=3336351749,2467482848&fm=23&gp=0.jpg";
+    String url1 = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1497688355699&di=ea69a930b82ce88561c635089995e124&imgtype=0&src=http%3A%2F%2Fcms-bucket.nosdn.127.net%2Ff84e566bcf654b3698363409fbd676ef20161119091503.jpg";
     String url2 = "http://img1.imgtn.bdimg.com/it/u=4027212837,1228313366&fm=23&gp=0.jpg";
 
-    public static boolean isLoadAgain = false; // Just for fun !
+    public static boolean isLoadAgain = false; // Just for fun when loading images!
 
     public static final String cat = "https://raw.githubusercontent.com/sfsheng0322/GlideImageView/master/screenshot/cat.jpg";
     public static final String cat_thumbnail = "https://raw.githubusercontent.com/sfsheng0322/GlideImageView/master/screenshot/cat_thumbnail.jpg";
@@ -101,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void line1() {
-        image11.loadImage(url1, R.mipmap.ic_launcher).listener(new OnProgressListener() {
+        image11.loadImage(url1, R.color.placeholder_color).listener(new OnProgressListener() {
             @Override
             public void onProgress(String imageUrl, long bytesRead, long totalBytes, boolean isDone, GlideException exception) {
                 Log.d("--->image11", "bytesRead: " + bytesRead + " totalBytes: " + totalBytes + " isDone: " + isDone);
@@ -109,31 +109,33 @@ public class MainActivity extends AppCompatActivity {
         });
 
         image12.setBorderWidth(3);
-        image12.setBorderColor(R.color.gray);
-        image12.loadCircleImage(url1, R.mipmap.ic_launcher);
+        image12.setBorderColor(R.color.transparent20);
+        image12.loadCircleImage(url1, R.color.placeholder_color);
 
         image13.setRadius(15);
         image13.setBorderWidth(3);
         image13.setBorderColor(R.color.blue);
-        image13.setPressedAlpha(0.5f);
+        image13.setPressedAlpha(0.3f);
         image13.setPressedColor(R.color.blue);
-        image13.loadImage(url1, R.mipmap.ic_launcher);
+        image13.loadImage(url1, R.color.placeholder_color);
 
         image14.setShapeType(ShapeImageView.ShapeType.CIRCLE);
-        image14.setBorderWidth(1);
-        image14.setBorderColor(R.color.red);
-        image14.loadImage(url1, R.mipmap.ic_launcher);
+        image14.setBorderWidth(3);
+        image14.setBorderColor(R.color.orange);
+        image14.setPressedAlpha(0.2f);
+        image14.setPressedColor(R.color.orange);
+        image14.loadImage(url1, R.color.placeholder_color);
     }
 
     private void line2() {
-        image21.loadImage(url2, R.mipmap.ic_launcher);
-        image22.loadImage(url2, R.mipmap.ic_launcher);
-        image23.loadImage(url2, R.mipmap.ic_launcher);
-        image24.loadImage(url2, R.mipmap.ic_launcher);
+        image21.loadImage(url2, R.color.placeholder_color);
+        image22.loadImage(url2, R.color.placeholder_color);
+        image23.loadImage(url2, R.color.placeholder_color);
+        image24.loadImage(url2, R.color.placeholder_color);
     }
 
     private void line3() {
-        image31.loadLocalCircleImage(R.drawable.gif_robot_walk, R.mipmap.ic_launcher);
+        image31.loadLocalImage(R.drawable.gif_robot_walk, R.mipmap.ic_launcher);
 
         image32.loadCircleImage(gif1, R.mipmap.ic_launcher).listener(new OnGlideImageViewListener() {
             @Override

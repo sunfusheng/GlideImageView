@@ -39,7 +39,7 @@ public class ShapeImageView extends ImageView {
 
     private int borderColor = 0x1A000000; // 边框颜色
     private int borderWidth = 0; // 边框宽度
-    private int radius = 0; // 圆角半径
+    private int radius = 0; // 圆角弧度
     private int shapeType = ShapeType.RECTANGLE; // 图片类型（圆形, 矩形）
 
     private Paint pressedPaint; // 按下的画笔
@@ -78,7 +78,7 @@ public class ShapeImageView extends ImageView {
             shapeType = array.getInteger(R.styleable.ShapeImageViewStyle_siv_shape_type, shapeType);
             array.recycle();
         }
-        
+
         initPressedPaint();
         setClickable(true);
         setDrawingCacheEnabled(true);
