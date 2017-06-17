@@ -56,7 +56,12 @@ public class ImageActivity extends AppCompatActivity {
         image_url_thumbnail = getIntent().getStringExtra(KEY_IMAGE_URL_THUMBNAIL);
 
         initProgressView();
-        loadImage();
+        glideImageView.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                loadImage();
+            }
+        }, 2000);
     }
 
     private void initProgressView() {

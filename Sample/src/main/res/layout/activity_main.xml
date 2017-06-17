@@ -96,7 +96,7 @@
                 app:siv_border_width="3dp"
                 app:siv_pressed_alpha="0.3"
                 app:siv_pressed_color="@color/yellow"
-                app:siv_radius="40dp"/>
+                app:siv_shape_type="circle"/>
 
             <com.sunfusheng.glideimageview.GlideImageView
                 android:id="@+id/image24"

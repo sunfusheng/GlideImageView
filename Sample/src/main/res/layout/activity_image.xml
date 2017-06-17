@@ -59,7 +59,7 @@
         app:cpv_progressStyle="FillInner"
         app:cpv_progressTextColor="@color/red"
         app:cpv_progressTextSize="13sp"
-        app:cpv_progressTextVisible="false"/>
+        app:cpv_progressTextVisible="true"/>
 
     <com.sunfusheng.glideimageview.progress.CircleProgressView
         android:id="@+id/progressView3"
