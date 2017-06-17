@@ -27,7 +27,7 @@
 
 <br/>
 
-### [APK下载地址](http://fir.im/MarqueeView)，去手机上体验吧 ^_^
+### [APK下载地址](http://fir.im/MarqueeView)，去手机上体验吧 (◐‿◑)
 
 <br/>
 
@@ -62,7 +62,7 @@
 | siv_radius                | 圆角弧度 | 
 | siv_shape_type         | 两种形状类型：默认是0:rectangle、1:circle | 
 
-下面是在xml中和代码中设置的效果
+#### 下面是在xml中和代码中设置的效果
 
 | xml中设置 | 代码中设置 | 
 | :--- | :--- | 
@@ -91,8 +91,7 @@
     GlideImageView load(Uri uri, RequestOptions options);
     GlideImageView load(String url, RequestOptions options);
     
-#### 如果你还是觉得得不到满足，好吧，我提供了[GlideImageLoader](https://github.com/sfsheng0322/GlideImageView/blob/master/GlideImageView/src/main/java/com/sunfusheng/glideimageview/GlideImageLoader.java)类加载图片 <br/>
-#### 比如这样加载图片：先加载缩略图再加载高清图片，并监听加载的进度
+#### 如果你还是觉得得不到满足，好吧，我提供了[GlideImageLoader](https://github.com/sfsheng0322/GlideImageView/blob/master/GlideImageView/src/main/java/com/sunfusheng/glideimageview/GlideImageLoader.java)类加载图片，比如这样加载图片：先加载缩略图再加载高清图片，并监听加载的进度
 
     private void loadImage(String image_url_thumbnail， String image_url) {
         RequestOptions requestOptions = glideImageView.requestOptions(R.color.black)
@@ -122,7 +121,7 @@
 
 <br/>
 
-#### 提供两种监听加载图片进度的Listener，总有一款是你想要的
+#### 该库提供两种监听加载图片进度的Listener，总有一款是你想要的
 
     public interface OnGlideImageViewListener {
         void onProgress(int percent, boolean isDone, GlideException exception);
@@ -134,7 +133,7 @@
         
 <br/>
 
-### 微信公众号
+### 我的微信公众号
 
 <img src="https://github.com/sfsheng0322/StickyHeaderListView/blob/master/screenshots/%E5%BE%AE%E4%BF%A1%E5%85%AC%E4%BC%97%E5%8F%B7.jpg" style="width: 30%;">
 
