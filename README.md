@@ -1,5 +1,29 @@
 # GlideImageView  [ ![Download](https://api.bintray.com/packages/sfsheng0322/maven/glideimageview/images/download.svg) ](https://bintray.com/sfsheng0322/maven/glideimageview/_latestVersion)
 
+该库基于[Glide](https://github.com/bumptech/glide) V4.0设计的，具体实现了下面的特性。 
+1、通过提供的属性可以设置图片的圆角、边框。 
+2、可以设置点击、触摸图片时的颜色，透明度可设置。 
+3、可以加载来自网络、res、SDCard中图片，也可加载成圆形，简单方便。 
+4、可以监听加载图片的进度。 
+
+<table>
+    <tr>
+        <td><img src="/screenshot/image4.png"></td>
+        <td><img src="/screenshot/image5.png"></td>
+        <td><img src="/screenshot/gif1.gif"></td>
+        <td><img src="/screenshot/gif3.gif"></td>
+    </tr>
+</table>
+
+<table>
+    <tr>
+        <td><img src="/screenshot/gif4.gif"></td>
+        <td><img src="/screenshot/gif5.gif"></td>
+    </tr>
+</table>
+
+### 
+
 ### 如何使用
 
 #### Gradle:
@@ -18,7 +42,7 @@
 #### ShapeImageView 和 GlideImageView 共同的属性
 
 该库提供了一个[ShapeImageView](https://github.com/sfsheng0322/GlideImageView/blob/master/GlideImageView/src/main/java/com/sunfusheng/glideimageview/ShapeImageView.java)类，可以在xml当中，也可以在代码中设置图片的一些属性，
-具体属性如下，当然这些属性页可以在[GlideImageView](https://github.com/sfsheng0322/GlideImageView/blob/master/GlideImageView/src/main/java/com/sunfusheng/glideimageview/GlideImageView.java)类里面设置。
+当然这些属性也可以在[GlideImageView](https://github.com/sfsheng0322/GlideImageView/blob/master/GlideImageView/src/main/java/com/sunfusheng/glideimageview/GlideImageView.java)上面设置，具体属性如下
 
 | Attribute 属性          | Description 描述 | 
 |:---				     |:---| 
@@ -85,10 +109,15 @@
                 .into(glideImageView);
     }
     
-提供两种监听加载图片的进度的Listener，总有一款是你想要的
+提供两种监听加载图片进度的Listener，总有一款是你想要的
 
-    GlideImageView listener(OnGlideImageViewListener listener);
-    GlideImageView listener(OnProgressListener listener);
+    public interface OnGlideImageViewListener {
+        void onProgress(int percent, boolean isDone, GlideException exception);
+    }
+    
+    public interface OnProgressListener {
+        void onProgress(String imageUrl, long bytesRead, long totalBytes, boolean isDone, GlideException exception);
+    }
         
 #### XML
 
