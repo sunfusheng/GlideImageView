@@ -1,10 +1,12 @@
 # GlideImageView  [ ![Download](https://api.bintray.com/packages/sfsheng0322/maven/glideimageview/images/download.svg) ](https://bintray.com/sfsheng0322/maven/glideimageview/_latestVersion)
 
-该库基于[Glide](https://github.com/bumptech/glide) V4.0设计的，具体实现了下面的特性。 <br/>
+该库是基于[Glide](https://github.com/bumptech/glide) V4.0设计的，具体实现了下面的特性: <br/>
 1、通过提供的属性可以设置图片的圆角、边框。 <br/>
 2、可以设置点击、触摸图片时的颜色，透明度可设置。 <br/>
-3、可以加载来自网络、res、SDCard中图片，也可加载成圆形，简单方便。 <br/>
+3、一行代码加载来自网络、res、SDCard中图片，也可加载成圆形。 <br/>
 4、可以监听加载图片的进度。 <br/>
+
+#### 设置圆角、边框的图片，触摸图片时的效果，显示Gif图的效果
 
 <table>
     <tr>
@@ -15,7 +17,7 @@
     </tr>
 </table>
 
-<br/>
+#### 监听先加载缩略图再加载高清图片进度的效果图
 
 <img src="/screenshot/gif5.gif">
 
@@ -52,7 +54,7 @@
 
 下面是在xml中和代码中设置的效果
 
-| ![](https://raw.githubusercontent.com/sfsheng0322/GlideImageView/master/screenshot/image5.png) | ![](https://raw.githubusercontent.com/sfsheng0322/GlideImageView/master/screenshot/image3.png) | 
+| ![xml中设置](https://raw.githubusercontent.com/sfsheng0322/GlideImageView/master/screenshot/image5.png) | ![代码中设置](https://raw.githubusercontent.com/sfsheng0322/GlideImageView/master/screenshot/image3.png) | 
 | :--- | :--- | 
 | ![](https://raw.githubusercontent.com/sfsheng0322/GlideImageView/master/screenshot/code2.png) | ![](https://raw.githubusercontent.com/sfsheng0322/GlideImageView/master/screenshot/code3.png) |
 
@@ -106,7 +108,7 @@
                 .into(glideImageView);
     }
   
-<br/>
+监听先加载缩略图再加载高清图片进度的效果图
     
 <img src="/screenshot/gif4.gif">
 
