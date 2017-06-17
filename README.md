@@ -25,9 +25,13 @@
 
 <img src="/screenshot/gif5.gif">
 
-### 
+<br/>
 
-### 如何使用
+### [APK下载地址](http://fir.im/MarqueeView)
+
+<br/>
+
+### 具体使用说明如下
 
 #### Gradle:
 
@@ -41,6 +45,8 @@
       <version>1.0.0</version>
       <type>pom</type>
     </dependency>
+
+<br/>
 
 #### ShapeImageView 和 GlideImageView 共同的属性
 
@@ -62,21 +68,21 @@
 | :--- | :--- | 
 | ![](https://raw.githubusercontent.com/sfsheng0322/GlideImageView/master/screenshot/code2.png) | ![](https://raw.githubusercontent.com/sfsheng0322/GlideImageView/master/screenshot/code3.png) |
 
-#### GlideImageView 加载图片
+<br/>
 
-一行代码加载来自网络、res、SDCard中图片
+#### 一行代码加载来自网络、res、SDCard中图片
 
     public GlideImageView loadImage(String url, int placeholderResId);
     public GlideImageView loadLocalImage(@DrawableRes int resId, int placeholderResId); 
     public GlideImageView loadLocalImage(String localPath, int placeholderResId);
     
-一行代码加载来自网络、res、SDCard中图片成圆形
+#### 一行代码加载来自网络、res、SDCard中图片成圆形
 
     public GlideImageView loadCircleImage(String url, int placeholderResId); 
     public GlideImageView loadLocalCircleImage(int resId, int placeholderResId);
     public GlideImageView loadLocalCircleImage(String localPath, int placeholderResId);
     
-如果你觉得上面的方法还不能满足你，那么你可以通过下面的方法追加自己想要的属性来加载图片
+#### 如果你觉得上面的方法还不能满足你，那么你可以通过下面的方法追加自己想要的属性来加载图片
 
     RequestOptions requestOptions(int placeholderResId);
     RequestOptions circleRequestOptions(int placeholderResId);
@@ -85,7 +91,7 @@
     GlideImageView load(Uri uri, RequestOptions options);
     GlideImageView load(String url, RequestOptions options);
     
-如果你还是觉得得不到满足，好吧，我提供了[GlideImageLoader](https://github.com/sfsheng0322/GlideImageView/blob/master/GlideImageView/src/main/java/com/sunfusheng/glideimageview/GlideImageLoader.java)类加载图片，
+#### 如果你还是觉得得不到满足，好吧，我提供了[GlideImageLoader](https://github.com/sfsheng0322/GlideImageView/blob/master/GlideImageView/src/main/java/com/sunfusheng/glideimageview/GlideImageLoader.java)类加载图片，
 比如这样加载图片：先加载缩略图再加载高清的图片，并监听加载的进度
 
     private void loadImage(String image_url_thumbnail， String image_url) {
@@ -112,13 +118,13 @@
                 .into(glideImageView);
     }
   
-监听先加载缩略图再加载高清图片进度的效果图
+#### 监听先加载缩略图再加载高清图片进度的效果图
     
 <img src="/screenshot/gif4.gif">
 
 <br/>
 
-提供两种监听加载图片进度的Listener，总有一款是你想要的
+#### 提供两种监听加载图片进度的Listener，总有一款是你想要的
 
     public interface OnGlideImageViewListener {
         void onProgress(int percent, boolean isDone, GlideException exception);
@@ -128,9 +134,7 @@
         void onProgress(String imageUrl, long bytesRead, long totalBytes, boolean isDone, GlideException exception);
     }
         
-#### XML
-
-### [APK下载地址](http://fir.im/MarqueeView)
+<br/>
 
 ### 微信公众号
 
