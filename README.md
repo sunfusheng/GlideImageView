@@ -13,7 +13,7 @@
 <table>
     <tr>
         <td><img src="/screenshot/image4.png"></td>
-        <td><img src="/screenshot/image5.png"></td>
+        <td><img src="/screenshot/gif6.gif"></td>
         <td><img src="/screenshot/gif1.gif"></td>
         <td><img src="/screenshot/gif3.gif"></td>
     </tr>
@@ -27,7 +27,7 @@
 
 <br/>
 
-### [APK下载地址](http://fir.im/MarqueeView)
+### [APK下载地址](http://fir.im/MarqueeView)，去手机上体验吧 ^_^
 
 <br/>
 
