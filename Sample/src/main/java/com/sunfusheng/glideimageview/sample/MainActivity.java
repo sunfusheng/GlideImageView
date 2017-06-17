@@ -100,6 +100,8 @@ public class MainActivity extends AppCompatActivity {
         line42();
     }
 
+    GlideImageView imageView = image11;
+
     private void line1() {
         image11.loadImage(url1, R.color.placeholder_color).listener(new OnProgressListener() {
             @Override

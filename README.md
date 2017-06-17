@@ -17,7 +17,7 @@
 
 #### ShapeImageView的属性
 
-该库提供了一个[ShapeImageView](https://github.com/sfsheng0322/GlideImageView/blob/master/GlideImageView/src/main/java/com/sunfusheng/glideimageview/ShapeImageView.java)类，可以在xml当中设置图片的一些属性，
+该库提供了一个[ShapeImageView](https://github.com/sfsheng0322/GlideImageView/blob/master/GlideImageView/src/main/java/com/sunfusheng/glideimageview/ShapeImageView.java)类，可以在xml当中也可以在代码中设置图片的一些属性，
 具体属性如下，当然这些属性页可以在[GlideImageView](https://github.com/sfsheng0322/GlideImageView/blob/master/GlideImageView/src/main/java/com/sunfusheng/glideimageview/GlideImageView.java)类里面设置。
 
 | Attribute 属性          | Description 描述 | 
@@ -29,41 +29,11 @@
 | siv_radius                | 圆角弧度 | 
 | siv_shape_type         | 两种形状类型：默认是0:rectangle、1:circle | 
 
-| ![](https://raw.githubusercontent.com/sfsheng0322/GlideImageView/master/screenshot/image4.png) | ![](https://raw.githubusercontent.com/sfsheng0322/GlideImageView/master/screenshot/image4.png) | 
-|:--- |:---| 
-| 
+下面是在xml中和代码中设置的效果
 
-    <com.sunfusheng.glideimageview.GlideImageView
-        android:id="@+id/image22"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_margin="5dp"
-        android:layout_weight="1"
-        android:scaleType="centerCrop"
-        app:siv_border_color="@color/orange"
-        app:siv_border_width="2dp"
-        app:siv_pressed_alpha="0.3"
-        app:siv_pressed_color="@color/orange"
-        app:siv_radius="15dp"
-        app:siv_shape_type="rectangle"/> 
-                    
-| 
-
-     <com.sunfusheng.glideimageview.GlideImageView
-         android:id="@+id/image22"
-         android:layout_width="80dp"
-         android:layout_height="80dp"
-         android:layout_margin="5dp"
-         android:layout_weight="1"
-         android:scaleType="centerCrop"
-         app:siv_border_color="@color/orange"
-         app:siv_border_width="2dp"
-         app:siv_pressed_alpha="0.3"
-         app:siv_pressed_color="@color/orange"
-         app:siv_radius="15dp"
-         app:siv_shape_type="rectangle"/>
-                 
-| 
+| ![](https://raw.githubusercontent.com/sfsheng0322/GlideImageView/master/screenshot/image4.png) | ![](https://raw.githubusercontent.com/sfsheng0322/GlideImageView/master/screenshot/image4.png) | ![](https://raw.githubusercontent.com/sfsheng0322/GlideImageView/master/screenshot/image3.png) | 
+| :--- | :--- | :--- | 
+| ![](https://raw.githubusercontent.com/sfsheng0322/GlideImageView/master/screenshot/code1.png) | ![](https://raw.githubusercontent.com/sfsheng0322/GlideImageView/master/screenshot/code2.png) | ![](https://raw.githubusercontent.com/sfsheng0322/GlideImageView/master/screenshot/code3.png) |
 
 #### XML
 
