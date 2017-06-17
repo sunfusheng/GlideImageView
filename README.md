@@ -91,8 +91,8 @@
     GlideImageView load(Uri uri, RequestOptions options);
     GlideImageView load(String url, RequestOptions options);
     
-#### 如果你还是觉得得不到满足，好吧，我提供了[GlideImageLoader](https://github.com/sfsheng0322/GlideImageView/blob/master/GlideImageView/src/main/java/com/sunfusheng/glideimageview/GlideImageLoader.java)类加载图片，
-比如这样加载图片：先加载缩略图再加载高清的图片，并监听加载的进度
+#### 如果你还是觉得得不到满足，好吧，我提供了[GlideImageLoader](https://github.com/sfsheng0322/GlideImageView/blob/master/GlideImageView/src/main/java/com/sunfusheng/glideimageview/GlideImageLoader.java)类加载图片 <br/>
+#### 比如这样加载图片：先加载缩略图再加载高清图片，并监听加载的进度
 
     private void loadImage(String image_url_thumbnail， String image_url) {
         RequestOptions requestOptions = glideImageView.requestOptions(R.color.black)
@@ -100,9 +100,7 @@
                 .skipMemoryCache(true) // 跳过内存缓存
                 .diskCacheStrategy(DiskCacheStrategy.NONE); // 不缓存到SDCard中
 
-        GlideImageLoader imageLoader = glideImageView.getImageLoader();
-
-        imageLoader.setOnGlideImageViewListener(image_url, new OnGlideImageViewListener() {
+        glideImageView.getImageLoader().setOnGlideImageViewListener(image_url, new OnGlideImageViewListener() {
             @Override
             public void onProgress(int percent, boolean isDone, GlideException exception) {
                 progressView.setProgress(percent);
@@ -110,7 +108,7 @@
             }
         });
 
-        imageLoader.requestBuilder(image_url, requestOptions)
+        glideImageView.getImageLoader().requestBuilder(image_url, requestOptions)
                 .thumbnail(Glide.with(ImageActivity.this) // 加载缩略图
                         .load(image_url_thumbnail)
                         .apply(requestOptions))
@@ -118,7 +116,7 @@
                 .into(glideImageView);
     }
   
-#### 监听先加载缩略图再加载高清图片进度的效果图
+<br/>
     
 <img src="/screenshot/gif4.gif">
 
