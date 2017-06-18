@@ -28,6 +28,10 @@
             android:name=".ImageActivity"
             android:theme="@style/AppCompatFullscreenStyle"/>
 
+        <activity
+            android:name=".about.AboutActivity"
+            android:theme="@style/AboutTheme"/>
+
     </application>
 
 </manifest>

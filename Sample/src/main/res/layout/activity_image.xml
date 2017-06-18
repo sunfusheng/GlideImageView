@@ -7,7 +7,6 @@
     android:background="@android:color/black"
     android:fitsSystemWindows="false">
 
-
     <android.support.percent.PercentRelativeLayout
         android:id="@+id/prl_image"
         android:layout_width="match_parent"

@@ -1,15 +1,14 @@
 package com.sunfusheng.glideimageview.sample;
 
-import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
@@ -23,12 +22,16 @@ import com.sunfusheng.glideimageview.ShapeImageView;
 import com.sunfusheng.glideimageview.progress.CircleProgressView;
 import com.sunfusheng.glideimageview.progress.OnGlideImageViewListener;
 import com.sunfusheng.glideimageview.progress.OnProgressListener;
+import com.sunfusheng.glideimageview.sample.about.AboutActivity;
 
 import java.util.Random;
 
 import static com.sunfusheng.glideimageview.sample.ImageActivity.KEY_IMAGE_URL;
 import static com.sunfusheng.glideimageview.sample.ImageActivity.KEY_IMAGE_URL_THUMBNAIL;
 
+/**
+ * Created by sunfusheng on 2017/6/3.
+ */
 public class MainActivity extends AppCompatActivity {
 
     GlideImageView image11;
@@ -99,8 +102,6 @@ public class MainActivity extends AppCompatActivity {
         line41();
         line42();
     }
-
-    GlideImageView imageView = image11;
 
     private void line1() {
         image11.loadImage(url1, R.color.placeholder_color).listener(new OnProgressListener() {
@@ -216,14 +217,21 @@ public class MainActivity extends AppCompatActivity {
                 .into(image42);
     }
 
-    // WiFi是否连接
-    public static boolean isWiFiAvailable(Context context) {
-        ConnectivityManager connectivityManager = (ConnectivityManager) context.getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-        if (networkInfo != null && networkInfo.isAvailable() && networkInfo.getType() == ConnectivityManager.TYPE_WIFI) {
-            return true;
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.item_menu_app:
+                startActivity(new Intent(this, AboutActivity.class));
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        return false;
     }
 
 }

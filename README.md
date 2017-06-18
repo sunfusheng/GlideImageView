@@ -1,10 +1,10 @@
 # GlideImageView  [ ![Download](https://api.bintray.com/packages/sfsheng0322/maven/glideimageview/images/download.svg) ](https://bintray.com/sfsheng0322/maven/glideimageview/_latestVersion)
 
-### 该库是基于[Glide](https://github.com/bumptech/glide) V4.0设计的，具体实现了下面的特性: <br/>
-1、通过提供的属性可以设置图片的圆角、边框。 <br/>
-2、可以设置点击、触摸图片时的颜色，透明度可设置。 <br/>
-3、一行代码加载来自网络、res、SDCard中图片，也可加载成圆形。 <br/>
-4、可以监听加载图片的进度。 <br/>
+### 该库是基于[Glide](https://github.com/bumptech/glide) V4.0设计的，实现如下特性:<br/>
+1、通过提供的属性可以设置图片的圆角、边框。<br/>
+2、可以设置点击触摸图片时的颜色、透明度。<br/>
+3、一行代码加载来自网络、res、SDCard中的图片，可加载成圆形。<br/>
+4、可以监听加载图片时的进度。<br/>
 
 <br/>
 
@@ -27,7 +27,7 @@
 
 <br/>
 
-### [APK下载地址](http://fir.im/MarqueeView)，去手机上体验吧 (◐‿◑)
+### [APK下载地址](https://fir.im/GlideImageView)，去手机上体验吧 (◐‿◑)
 
 <br/>
 
