@@ -30,12 +30,12 @@ public class GlideImageView extends ShapeImageView {
     }
 
     private void init() {
-        mImageLoader = new GlideImageLoader(this);
+        mImageLoader = GlideImageLoader.create(this);
     }
 
     public GlideImageLoader getImageLoader() {
         if (mImageLoader == null) {
-            mImageLoader = new GlideImageLoader(this);
+            mImageLoader = GlideImageLoader.create(this);
         }
         return mImageLoader;
     }

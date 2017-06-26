@@ -44,8 +44,12 @@ public class GlideImageLoader {
     private OnGlideImageViewListener onGlideImageViewListener;
     private OnProgressListener onProgressListener;
 
-    public GlideImageLoader(ImageView iv) {
-        mImageView = new WeakReference<>(iv);
+    public static GlideImageLoader create(ImageView imageView) {
+        return new GlideImageLoader(imageView);
+    }
+
+    private GlideImageLoader(ImageView imageView) {
+        mImageView = new WeakReference<>(imageView);
         mMainThreadHandler = new Handler(Looper.getMainLooper());
     }
 

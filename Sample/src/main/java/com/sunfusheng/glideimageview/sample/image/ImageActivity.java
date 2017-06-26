@@ -1,4 +1,4 @@
-package com.sunfusheng.glideimageview.sample;
+package com.sunfusheng.glideimageview.sample.image;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -17,6 +17,7 @@ import com.sunfusheng.glideimageview.GlideImageLoader;
 import com.sunfusheng.glideimageview.GlideImageView;
 import com.sunfusheng.glideimageview.progress.CircleProgressView;
 import com.sunfusheng.glideimageview.progress.OnGlideImageViewListener;
+import com.sunfusheng.glideimageview.sample.R;
 
 import java.util.Random;
 

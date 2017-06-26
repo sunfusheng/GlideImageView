@@ -23,11 +23,12 @@ import com.sunfusheng.glideimageview.progress.CircleProgressView;
 import com.sunfusheng.glideimageview.progress.OnGlideImageViewListener;
 import com.sunfusheng.glideimageview.progress.OnProgressListener;
 import com.sunfusheng.glideimageview.sample.about.AboutActivity;
+import com.sunfusheng.glideimageview.sample.image.ImageActivity;
 
 import java.util.Random;
 
-import static com.sunfusheng.glideimageview.sample.ImageActivity.KEY_IMAGE_URL;
-import static com.sunfusheng.glideimageview.sample.ImageActivity.KEY_IMAGE_URL_THUMBNAIL;
+import static com.sunfusheng.glideimageview.sample.image.ImageActivity.KEY_IMAGE_URL;
+import static com.sunfusheng.glideimageview.sample.image.ImageActivity.KEY_IMAGE_URL_THUMBNAIL;
 
 /**
  * Created by sunfusheng on 2017/6/3.
