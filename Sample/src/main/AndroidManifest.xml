@@ -16,22 +16,23 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppCompatTheme">
-
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
+
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-
         <activity
             android:name=".image.ImageActivity"
             android:theme="@style/AppCompatFullscreenStyle"/>
-
         <activity
             android:name=".about.AboutActivity"
             android:theme="@style/AboutTheme"/>
 
+        <activity android:name=".image.PhotoViewActivity"/>
+
+        <activity android:name=".RecycleViewActivity"/>
     </application>
 
 </manifest>

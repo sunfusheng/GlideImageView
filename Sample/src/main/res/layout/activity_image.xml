@@ -37,7 +37,7 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_centerInParent="true"
-        android:progress="1"
+        android:progress="0"
         app:cpv_innerPadding="2dp"
         app:cpv_outerColor="@color/transparent90_white"
         app:cpv_outerSize="1dp"

@@ -4,12 +4,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -33,7 +33,7 @@ import static com.sunfusheng.glideimageview.sample.image.ImageActivity.KEY_IMAGE
 /**
  * Created by sunfusheng on 2017/6/3.
  */
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
     GlideImageView image11;
     GlideImageView image12;
@@ -54,6 +54,8 @@ public class MainActivity extends AppCompatActivity {
     CircleProgressView progressView1;
     GlideImageView image42;
     CircleProgressView progressView2;
+
+    TextView draggableView;
 
     String url1 = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1497688355699&di=ea69a930b82ce88561c635089995e124&imgtype=0&src=http%3A%2F%2Fcms-bucket.nosdn.127.net%2Ff84e566bcf654b3698363409fbd676ef20161119091503.jpg";
     String url2 = "http://img1.imgtn.bdimg.com/it/u=4027212837,1228313366&fm=23&gp=0.jpg";
@@ -94,6 +96,14 @@ public class MainActivity extends AppCompatActivity {
         progressView1 = (CircleProgressView) findViewById(R.id.progressView1);
         image42 = (GlideImageView) findViewById(R.id.image42);
         progressView2 = (CircleProgressView) findViewById(R.id.progressView2);
+
+        draggableView = (TextView) findViewById(R.id.draggable_view);
+        draggableView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(mContext, RecycleViewActivity.class));
+            }
+        });
 
         isLoadAgain = new Random().nextInt(3) == 1;
 
