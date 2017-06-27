@@ -40,4 +40,8 @@
         <attr name="cpv_reachCapRound" format="boolean"/>
     </declare-styleable>
 
+    <declare-styleable name="VariantImageViewStyle">
+        <attr name="variant_bg_id" format="reference"/>
+    </declare-styleable>
+
 </resources>
