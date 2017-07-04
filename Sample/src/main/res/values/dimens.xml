@@ -1,0 +1,33 @@
+<resources>
+
+    <!-- 字体 -->
+    <dimen name="f1">28sp</dimen>
+    <dimen name="f2">26sp</dimen>
+    <dimen name="f3">24sp</dimen>
+    <dimen name="f4">20sp</dimen>
+    <dimen name="f5">17sp</dimen>
+    <dimen name="f6">16sp</dimen>
+    <dimen name="f7">14sp</dimen>
+    <dimen name="f8">12sp</dimen>
+    <dimen name="f9">10sp</dimen>
+    <dimen name="f10">8sp</dimen>
+
+    <!-- 间距 -->
+    <dimen name="d0">1dp</dimen>
+    <dimen name="d1">2dp</dimen>
+    <dimen name="d2">4dp</dimen>
+    <dimen name="d3">8dp</dimen>
+    <dimen name="d4">12dp</dimen>
+    <dimen name="d5">16dp</dimen>
+    <dimen name="d6">24dp</dimen>
+
+    <!-- 宽高 -->
+    <dimen name="t1">73dp</dimen>
+    <dimen name="t2">36dp</dimen>
+    <dimen name="t3">28dp</dimen>
+    <dimen name="t4">22dp</dimen>
+    <dimen name="t5">15dp</dimen>
+
+    <dimen name="status_bar_height">0dp</dimen>
+
+</resources>

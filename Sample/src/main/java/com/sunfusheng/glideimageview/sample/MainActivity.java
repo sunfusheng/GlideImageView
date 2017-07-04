@@ -23,12 +23,12 @@ import com.sunfusheng.glideimageview.progress.CircleProgressView;
 import com.sunfusheng.glideimageview.progress.OnGlideImageViewListener;
 import com.sunfusheng.glideimageview.progress.OnProgressListener;
 import com.sunfusheng.glideimageview.sample.about.AboutActivity;
-import com.sunfusheng.glideimageview.sample.image.ImageActivity;
+import com.sunfusheng.glideimageview.sample.image.SingleImageActivity;
 
 import java.util.Random;
 
-import static com.sunfusheng.glideimageview.sample.image.ImageActivity.KEY_IMAGE_URL;
-import static com.sunfusheng.glideimageview.sample.image.ImageActivity.KEY_IMAGE_URL_THUMBNAIL;
+import static com.sunfusheng.glideimageview.sample.image.SingleImageActivity.KEY_IMAGE_URL;
+import static com.sunfusheng.glideimageview.sample.image.SingleImageActivity.KEY_IMAGE_URL_THUMBNAIL;
 
 /**
  * Created by sunfusheng on 2017/6/3.
@@ -166,7 +166,7 @@ public class MainActivity extends BaseActivity {
         image41.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, ImageActivity.class);
+                Intent intent = new Intent(MainActivity.this, SingleImageActivity.class);
                 intent.putExtra(KEY_IMAGE_URL, cat);
                 intent.putExtra(KEY_IMAGE_URL_THUMBNAIL, cat_thumbnail);
                 ActivityOptionsCompat compat = ActivityOptionsCompat
@@ -194,16 +194,13 @@ public class MainActivity extends BaseActivity {
     }
 
     private void line42() {
-        image42.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, ImageActivity.class);
-                intent.putExtra(KEY_IMAGE_URL, girl);
-                intent.putExtra(KEY_IMAGE_URL_THUMBNAIL, girl_thumbnail);
-                ActivityOptionsCompat compat = ActivityOptionsCompat
-                        .makeSceneTransitionAnimation(MainActivity.this, image42, getString(R.string.transitional_image));
-                ActivityCompat.startActivity(MainActivity.this, intent, compat.toBundle());
-            }
+        image42.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, SingleImageActivity.class);
+            intent.putExtra(KEY_IMAGE_URL, girl);
+            intent.putExtra(KEY_IMAGE_URL_THUMBNAIL, girl_thumbnail);
+            ActivityOptionsCompat compat = ActivityOptionsCompat
+                    .makeSceneTransitionAnimation(MainActivity.this, image42, getString(R.string.transitional_image));
+            ActivityCompat.startActivity(MainActivity.this, intent, compat.toBundle());
         });
 
         RequestOptions requestOptions = image42.requestOptions(R.color.placeholder_color).centerCrop();
@@ -213,15 +210,12 @@ public class MainActivity extends BaseActivity {
 
         // 第二种方式加载：可以解锁更多功能
         GlideImageLoader imageLoader = image42.getImageLoader();
-        imageLoader.setOnGlideImageViewListener(girl_thumbnail, new OnGlideImageViewListener() {
-            @Override
-            public void onProgress(int percent, boolean isDone, GlideException exception) {
-                if (exception != null && !TextUtils.isEmpty(exception.getMessage())) {
-                    Toast.makeText(getApplicationContext(), exception.getMessage(), Toast.LENGTH_LONG).show();
-                }
-                progressView2.setProgress(percent);
-                progressView2.setVisibility(isDone ? View.GONE : View.VISIBLE);
+        imageLoader.setOnGlideImageViewListener(girl_thumbnail, (percent, isDone, exception) -> {
+            if (exception != null && !TextUtils.isEmpty(exception.getMessage())) {
+                Toast.makeText(getApplicationContext(), exception.getMessage(), Toast.LENGTH_LONG).show();
             }
+            progressView2.setProgress(percent);
+            progressView2.setVisibility(isDone ? View.GONE : View.VISIBLE);
         });
         imageLoader.requestBuilder(girl_thumbnail, requestOptions)
                 .transition(DrawableTransitionOptions.withCrossFade())

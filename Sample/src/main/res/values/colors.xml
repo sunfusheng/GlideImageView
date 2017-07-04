@@ -5,17 +5,20 @@
     <color name="colorPrimaryDark">#00796b</color>
     <color name="colorAccent">#00796b</color>
 
-    <color name="placeholder_color">#1A000000</color>
-
-    <color name="white">#FFFFFF</color>  <!-- 白色 -->
-    <color name="yellow">#fbc02d</color> <!-- 黄色 -->
-    <color name="gold">#FFD700</color>   <!-- 金色 -->
-    <color name="orange">#f57c00</color> <!-- 橙色 -->
-    <color name="red">#d01716</color>    <!-- 红色 -->
-    <color name="gray">#808080</color>   <!-- 灰色 -->
-    <color name="green">#0a7e07</color>  <!-- 绿色 -->
-    <color name="blue">#455ede</color>   <!-- 蓝色 -->
-    <color name="black">#000000</color>  <!-- 黑色 -->
+    <!-- common -->
+    <color name="c0">#ff000000</color>
+    <color name="c1">#D9000000</color>
+    <color name="c2">#8C000000</color>
+    <color name="c3">#66000000</color>
+    <color name="c4">#1A000000</color>
+    <color name="c5">#C34A42</color>
+    <color name="c6">#FF9800</color>
+    <color name="c7">#009734</color>
+    <color name="c8">#46AE36</color>
+    <color name="c9">#47B000</color>
+    <color name="c10">#007AFF</color>
+    <color name="c11">#1194F6</color>
+    <color name="c12">#9D1BB2</color>
 
     <color name="transparent">#00000000</color>
     <color name="transparent05">#0B000000</color>
@@ -41,5 +44,17 @@
     <color name="transparent80_white">#CCffffff</color>
     <color name="transparent90_white">#E5ffffff</color>
     <color name="transparent100_white">#FFffffff</color>
+
+    <color name="placeholder_color">#1A000000</color>
+
+    <color name="white">#FFFFFF</color>  <!-- 白色 -->
+    <color name="yellow">#fbc02d</color> <!-- 黄色 -->
+    <color name="gold">#FFD700</color>   <!-- 金色 -->
+    <color name="orange">#f57c00</color> <!-- 橙色 -->
+    <color name="red">#d01716</color>    <!-- 红色 -->
+    <color name="gray">#808080</color>   <!-- 灰色 -->
+    <color name="green">#0a7e07</color>  <!-- 绿色 -->
+    <color name="blue">#455ede</color>   <!-- 蓝色 -->
+    <color name="black">#000000</color>  <!-- 黑色 -->
 
 </resources>

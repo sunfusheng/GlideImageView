@@ -26,7 +26,7 @@ import static com.sunfusheng.glideimageview.sample.MainActivity.isLoadAgain;
 /**
  * Created by sunfusheng on 2017/6/15.
  */
-public class ImageActivity extends AppCompatActivity {
+public class SingleImageActivity extends AppCompatActivity {
 
     GlideImageView glideImageView;
     CircleProgressView progressView;
@@ -85,7 +85,7 @@ public class ImageActivity extends AppCompatActivity {
         glideImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ActivityCompat.finishAfterTransition(ImageActivity.this);
+                ActivityCompat.finishAfterTransition(SingleImageActivity.this);
             }
         });
 
@@ -111,7 +111,7 @@ public class ImageActivity extends AppCompatActivity {
         });
 
         imageLoader.requestBuilder(image_url, requestOptionsWithoutCache)
-                .thumbnail(Glide.with(ImageActivity.this)
+                .thumbnail(Glide.with(SingleImageActivity.this)
                         .load(image_url_thumbnail)
                         .apply(requestOptions))
                 .transition(DrawableTransitionOptions.withCrossFade())

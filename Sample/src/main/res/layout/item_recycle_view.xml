@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackground"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/d5"
+    android:paddingRight="@dimen/d5">
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/d5"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:textColor="@color/c1"
+        android:textSize="@dimen/f6"
+        tools:text="标题"/>
+
+    <com.sunfusheng.glideimageview.sample.widget.NineImageView.NineImageView
+        android:id="@+id/nineImageView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/d4"/>
+
+    <View
+        android:id="@+id/bottom_divider"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginTop="@dimen/d5"
+        android:background="@color/c4"/>
+</LinearLayout>
