@@ -4,21 +4,24 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.RequestBuilder;
+import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
+import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
-import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
-import com.bumptech.glide.request.transition.Transition;
 import com.sunfusheng.glideimageview.GlideImageLoader;
 import com.sunfusheng.glideimageview.sample.R;
 import com.sunfusheng.glideimageview.util.DisplayUtil;
@@ -83,24 +86,27 @@ public class NineImageView extends ViewGroup {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        if (imageAttrs == null) return;
         int width = MeasureSpec.getSize(widthMeasureSpec);
         int height = 0;
         int totalWidth = width - getPaddingLeft() - getPaddingRight();
-        if (imageAttrs != null && imageAttrs.size() > 0) {
-            if (imageAttrs.size() == 1) {
-                gridWidth = singleImageWidth;
-                gridHeight = singleImageHeight;
-            } else {
-                gridWidth = gridHeight = (totalWidth - gridSpacing * 2) / 3;
-            }
-            width = gridWidth * columnCount + gridSpacing * (columnCount - 1) + getPaddingLeft() + getPaddingRight();
-            height = gridHeight * rowCount + gridSpacing * (rowCount - 1) + getPaddingTop() + getPaddingBottom();
+        if (imageAttrs.size() == 1) {
+            gridWidth = singleImageWidth;
+            gridHeight = singleImageHeight;
+        } else {
+            gridWidth = gridHeight = (totalWidth - gridSpacing * 2) / 3;
         }
+        width = gridWidth * columnCount + gridSpacing * (columnCount - 1) + getPaddingLeft() + getPaddingRight();
+        height = gridHeight * rowCount + gridSpacing * (rowCount - 1) + getPaddingTop() + getPaddingBottom();
         setMeasuredDimension(width, height);
     }
 
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
+        layoutChildrenView();
+    }
+
+    private void layoutChildrenView() {
         if (imageAttrs == null) return;
         int childrenCount = imageAttrs.size();
         for (int i = 0; i < childrenCount; i++) {
@@ -116,10 +122,7 @@ public class NineImageView extends ViewGroup {
             int bottom = top + gridHeight;
             imageView.layout(left, top, right, bottom);
 
-
-//            if (!isInLayout()) {
             loadImage(imageView, imageAttr, childrenCount);
-//            }
         }
     }
 
@@ -129,23 +132,28 @@ public class NineImageView extends ViewGroup {
         RequestOptions requestOptions = imageLoader.requestOptions(R.color.placeholder_color)
                 .centerCrop()
                 .skipMemoryCache(false)
-                .diskCacheStrategy(DiskCacheStrategy.RESOURCE);
+                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL);
 
         RequestBuilder<Drawable> requestBuilder = imageLoader.requestBuilder(url, requestOptions)
-                .transition(DrawableTransitionOptions.withCrossFade());
+                .transition(DrawableTransitionOptions.withCrossFade())
+                .listener(new RequestListener<Drawable>() {
+                    @Override
+                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                        return false;
+                    }
 
+                    @Override
+                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                        if (count == 1) {
+                            setSingleImageWidthHeight(resource);
+                            Log.d("--->", "getIntrinsicWidth: " + resource.getIntrinsicWidth() + " getIntrinsicHeight: " + resource.getIntrinsicHeight());
+                        }
+                        return false;
+                    }
+                });
 
-        if (count == 1) {
-            requestBuilder.into(new SimpleTarget<Drawable>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
-                @Override
-                public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
-                    setSingleImageWidthHeight(resource);
-                    requestBuilder.into(imageView);
-                }
-            });
-        } else {
-            requestBuilder.into(imageView);
-        }
+        requestBuilder.into(imageView);
     }
 
     private void setSingleImageWidthHeight(Drawable drawable) {
@@ -204,7 +212,6 @@ public class NineImageView extends ViewGroup {
         if (imageAttrs == null) {
             for (int i = 0; i < imageCount; i++) {
                 ImageView imageView = getImageView(i);
-                if (imageView == null) return;
                 addView(imageView, generateDefaultLayoutParams());
             }
         } else {
@@ -214,7 +221,6 @@ public class NineImageView extends ViewGroup {
             } else if (oldViewCount < imageCount) {
                 for (int i = oldViewCount; i < imageCount; i++) {
                     ImageView imageView = getImageView(i);
-                    if (imageView == null) return;
                     addView(imageView, generateDefaultLayoutParams());
                 }
             }
@@ -222,12 +228,11 @@ public class NineImageView extends ViewGroup {
 
 //        removeAllViews();
 //        for (int i = 0; i < imageCount; i++) {
-//            ImageView imageView = getImageView(i);
-//            ImageAttr imageAttr = attrList.get(i);
-//            String url = TextUtils.isEmpty(imageAttr.thumbnailUrl) ? imageAttr.url : imageAttr.thumbnailUrl;
-//            if (imageView == null) return;
-//            imageView.setVisibility(i < imageCount ? VISIBLE : GONE);
-//            loadImage(imageView, url, imageCount);
+//            ImageViewWrapper imageView = new ImageViewWrapper(getContext());
+//            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+//            int position = i;
+//            imageView.setOnClickListener(v -> mAdapter.onImageItemClick(getContext(), NineImageView.this, position, mAdapter.getImageAttrs()));
+//            loadImage(imageView, attrList.get(i), imageCount);
 //            addView(imageView, generateDefaultLayoutParams());
 //        }
 
@@ -240,6 +245,7 @@ public class NineImageView extends ViewGroup {
             }
         }
         imageAttrs = attrList;
+        layoutChildrenView();
     }
 
     // 获得ImageView，并保证ImageView的重用
@@ -254,6 +260,10 @@ public class NineImageView extends ViewGroup {
             imageViews.add(imageView);
         }
         return imageView;
+    }
+
+    public NineImageViewAdapter getAdapter() {
+        return mAdapter;
     }
 
     public void setGridSpacing(int spacing) {

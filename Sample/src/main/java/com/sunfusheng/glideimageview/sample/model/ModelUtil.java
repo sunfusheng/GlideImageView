@@ -54,6 +54,7 @@ public class ModelUtil {
         images.add("http://img5.imgtn.bdimg.com/it/u=2091366266,1524114981&fm=21&gp=0.jpg");
         images.add("http://img5.imgtn.bdimg.com/it/u=1424970962,1243597989&fm=21&gp=0.jpg");
         list.add(new ImageEntity("一共12张图片", images));
+
         return list;
     }
 

@@ -57,7 +57,11 @@ public class RecycleViewActivity extends BaseActivity {
                 attr.url = url;
                 imageAttrs.add(attr);
             }
-            viewHolder.nineImageView.setAdapter(new NineImageViewEventAdapter(viewHolder.nineImageView.getContext(), imageAttrs));
+            if (viewHolder.nineImageView.getAdapter() != null) {
+                viewHolder.nineImageView.setAdapter(viewHolder.nineImageView.getAdapter());
+            } else {
+                viewHolder.nineImageView.setAdapter(new NineImageViewEventAdapter(viewHolder.nineImageView.getContext(), imageAttrs));
+            }
         }
 
         @Override
