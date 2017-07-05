@@ -8,13 +8,11 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.bumptech.glide.RequestBuilder;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.engine.GlideException;
@@ -129,13 +127,14 @@ public class NineImageView extends ViewGroup {
     private void loadImage(ImageView imageView, ImageAttr attr, int count) {
         String url = TextUtils.isEmpty(attr.thumbnailUrl) ? attr.url : attr.thumbnailUrl;
         GlideImageLoader imageLoader = GlideImageLoader.create(imageView);
+
         RequestOptions requestOptions = imageLoader.requestOptions(R.color.placeholder_color)
                 .centerCrop()
                 .skipMemoryCache(false)
                 .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                 .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL);
 
-        RequestBuilder<Drawable> requestBuilder = imageLoader.requestBuilder(url, requestOptions)
+        imageLoader.requestBuilder(url, requestOptions)
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .listener(new RequestListener<Drawable>() {
                     @Override
@@ -147,13 +146,10 @@ public class NineImageView extends ViewGroup {
                     public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
                         if (count == 1) {
                             setSingleImageWidthHeight(resource);
-                            Log.d("--->", "getIntrinsicWidth: " + resource.getIntrinsicWidth() + " getIntrinsicHeight: " + resource.getIntrinsicHeight());
                         }
                         return false;
                     }
-                });
-
-        requestBuilder.into(imageView);
+                }).into(imageView);
     }
 
     private void setSingleImageWidthHeight(Drawable drawable) {
@@ -225,16 +221,6 @@ public class NineImageView extends ViewGroup {
                 }
             }
         }
-
-//        removeAllViews();
-//        for (int i = 0; i < imageCount; i++) {
-//            ImageViewWrapper imageView = new ImageViewWrapper(getContext());
-//            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-//            int position = i;
-//            imageView.setOnClickListener(v -> mAdapter.onImageItemClick(getContext(), NineImageView.this, position, mAdapter.getImageAttrs()));
-//            loadImage(imageView, attrList.get(i), imageCount);
-//            addView(imageView, generateDefaultLayoutParams());
-//        }
 
         // 修改最后一个条目，决定是否显示更多
         if (adapter.getImageAttrs().size() > maxImageSize) {

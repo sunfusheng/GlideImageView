@@ -18,6 +18,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.request.transition.Transition;
+import com.github.chrisbanes.photoview.OnOutsidePhotoTapListener;
 import com.github.chrisbanes.photoview.OnPhotoTapListener;
 import com.github.chrisbanes.photoview.PhotoView;
 import com.sunfusheng.glideimageview.GlideImageLoader;
@@ -28,7 +29,7 @@ import com.sunfusheng.glideimageview.util.DisplayUtil;
 
 import java.util.List;
 
-public class ImagesAdapter extends PagerAdapter implements OnPhotoTapListener {
+public class ImagesAdapter extends PagerAdapter implements OnPhotoTapListener, OnOutsidePhotoTapListener {
 
     private Context mContext;
     private LayoutInflater mInflater;
@@ -63,11 +64,12 @@ public class ImagesAdapter extends PagerAdapter implements OnPhotoTapListener {
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
-        View view = mInflater.inflate(R.layout.item_photoview, container, false);
+        View view = (ViewGroup) mInflater.inflate(R.layout.item_photoview, container, false);
         CircleProgressView progressView = (CircleProgressView) view.findViewById(R.id.progressView);
         PhotoView photoView = (PhotoView) view.findViewById(R.id.photoView);
         photoView.setScaleType(ImageView.ScaleType.FIT_CENTER);
         photoView.setOnPhotoTapListener(this);
+        photoView.setOnOutsidePhotoTapListener(this);
         photoViews.put(position, photoView);
 
         ImageAttr attr = images.get(position);
@@ -88,25 +90,14 @@ public class ImagesAdapter extends PagerAdapter implements OnPhotoTapListener {
         requestBuilder.into(new SimpleTarget<Drawable>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
             @Override
             public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
-                ViewGroup.LayoutParams params = view.getLayoutParams();
                 if (resource.getIntrinsicHeight() > DisplayUtil.getScreenHeight(mContext)) {
-                    params.width = ViewGroup.LayoutParams.MATCH_PARENT;
-                    params.height = ViewGroup.LayoutParams.MATCH_PARENT;
-
-                    ViewGroup.LayoutParams layoutParams = photoView.getLayoutParams();
-                    layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
-                    layoutParams.height = resource.getIntrinsicHeight();
-                    photoView.setLayoutParams(layoutParams);
-                } else {
-                    params.width = ViewGroup.LayoutParams.MATCH_PARENT;
-                    params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+                    photoView.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 }
-                view.setLayoutParams(params);
                 requestBuilder.into(photoView);
             }
         });
 
-        container.addView(view);
+        container.addView(view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         return view;
     }
 
@@ -117,6 +108,11 @@ public class ImagesAdapter extends PagerAdapter implements OnPhotoTapListener {
 
     @Override
     public void onPhotoTap(ImageView view, float x, float y) {
+        ((ImagesActivity) mContext).finishWithAnim();
+    }
+
+    @Override
+    public void onOutsidePhotoTap(ImageView imageView) {
         ((ImagesActivity) mContext).finishWithAnim();
     }
 }

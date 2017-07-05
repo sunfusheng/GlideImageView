@@ -119,6 +119,7 @@ public class ImagesActivity extends Activity implements ViewTreeObserver.OnPreDr
 
     public void finishWithAnim() {
         PhotoView photoView = mAdapter.getPhotoView(curPosition);
+        photoView.setScale(1f);
         ImageAttr attr = imageAttrs.get(curPosition);
         initImageAttr(attr);
 
