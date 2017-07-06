@@ -32,6 +32,7 @@ public class ImagesActivity extends Activity implements ViewTreeObserver.OnPreDr
     private TextView tvTip;
     private ImagesAdapter mAdapter;
     private List<ImageAttr> imageAttrs;
+    private boolean isAnimating;
 
     private int curPosition;
     private int screenWidth;
@@ -76,17 +77,16 @@ public class ImagesActivity extends Activity implements ViewTreeObserver.OnPreDr
         finishWithAnim();
     }
 
-    private void initImageAttr(ImageAttr attr) {
+    private void initImageAttr(PhotoView photoView, ImageAttr attr, boolean isFinish) {
         int originalWidth = attr.width;
         int originalHeight = attr.height;
         int originalCenterX = attr.left + originalWidth / 2;
         int originalCenterY = attr.top + originalHeight / 2;
 
-        float widthRatio = screenWidth * 1.0f / originalWidth;
-        float heightRatio = screenHeight * 1.0f / originalHeight;
-        float ratio = widthRatio > heightRatio ? heightRatio : widthRatio;
-        int finalWidth = (int) (originalWidth * ratio);
-        int finalHeight = (int) (originalHeight * ratio);
+        float widthRatio = screenWidth * 1.0f / attr.realWidth;
+        float heightRatio = screenHeight * 1.0f / attr.realHeight;
+        int finalHeight = (int) (attr.realHeight * widthRatio);
+        int finalWidth = screenWidth; //imageAttrs.size() == 1 ? screenWidth : finalHeight;
 
         scaleX = originalWidth * 1.0f / finalWidth;
         scaleY = originalHeight * 1.0f / finalHeight;
@@ -104,24 +104,44 @@ public class ImagesActivity extends Activity implements ViewTreeObserver.OnPreDr
 
     @Override
     public boolean onPreDraw() {
+        if (isAnimating) return true;
         rootView.getViewTreeObserver().removeOnPreDrawListener(this);
         PhotoView photoView = mAdapter.getPhotoView(curPosition);
         ImageAttr attr = imageAttrs.get(curPosition);
-        initImageAttr(attr);
+        initImageAttr(photoView, attr, false);
 
-        setBackgroundColor(0f, 1f, null);
         translateXAnim(photoView, translationX, 0);
         translateYAnim(photoView, translationY, 0);
         scaleXAnim(photoView, scaleX, 1);
         scaleYAnim(photoView, scaleY, 1);
+        setBackgroundColor(0f, 1f, new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+                isAnimating = true;
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                isAnimating = false;
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+            }
+        });
         return true;
     }
 
     public void finishWithAnim() {
+        if (isAnimating) return;
         PhotoView photoView = mAdapter.getPhotoView(curPosition);
         photoView.setScale(1f);
         ImageAttr attr = imageAttrs.get(curPosition);
-        initImageAttr(attr);
+        initImageAttr(photoView, attr, true);
 
         translateXAnim(photoView, 0, translationX);
         translateYAnim(photoView, 0, translationY);
@@ -130,10 +150,12 @@ public class ImagesActivity extends Activity implements ViewTreeObserver.OnPreDr
         setBackgroundColor(1f, 0f, new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animation) {
+                isAnimating = true;
             }
 
             @Override
             public void onAnimationEnd(Animator animation) {
+                isAnimating = false;
                 finish();
                 overridePendingTransition(0, 0);
             }

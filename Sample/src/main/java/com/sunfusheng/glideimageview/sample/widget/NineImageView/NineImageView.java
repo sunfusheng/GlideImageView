@@ -144,6 +144,8 @@ public class NineImageView extends ViewGroup {
 
                     @Override
                     public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                        attr.realWidth = resource.getIntrinsicWidth();
+                        attr.realHeight = resource.getIntrinsicHeight();
                         if (count == 1) {
                             setSingleImageWidthHeight(resource);
                         }
