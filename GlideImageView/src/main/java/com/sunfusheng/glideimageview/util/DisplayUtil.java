@@ -10,7 +10,7 @@ public class DisplayUtil {
 
     private static WindowManager getWindowManager(Context context) {
         if (windowManager == null) {
-            windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+            windowManager = (WindowManager) context.getApplicationContext().getSystemService(Context.WINDOW_SERVICE);
         }
         return windowManager;
     }

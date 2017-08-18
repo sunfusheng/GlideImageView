@@ -16,10 +16,10 @@ import java.io.InputStream;
  */
 @GlideModule
 public class ProgressAppGlideModule extends AppGlideModule {
+
     @Override
     public void registerComponents(Context context, Glide glide, Registry registry) {
         super.registerComponents(context, glide, registry);
         registry.replace(GlideUrl.class, InputStream.class, new OkHttpUrlLoader.Factory(ProgressManager.getOkHttpClient()));
     }
-
 }

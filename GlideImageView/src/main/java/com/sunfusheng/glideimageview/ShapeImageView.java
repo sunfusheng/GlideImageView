@@ -26,7 +26,6 @@ import java.lang.annotation.RetentionPolicy;
 /**
  * Created by sunfusheng on 2017/6/12.
  */
-@SuppressWarnings("deprecation")
 public class ShapeImageView extends ImageView {
 
     // 定义Bitmap的默认配置
