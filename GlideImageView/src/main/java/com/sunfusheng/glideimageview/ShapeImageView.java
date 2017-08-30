@@ -39,17 +39,18 @@ public class ShapeImageView extends ImageView {
     private int borderColor = 0x1A000000; // 边框颜色
     private int borderWidth = 0; // 边框宽度
     private int radius = 0; // 圆角弧度
-    private int shapeType = ShapeType.RECTANGLE; // 图片类型（圆形, 矩形）
+    private int shapeType = ShapeType.NONE; // 图片类型（圆形, 矩形）
 
     private Paint pressedPaint; // 按下的画笔
     private float pressedAlpha = 0.1f; // 按下的透明度
     private int pressedColor = 0x1A000000; // 按下的颜色
 
-    @IntDef({ShapeType.RECTANGLE, ShapeType.CIRCLE})
+    @IntDef({ShapeType.NONE, ShapeType.RECTANGLE, ShapeType.CIRCLE})
     @Retention(RetentionPolicy.SOURCE)
     public @interface ShapeType {
-        int RECTANGLE = 0;
-        int CIRCLE = 1;
+        int NONE = 0;
+        int RECTANGLE = 1;
+        int CIRCLE = 2;
     }
 
     public ShapeImageView(Context context) {
@@ -78,8 +79,8 @@ public class ShapeImageView extends ImageView {
             array.recycle();
         }
 
+        setClickable(shapeType != ShapeType.NONE);
         initPressedPaint();
-        setClickable(true);
         setDrawingCacheEnabled(true);
         setWillNotDraw(false);
     }
@@ -96,8 +97,12 @@ public class ShapeImageView extends ImageView {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        Drawable drawable = getDrawable();
-        if (drawable == null) {
+        if (shapeType == ShapeType.NONE) {
+            super.onDraw(canvas);
+            return;
+        }
+
+        if (getDrawable() == null) {
             return;
         }
 
@@ -105,7 +110,7 @@ public class ShapeImageView extends ImageView {
             return;
         }
 
-        drawDrawable(canvas, getBitmapFromDrawable(drawable));
+        drawDrawable(canvas, getBitmapFromDrawable(getDrawable()));
         drawBorder(canvas);
         drawPressed(canvas);
     }
@@ -253,6 +258,7 @@ public class ShapeImageView extends ImageView {
     // 设置形状类型
     public void setShapeType(@ShapeType int shapeType) {
         this.shapeType = shapeType;
+        setClickable(shapeType != ShapeType.NONE);
         invalidate();
     }
 }

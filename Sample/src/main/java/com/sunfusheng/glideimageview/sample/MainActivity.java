@@ -98,12 +98,7 @@ public class MainActivity extends BaseActivity {
         progressView2 = (CircleProgressView) findViewById(R.id.progressView2);
 
         draggableView = (TextView) findViewById(R.id.draggable_view);
-        draggableView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(mContext, RecycleViewActivity.class));
-            }
-        });
+        draggableView.setOnClickListener(v -> startActivity(new Intent(mContext, RecycleViewActivity.class)));
 
         isLoadAgain = new Random().nextInt(3) == 1;
 
@@ -122,6 +117,7 @@ public class MainActivity extends BaseActivity {
             }
         });
 
+        image12.setShapeType(ShapeImageView.ShapeType.CIRCLE);
         image12.setBorderWidth(3);
         image12.setBorderColor(R.color.transparent20);
         image12.loadCircleImage(url1, R.color.placeholder_color);
@@ -163,16 +159,13 @@ public class MainActivity extends BaseActivity {
     }
 
     private void line41() {
-        image41.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, SingleImageActivity.class);
-                intent.putExtra(KEY_IMAGE_URL, cat);
-                intent.putExtra(KEY_IMAGE_URL_THUMBNAIL, cat_thumbnail);
-                ActivityOptionsCompat compat = ActivityOptionsCompat
-                        .makeSceneTransitionAnimation(MainActivity.this, image41, getString(R.string.transitional_image));
-                ActivityCompat.startActivity(MainActivity.this, intent, compat.toBundle());
-            }
+        image41.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, SingleImageActivity.class);
+            intent.putExtra(KEY_IMAGE_URL, cat);
+            intent.putExtra(KEY_IMAGE_URL_THUMBNAIL, cat_thumbnail);
+            ActivityOptionsCompat compat = ActivityOptionsCompat
+                    .makeSceneTransitionAnimation(MainActivity.this, image41, getString(R.string.transitional_image));
+            ActivityCompat.startActivity(MainActivity.this, intent, compat.toBundle());
         });
 
         RequestOptions requestOptions = image41.requestOptions(R.color.placeholder_color).centerCrop();

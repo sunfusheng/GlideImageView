@@ -38,5 +38,5 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.github.chrisbanes:PhotoView:2.0.0'
     compile project(':GlideImageView')
-//    compile 'com.sunfusheng:glideimageview:1.0.0'
+//    compile 'com.sunfusheng:glideimageview:1.1.0'
 }
