@@ -60,7 +60,7 @@
 | siv_pressed_color         | 触摸图片时的颜色 | 
 | siv_pressed_alpha         | 触摸图片时的颜色透明度: 0.0f - 1.0f | 
 | siv_radius                | 圆角弧度 | 
-| siv_shape_type         | 三种类型：默认是0:none、1:rectangle、1:circle | 
+| siv_shape_type         | 三种类型：默认是0:none、1:rectangle、2:circle | 
 
 #### 下面是在xml中和代码中设置的效果
 
