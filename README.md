@@ -35,14 +35,14 @@
 
 #### Gradle:
 
-    compile 'com.sunfusheng:glideimageview:1.0.0'
+    compile 'com.sunfusheng:glideimageview:1.1.0'
    
 #### Maven:
 
     <dependency>
       <groupId>com.sunfusheng</groupId>
       <artifactId>glideimageview</artifactId>
-      <version>1.0.0</version>
+      <version>1.1.0</version>
       <type>pom</type>
     </dependency>
 
