@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
+    android:id="@+id/ll_root_view"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/ll_root_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="?attr/selectableItemBackground"
@@ -28,22 +28,24 @@
             android:textSize="@dimen/f6"
             tools:text="标题"/>
 
-        <android.support.percent.PercentRelativeLayout
+        <android.support.constraint.ConstraintLayout
             android:id="@+id/prl_image"
-            android:layout_width="105dp"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true">
 
             <com.sunfusheng.glideimageview.GlideRoundImageView
                 android:id="@+id/giv"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="0dp"
-                app:riv_is_circle="false"
-                app:riv_pressed_mask_color="@color/transparent30"
-                app:riv_pressed_mode_enabled="true"
-                app:layout_aspectRatio="150%"
-                app:layout_widthPercent="100%"/>
-        </android.support.percent.PercentRelativeLayout>
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintDimensionRatio="16:9"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:riv_pressed_mask_color="@color/transparent30"/>
+        </android.support.constraint.ConstraintLayout>
     </RelativeLayout>
 
     <View
