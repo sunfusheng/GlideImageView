@@ -38,7 +38,6 @@ public class RoundImageView extends ImageView {
     private static final int COLOR_DRAWABLE_DIMEN = 2;
 
     private boolean mIsPressed = false;
-    private boolean mIsOval = false;
     private boolean mIsCircle = false;
 
     private int mBorderWidth;
@@ -47,7 +46,7 @@ public class RoundImageView extends ImageView {
     private int mPressedBorderWidth;
     private int mPressedBorderColor;
     private int mPressedMaskColor;
-    private boolean mIsTouchPressModeEnabled = true;
+    private boolean mPressedModeEnabled = true;
 
     private int mCornerRadius;
 
@@ -96,14 +95,9 @@ public class RoundImageView extends ImageView {
             mPressedColorFilter = new PorterDuffColorFilter(mPressedMaskColor, PorterDuff.Mode.DARKEN);
         }
 
-        mIsTouchPressModeEnabled = array.getBoolean(R.styleable.RoundImageViewStyle_riv_is_touch_press_mode_enabled, true);
+        mPressedModeEnabled = array.getBoolean(R.styleable.RoundImageViewStyle_riv_pressed_mode_enabled, true);
         mIsCircle = array.getBoolean(R.styleable.RoundImageViewStyle_riv_is_circle, false);
-        if (!mIsCircle) {
-            mIsOval = array.getBoolean(R.styleable.RoundImageViewStyle_riv_is_oval, false);
-        }
-        if (!mIsOval) {
-            mCornerRadius = array.getDimensionPixelSize(R.styleable.RoundImageViewStyle_riv_corner_radius, 0);
-        }
+        mCornerRadius = array.getDimensionPixelSize(R.styleable.RoundImageViewStyle_riv_corner_radius, 0);
         array.recycle();
     }
 
@@ -139,7 +133,7 @@ public class RoundImageView extends ImageView {
     public void setCornerRadius(int cornerRadius) {
         if (mCornerRadius != cornerRadius) {
             mCornerRadius = cornerRadius;
-            if (!mIsCircle && !mIsOval) {
+            if (!mIsCircle) {
                 invalidate();
             }
         }
@@ -187,22 +181,6 @@ public class RoundImageView extends ImageView {
         }
     }
 
-    public void setOval(boolean isOval) {
-        boolean forceUpdate = false;
-        if (isOval) {
-            if (mIsCircle) {
-                // 必须先取消圆形
-                mIsCircle = false;
-                forceUpdate = true;
-            }
-        }
-        if (mIsOval != isOval || forceUpdate) {
-            mIsOval = isOval;
-            requestLayout();
-            invalidate();
-        }
-    }
-
     public int getBorderColor() {
         return mBorderColor;
     }
@@ -227,13 +205,8 @@ public class RoundImageView extends ImageView {
         return mPressedMaskColor;
     }
 
-
     public boolean isCircle() {
         return mIsCircle;
-    }
-
-    public boolean isOval() {
-        return !mIsCircle && mIsOval;
     }
 
     public boolean isPressed() {
@@ -247,12 +220,12 @@ public class RoundImageView extends ImageView {
         }
     }
 
-    public void setTouchPressModeEnabled(boolean touchPressModeEnabled) {
-        mIsTouchPressModeEnabled = touchPressModeEnabled;
+    public void setPressedModeEnabled(boolean pressedModeEnabled) {
+        mPressedModeEnabled = pressedModeEnabled;
     }
 
-    public boolean isTouchPressModeEnabled() {
-        return mIsTouchPressModeEnabled;
+    public boolean isPressedModeEnabled() {
+        return mPressedModeEnabled;
     }
 
     public void setPressedColorFilter(ColorFilter cf) {
@@ -417,29 +390,20 @@ public class RoundImageView extends ImageView {
         mBorderPaint.setStrokeWidth(borderWidth);
         final float halfBorderWidth = borderWidth * 1.0f / 2;
 
-
         if (mIsCircle) {
             int radius = getWidth() / 2;
             canvas.drawCircle(radius, radius, radius, mBitmapPaint);
             if (borderWidth > 0) {
                 canvas.drawCircle(radius, radius, radius - halfBorderWidth, mBorderPaint);
             }
-
         } else {
             mRectF.left = halfBorderWidth;
             mRectF.top = halfBorderWidth;
             mRectF.right = width - halfBorderWidth;
             mRectF.bottom = height - halfBorderWidth;
-            if (mIsOval) {
-                canvas.drawOval(mRectF, mBitmapPaint);
-                if (borderWidth > 0) {
-                    canvas.drawOval(mRectF, mBorderPaint);
-                }
-            } else {
-                canvas.drawRoundRect(mRectF, mCornerRadius, mCornerRadius, mBitmapPaint);
-                if (borderWidth > 0) {
-                    canvas.drawRoundRect(mRectF, mCornerRadius, mCornerRadius, mBorderPaint);
-                }
+            canvas.drawRoundRect(mRectF, mCornerRadius, mCornerRadius, mBitmapPaint);
+            if (borderWidth > 0) {
+                canvas.drawRoundRect(mRectF, mCornerRadius, mCornerRadius, mBorderPaint);
             }
         }
     }
@@ -452,7 +416,7 @@ public class RoundImageView extends ImageView {
             return super.onTouchEvent(event);
         }
 
-        if (!mIsTouchPressModeEnabled) {
+        if (!isPressedModeEnabled()) {
             return super.onTouchEvent(event);
         }
         switch (event.getAction()) {

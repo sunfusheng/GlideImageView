@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.sunfusheng.glideimageview.sample.image.NineImageViewEventAdapter;
-import com.sunfusheng.glideimageview.sample.model.ImageEntity;
+import com.sunfusheng.glideimageview.sample.model.ImageModel;
 import com.sunfusheng.glideimageview.sample.model.ModelUtil;
 import com.sunfusheng.glideimageview.sample.widget.NineImageView.ImageAttr;
 import com.sunfusheng.glideimageview.sample.widget.NineImageView.NineImageView;
@@ -33,9 +33,9 @@ public class NineImageViewActivity extends BaseActivity {
 
     class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
 
-        private List<ImageEntity> list;
+        private List<ImageModel> list;
 
-        RecyclerViewAdapter(List<ImageEntity> list) {
+        RecyclerViewAdapter(List<ImageModel> list) {
             this.list = list;
         }
 
@@ -47,7 +47,7 @@ public class NineImageViewActivity extends BaseActivity {
 
         @Override
         public void onBindViewHolder(ViewHolder viewHolder, int position) {
-            ImageEntity entity = list.get(position);
+            ImageModel entity = list.get(position);
 
             viewHolder.tvTitle.setText(entity.getTitle());
 

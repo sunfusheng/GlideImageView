@@ -6,15 +6,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.sunfusheng.glideimageview.sample.image.NineImageViewEventAdapter;
-import com.sunfusheng.glideimageview.sample.model.ImageEntity;
+import com.sunfusheng.glideimageview.GlideRoundImageView;
 import com.sunfusheng.glideimageview.sample.model.ModelUtil;
-import com.sunfusheng.glideimageview.sample.widget.NineImageView.ImageAttr;
-import com.sunfusheng.glideimageview.sample.widget.NineImageView.NineImageView;
+import com.sunfusheng.glideimageview.sample.model.NewsModel;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -30,41 +29,30 @@ public class RecyclerViewActivity extends BaseActivity {
         RecyclerView recyclerView = findViewById(R.id.recycleView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        RecyclerViewAdapter adapter = new RecyclerViewAdapter(ModelUtil.getImages());
+        RecyclerViewAdapter adapter = new RecyclerViewAdapter(ModelUtil.getNewsList());
         recyclerView.setAdapter(adapter);
     }
 
     class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
+        private List<NewsModel> list;
 
-        private List<ImageEntity> list;
-
-        RecyclerViewAdapter(List<ImageEntity> list) {
+        RecyclerViewAdapter(List<NewsModel> list) {
             this.list = list;
         }
 
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-            View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_nineimageview, viewGroup, false);
+            View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_right_image, viewGroup, false);
             return new ViewHolder(view);
         }
 
         @Override
         public void onBindViewHolder(ViewHolder viewHolder, int position) {
-            ImageEntity entity = list.get(position);
-
+            NewsModel entity = list.get(position);
             viewHolder.tvTitle.setText(entity.getTitle());
+            viewHolder.imageView.loadImage(entity.getImage_url(), R.color.placeholder_color);
 
-            ArrayList<ImageAttr> imageAttrs = new ArrayList<>();
-            for (String url : entity.getImages()) {
-                ImageAttr attr = new ImageAttr();
-                attr.url = url;
-                imageAttrs.add(attr);
-            }
-            if (viewHolder.nineImageView.getAdapter() != null) {
-                viewHolder.nineImageView.setAdapter(viewHolder.nineImageView.getAdapter());
-            } else {
-                viewHolder.nineImageView.setAdapter(new NineImageViewEventAdapter(viewHolder.nineImageView.getContext(), imageAttrs));
-            }
+            viewHolder.llRootView.setOnClickListener(v -> Toast.makeText(mContext, entity.getTitle(), Toast.LENGTH_SHORT).show());
         }
 
         @Override
@@ -73,13 +61,15 @@ public class RecyclerViewActivity extends BaseActivity {
         }
 
         class ViewHolder extends RecyclerView.ViewHolder {
+            LinearLayout llRootView;
             TextView tvTitle;
-            NineImageView nineImageView;
+            GlideRoundImageView imageView;
 
             ViewHolder(View view) {
                 super(view);
-                tvTitle = (TextView) view.findViewById(R.id.tv_title);
-                nineImageView = (NineImageView) view.findViewById(R.id.nineImageView);
+                llRootView = view.findViewById(R.id.ll_root_view);
+                tvTitle = view.findViewById(R.id.tv_title);
+                imageView = view.findViewById(R.id.giv);
             }
         }
     }

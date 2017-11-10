@@ -1,5 +1,6 @@
 package com.sunfusheng.glideimageview.sample;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
@@ -13,15 +14,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestOptions;
 import com.sunfusheng.glideimageview.GlideImageLoader;
 import com.sunfusheng.glideimageview.GlideImageView;
 import com.sunfusheng.glideimageview.ShapeImageView;
 import com.sunfusheng.glideimageview.progress.CircleProgressView;
-import com.sunfusheng.glideimageview.progress.OnGlideImageViewListener;
-import com.sunfusheng.glideimageview.progress.OnProgressListener;
 import com.sunfusheng.glideimageview.sample.about.AboutActivity;
 import com.sunfusheng.glideimageview.sample.image.SingleImageActivity;
 
@@ -55,7 +53,8 @@ public class MainActivity extends BaseActivity {
     GlideImageView image42;
     CircleProgressView progressView2;
 
-    TextView draggableView;
+    TextView draggableView1;
+    TextView draggableView2;
 
     String url1 = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1497688355699&di=ea69a930b82ce88561c635089995e124&imgtype=0&src=http%3A%2F%2Fcms-bucket.nosdn.127.net%2Ff84e566bcf654b3698363409fbd676ef20161119091503.jpg";
     String url2 = "http://img1.imgtn.bdimg.com/it/u=4027212837,1228313366&fm=23&gp=0.jpg";
@@ -77,28 +76,30 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        image11 = (GlideImageView) findViewById(R.id.image11);
-        image12 = (GlideImageView) findViewById(R.id.image12);
-        image13 = (GlideImageView) findViewById(R.id.image13);
-        image14 = (GlideImageView) findViewById(R.id.image14);
+        image11 = findViewById(R.id.image11);
+        image12 = findViewById(R.id.image12);
+        image13 = findViewById(R.id.image13);
+        image14 = findViewById(R.id.image14);
 
-        image21 = (GlideImageView) findViewById(R.id.image21);
-        image22 = (GlideImageView) findViewById(R.id.image22);
-        image23 = (GlideImageView) findViewById(R.id.image23);
-        image24 = (GlideImageView) findViewById(R.id.image24);
+        image21 = findViewById(R.id.image21);
+        image22 = findViewById(R.id.image22);
+        image23 = findViewById(R.id.image23);
+        image24 = findViewById(R.id.image24);
 
-        image31 = (GlideImageView) findViewById(R.id.image31);
-        image32 = (GlideImageView) findViewById(R.id.image32);
-        image33 = (GlideImageView) findViewById(R.id.image33);
-        image34 = (GlideImageView) findViewById(R.id.image34);
+        image31 = findViewById(R.id.image31);
+        image32 = findViewById(R.id.image32);
+        image33 = findViewById(R.id.image33);
+        image34 = findViewById(R.id.image34);
 
-        image41 = (GlideImageView) findViewById(R.id.image41);
-        progressView1 = (CircleProgressView) findViewById(R.id.progressView1);
-        image42 = (GlideImageView) findViewById(R.id.image42);
-        progressView2 = (CircleProgressView) findViewById(R.id.progressView2);
+        image41 = findViewById(R.id.image41);
+        progressView1 = findViewById(R.id.progressView1);
+        image42 = findViewById(R.id.image42);
+        progressView2 = findViewById(R.id.progressView2);
 
-        draggableView = (TextView) findViewById(R.id.draggable_view);
-        draggableView.setOnClickListener(v -> startActivity(new Intent(mContext, NineImageViewActivity.class)));
+        draggableView1 = findViewById(R.id.draggableView1);
+        draggableView2 = findViewById(R.id.draggableView2);
+        draggableView1.setOnClickListener(v -> startActivity(new Intent(mContext, RecyclerViewActivity.class)));
+        draggableView2.setOnClickListener(v -> startActivity(new Intent(mContext, NineImageViewActivity.class)));
 
         isLoadAgain = new Random().nextInt(3) == 1;
 
@@ -110,12 +111,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void line1() {
-        image11.loadImage(url1, R.color.placeholder_color).listener(new OnProgressListener() {
-            @Override
-            public void onProgress(String imageUrl, long bytesRead, long totalBytes, boolean isDone, GlideException exception) {
-                Log.d("--->image11", "bytesRead: " + bytesRead + " totalBytes: " + totalBytes + " isDone: " + isDone);
-            }
-        });
+        image11.loadImage(url1, R.color.placeholder_color).listener((imageUrl, bytesRead, totalBytes, isDone, exception) -> Log.d("--->image11", "bytesRead: " + bytesRead + " totalBytes: " + totalBytes + " isDone: " + isDone));
 
         image12.setShapeType(ShapeImageView.ShapeType.CIRCLE);
         image12.setBorderWidth(3);
@@ -147,17 +143,13 @@ public class MainActivity extends BaseActivity {
     private void line3() {
         image31.loadLocalImage(R.drawable.gif_robot_walk, R.mipmap.ic_launcher);
 
-        image32.loadCircleImage(gif1, R.mipmap.ic_launcher).listener(new OnGlideImageViewListener() {
-            @Override
-            public void onProgress(int percent, boolean isDone, GlideException exception) {
-                Log.d("--->image32", "percent: " + percent + " isDone: " + isDone);
-            }
-        });
+        image32.loadCircleImage(gif1, R.mipmap.ic_launcher).listener((percent, isDone, exception) -> Log.d("--->image32", "percent: " + percent + " isDone: " + isDone));
 
         image33.loadImage(gif2, R.mipmap.ic_launcher);
         image34.loadImage(gif3, R.mipmap.ic_launcher);
     }
 
+    @SuppressLint("CheckResult")
     private void line41() {
         image41.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, SingleImageActivity.class);
@@ -174,18 +166,16 @@ public class MainActivity extends BaseActivity {
         }
 
         // 第一种方式加载
-        image41.load(cat_thumbnail, requestOptions).listener(new OnGlideImageViewListener() {
-            @Override
-            public void onProgress(int percent, boolean isDone, GlideException exception) {
-                if (exception != null && !TextUtils.isEmpty(exception.getMessage())) {
-                    Toast.makeText(getApplicationContext(), exception.getMessage(), Toast.LENGTH_LONG).show();
-                }
-                progressView1.setProgress(percent);
-                progressView1.setVisibility(isDone ? View.GONE : View.VISIBLE);
+        image41.load(cat_thumbnail, requestOptions).listener((percent, isDone, exception) -> {
+            if (exception != null && !TextUtils.isEmpty(exception.getMessage())) {
+                Toast.makeText(getApplicationContext(), exception.getMessage(), Toast.LENGTH_LONG).show();
             }
+            progressView1.setProgress(percent);
+            progressView1.setVisibility(isDone ? View.GONE : View.VISIBLE);
         });
     }
 
+    @SuppressLint("CheckResult")
     private void line42() {
         image42.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, SingleImageActivity.class);

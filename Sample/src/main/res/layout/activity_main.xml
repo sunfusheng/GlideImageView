@@ -251,15 +251,27 @@
         android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/draggable_view"
+            android:id="@+id/draggableView1"
+            android:layout_width="120dp"
+            android:layout_height="80dp"
+            android:layout_gravity="bottom|start"
+            android:layout_margin="10dp"
+            android:background="@color/orange"
+            android:gravity="center"
+            android:text="RecycleView"
+            android:textColor="@color/white"
+            android:textSize="15sp"/>
+
+        <TextView
+            android:id="@+id/draggableView2"
             android:layout_width="120dp"
             android:layout_height="80dp"
             android:layout_gravity="bottom|end"
             android:layout_margin="10dp"
             android:background="@color/orange"
             android:gravity="center"
-            android:text="RecycleView\n(Draggable)"
+            android:text="NineImageView"
             android:textColor="@color/white"
-            android:textSize="16sp"/>
+            android:textSize="15sp"/>
     </com.sunfusheng.glideimageview.sample.widget.DraggableFrameLayout>
 </FrameLayout>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackground"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/d5"
+    android:paddingRight="@dimen/d5"
+    android:paddingTop="@dimen/d5">
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:textColor="@color/c1"
+        android:textSize="@dimen/f6"
+        tools:text="标题"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/d3"
+        android:orientation="horizontal">
+
+        <android.support.percent.PercentRelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <com.sunfusheng.glideimageview.GlideImageView
+                android:id="@+id/giv1"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:padding="1px"
+                android:scaleType="centerCrop"
+                app:layout_aspectRatio="150%"
+                app:layout_widthPercent="100%"/>
+        </android.support.percent.PercentRelativeLayout>
+
+        <android.support.percent.PercentRelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/d3"
+            android:layout_weight="1">
+
+            <com.sunfusheng.glideimageview.GlideImageView
+                android:id="@+id/giv2"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:padding="1px"
+                android:scaleType="centerCrop"
+                app:layout_aspectRatio="150%"
+                app:layout_widthPercent="100%"/>
+        </android.support.percent.PercentRelativeLayout>
+
+        <android.support.percent.PercentRelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/d3"
+            android:layout_weight="1">
+
+            <com.sunfusheng.glideimageview.GlideImageView
+                android:id="@+id/giv3"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:padding="1px"
+                android:scaleType="centerCrop"
+                app:layout_aspectRatio="150%"
+                app:layout_widthPercent="100%"/>
+        </android.support.percent.PercentRelativeLayout>
+    </LinearLayout>
+
+    <View
+        android:id="@+id/bottom_divider"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginTop="@dimen/d5"
+        android:background="@color/c4"/>
+
+</LinearLayout>

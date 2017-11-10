@@ -2,15 +2,14 @@
 <resources>
 
     <declare-styleable name="RoundImageViewStyle">
-        <attr name="riv_border_width" format="dimension"/>
         <attr name="riv_border_color" format="color"/>
-        <attr name="riv_pressed_mask_color" format="color"/>
+        <attr name="riv_border_width" format="dimension"/>
         <attr name="riv_pressed_border_color" format="color"/>
         <attr name="riv_pressed_border_width" format="dimension"/>
-        <attr name="riv_corner_radius" format="dimension"/>
-        <attr name="riv_is_oval" format="boolean"/>
+        <attr name="riv_pressed_mask_color" format="color"/>
+        <attr name="riv_pressed_mode_enabled" format="boolean"/>
         <attr name="riv_is_circle" format="boolean"/>
-        <attr name="riv_is_touch_press_mode_enabled" format="boolean"/>
+        <attr name="riv_corner_radius" format="dimension"/>
     </declare-styleable>
 
     <declare-styleable name="ShapeImageViewStyle">
