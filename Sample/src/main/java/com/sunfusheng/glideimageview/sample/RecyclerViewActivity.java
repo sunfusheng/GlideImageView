@@ -17,14 +17,17 @@ import com.sunfusheng.glideimageview.sample.widget.NineImageView.NineImageView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RecycleViewActivity extends BaseActivity {
+/**
+ * @author sunfusheng on 2017/11/10.
+ */
+public class RecyclerViewActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_recycle_view);
+        setContentView(R.layout.layout_recyclerview);
 
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycleView);
+        RecyclerView recyclerView = findViewById(R.id.recycleView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         RecyclerViewAdapter adapter = new RecyclerViewAdapter(ModelUtil.getImages());
@@ -41,7 +44,7 @@ public class RecycleViewActivity extends BaseActivity {
 
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-            View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_recycle_view, viewGroup, false);
+            View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_nineimageview, viewGroup, false);
             return new ViewHolder(view);
         }
 

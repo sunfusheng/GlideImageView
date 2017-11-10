@@ -10,13 +10,11 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestOptions;
 import com.sunfusheng.glideimageview.GlideImageLoader;
 import com.sunfusheng.glideimageview.GlideImageView;
 import com.sunfusheng.glideimageview.progress.CircleProgressView;
-import com.sunfusheng.glideimageview.progress.OnGlideImageViewListener;
 import com.sunfusheng.glideimageview.sample.R;
 
 import java.util.Random;
@@ -47,10 +45,10 @@ public class SingleImageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image);
 
-        glideImageView = (GlideImageView) findViewById(R.id.glideImageView);
-        progressView1 = (CircleProgressView) findViewById(R.id.progressView1);
-        progressView2 = (CircleProgressView) findViewById(R.id.progressView2);
-        progressView3 = (CircleProgressView) findViewById(R.id.progressView3);
+        glideImageView = findViewById(R.id.glideImageView);
+        progressView1 = findViewById(R.id.progressView1);
+        progressView2 = findViewById(R.id.progressView2);
+        progressView3 = findViewById(R.id.progressView3);
         maskView = findViewById(R.id.maskView);
 
         image_url = getIntent().getStringExtra(KEY_IMAGE_URL);
@@ -82,12 +80,7 @@ public class SingleImageActivity extends AppCompatActivity {
     }
 
     private void loadImage() {
-        glideImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ActivityCompat.finishAfterTransition(SingleImageActivity.this);
-            }
-        });
+        glideImageView.setOnClickListener(v -> ActivityCompat.finishAfterTransition(SingleImageActivity.this));
 
         RequestOptions requestOptions = glideImageView.requestOptions(R.color.black)
                 .centerCrop();
@@ -98,16 +91,13 @@ public class SingleImageActivity extends AppCompatActivity {
 
         GlideImageLoader imageLoader = glideImageView.getImageLoader();
 
-        imageLoader.setOnGlideImageViewListener(image_url, new OnGlideImageViewListener() {
-            @Override
-            public void onProgress(int percent, boolean isDone, GlideException exception) {
-                if (exception != null && !TextUtils.isEmpty(exception.getMessage())) {
-                    Toast.makeText(getApplicationContext(), exception.getMessage(), Toast.LENGTH_LONG).show();
-                }
-                progressView.setProgress(percent);
-                progressView.setVisibility(isDone ? View.GONE : View.VISIBLE);
-                maskView.setVisibility(isDone ? View.GONE : View.VISIBLE);
+        imageLoader.setOnGlideImageViewListener(image_url, (percent, isDone, exception) -> {
+            if (exception != null && !TextUtils.isEmpty(exception.getMessage())) {
+                Toast.makeText(getApplicationContext(), exception.getMessage(), Toast.LENGTH_LONG).show();
             }
+            progressView.setProgress(percent);
+            progressView.setVisibility(isDone ? View.GONE : View.VISIBLE);
+            maskView.setVisibility(isDone ? View.GONE : View.VISIBLE);
         });
 
         imageLoader.requestBuilder(image_url, requestOptionsWithoutCache)

@@ -32,7 +32,9 @@
             android:name=".about.AboutActivity"
             android:theme="@style/AboutTheme"/>
 
-        <activity android:name=".RecycleViewActivity"/>
+        <activity android:name=".NineImageViewActivity"/>
+
+        <activity android:name=".RecyclerViewActivity"/>
 
         <activity
             android:name=".image.ImagesActivity"

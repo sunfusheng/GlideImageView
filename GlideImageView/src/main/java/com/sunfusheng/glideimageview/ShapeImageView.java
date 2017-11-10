@@ -24,7 +24,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 /**
- * Created by sunfusheng on 2017/6/12.
+ * @author by sunfusheng on 2017/6/12.
  */
 public class ShapeImageView extends ImageView {
 

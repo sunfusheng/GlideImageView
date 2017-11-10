@@ -98,7 +98,7 @@ public class MainActivity extends BaseActivity {
         progressView2 = (CircleProgressView) findViewById(R.id.progressView2);
 
         draggableView = (TextView) findViewById(R.id.draggable_view);
-        draggableView.setOnClickListener(v -> startActivity(new Intent(mContext, RecycleViewActivity.class)));
+        draggableView.setOnClickListener(v -> startActivity(new Intent(mContext, NineImageViewActivity.class)));
 
         isLoadAgain = new Random().nextInt(3) == 1;
 
