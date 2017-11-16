@@ -1,57 +1,72 @@
 package com.sunfusheng.glideimageview;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
+import android.graphics.BitmapShader;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.ColorFilter;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
-import android.graphics.PorterDuffXfermode;
+import android.graphics.PorterDuffColorFilter;
 import android.graphics.RectF;
+import android.graphics.Shader;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.ColorRes;
-import android.support.annotation.IntDef;
+import android.net.Uri;
+import android.support.annotation.ColorInt;
+import android.support.annotation.DrawableRes;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
+import android.view.View;
 import android.widget.ImageView;
 
+import com.bumptech.glide.load.resource.gif.GifDrawable;
 import com.sunfusheng.glideimageview.util.DisplayUtil;
 
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-
 /**
- * @author by sunfusheng on 2017/6/12.
+ * 提供为图片添加圆角、边框、剪裁到圆形或其他形状等功能。
+ *
+ * @author sunfusheng on 2017/11/10.
  */
 public class ShapeImageView extends ImageView {
 
-    // 定义Bitmap的默认配置
+    private static final int DEFAULT_BORDER_COLOR = Color.GRAY;
+
     private static final Bitmap.Config BITMAP_CONFIG = Bitmap.Config.ARGB_8888;
-    private static final int COLOR_DRAWABLE_DIMENSION = 1;
+    private static final int COLOR_DRAWABLE_DIMEN = 2;
 
-    // 图片的宽高
-    private int width;
-    private int height;
+    private boolean mIsPressed = false;
+    private boolean mIsCircle = false;
 
-    private int borderColor = 0x1A000000; // 边框颜色
-    private int borderWidth = 0; // 边框宽度
-    private int radius = 0; // 圆角弧度
-    private int shapeType = ShapeType.NONE; // 图片类型（圆形, 矩形）
+    private int mBorderWidth;
+    private int mBorderColor;
 
-    private Paint pressedPaint; // 按下的画笔
-    private float pressedAlpha = 0.1f; // 按下的透明度
-    private int pressedColor = 0x1A000000; // 按下的颜色
+    private int mPressedBorderWidth;
+    private int mPressedBorderColor;
+    private int mPressedMaskColor;
+    private boolean mPressedModeEnabled = true;
 
-    @IntDef({ShapeType.NONE, ShapeType.RECTANGLE, ShapeType.CIRCLE})
-    @Retention(RetentionPolicy.SOURCE)
-    public @interface ShapeType {
-        int NONE = 0;
-        int RECTANGLE = 1;
-        int CIRCLE = 2;
-    }
+    private int mCornerRadius;
+
+    private Paint mBitmapPaint;
+    private Paint mBorderPaint;
+    private ColorFilter mColorFilter;
+    private ColorFilter mPressedColorFilter;
+    private BitmapShader mBitmapShader;
+    private boolean mNeedResetShader = false;
+
+    private RectF mRectF = new RectF();
+
+    private Bitmap mBitmap;
+
+    private Matrix mMatrix;
+    private int mWidth;
+    private int mHeight;
 
     public ShapeImageView(Context context) {
         this(context, null);
@@ -61,204 +76,351 @@ public class ShapeImageView extends ImageView {
         this(context, attrs, 0);
     }
 
+    @SuppressLint("CustomViewStyleable")
     public ShapeImageView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init(context, attrs);
-    }
 
-    private void init(Context context, AttributeSet attrs) {
-        if (attrs != null) {
-            TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.ShapeImageViewStyle);
-            borderWidth = array.getDimensionPixelOffset(R.styleable.ShapeImageViewStyle_siv_border_width, borderWidth);
-            borderColor = array.getColor(R.styleable.ShapeImageViewStyle_siv_border_color, borderColor);
-            radius = array.getDimensionPixelOffset(R.styleable.ShapeImageViewStyle_siv_radius, radius);
-            pressedAlpha = array.getFloat(R.styleable.ShapeImageViewStyle_siv_pressed_alpha, pressedAlpha);
-            if (pressedAlpha > 1) pressedAlpha = 1;
-            pressedColor = array.getColor(R.styleable.ShapeImageViewStyle_siv_pressed_color, pressedColor);
-            shapeType = array.getInteger(R.styleable.ShapeImageViewStyle_siv_shape_type, shapeType);
-            array.recycle();
+        mBorderPaint = new Paint();
+        mBorderPaint.setAntiAlias(true);
+        mBorderPaint.setStyle(Paint.Style.STROKE);
+        mMatrix = new Matrix();
+
+        setScaleType(ImageView.ScaleType.CENTER_CROP);
+
+        TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.ShapeImageViewStyle, defStyleAttr, 0);
+
+        mBorderWidth = array.getDimensionPixelSize(R.styleable.ShapeImageViewStyle_riv_border_width, 0);
+        mBorderColor = array.getColor(R.styleable.ShapeImageViewStyle_riv_border_color, DEFAULT_BORDER_COLOR);
+        mPressedBorderWidth = array.getDimensionPixelSize(R.styleable.ShapeImageViewStyle_riv_pressed_border_width, mBorderWidth);
+        mPressedBorderColor = array.getColor(R.styleable.ShapeImageViewStyle_riv_pressed_border_color, mBorderColor);
+        mPressedMaskColor = array.getColor(R.styleable.ShapeImageViewStyle_riv_pressed_mask_color, Color.TRANSPARENT);
+        if (mPressedMaskColor != Color.TRANSPARENT) {
+            mPressedColorFilter = new PorterDuffColorFilter(mPressedMaskColor, PorterDuff.Mode.DARKEN);
         }
 
-        setClickable(shapeType != ShapeType.NONE);
-        initPressedPaint();
-        setDrawingCacheEnabled(true);
-        setWillNotDraw(false);
+        mPressedModeEnabled = array.getBoolean(R.styleable.ShapeImageViewStyle_riv_pressed_mode_enabled, true);
+        mIsCircle = array.getBoolean(R.styleable.ShapeImageViewStyle_riv_is_circle, false);
+        mCornerRadius = array.getDimensionPixelSize(R.styleable.ShapeImageViewStyle_riv_corner_radius, 0);
+        array.recycle();
     }
 
-    // 初始化按下的画笔
-    private void initPressedPaint() {
-        pressedPaint = new Paint();
-        pressedPaint.setAntiAlias(true);
-        pressedPaint.setStyle(Paint.Style.FILL);
-        pressedPaint.setColor(pressedColor);
-        pressedPaint.setAlpha(0);
-        pressedPaint.setFlags(Paint.ANTI_ALIAS_FLAG);
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        int width = getMeasuredWidth(), height = getMeasuredHeight();
+        if (mIsCircle) {
+            int size = Math.min(width, height);
+            setMeasuredDimension(size, size);
+        } else {
+            int widthMode = View.MeasureSpec.getMode(widthMeasureSpec);
+            int heightMode = View.MeasureSpec.getMode(heightMeasureSpec);
+            if (mBitmap == null) {
+                return;
+            }
+            if (widthMode == View.MeasureSpec.AT_MOST || widthMode == View.MeasureSpec.UNSPECIFIED ||
+                    heightMode == View.MeasureSpec.AT_MOST || heightMode == View.MeasureSpec.UNSPECIFIED) {
+                float bmWidth = mBitmap.getWidth(), bmHeight = mBitmap.getHeight();
+                float scaleX = width / bmWidth, scaleY = height / bmHeight;
+                if (scaleX == scaleY) {
+                    return;
+                }
+                if (scaleX < scaleY) {
+                    setMeasuredDimension(width, (int) (bmHeight * scaleX));
+                } else {
+                    setMeasuredDimension((int) (bmWidth * scaleY), height);
+                }
+            }
+        }
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
-        if (shapeType == ShapeType.NONE) {
-            super.onDraw(canvas);
+        int width = getWidth(), height = getHeight();
+        if (width <= 0 || height <= 0 || mBitmap == null || mBitmapShader == null) {
             return;
         }
 
-        if (getDrawable() == null) {
-            return;
+        if (mWidth != width || mHeight != height || mNeedResetShader) {
+            mWidth = width;
+            mHeight = height;
+            updateBitmapShader();
         }
 
-        if (getWidth() == 0 || getHeight() == 0) {
-            return;
-        }
+        mBorderPaint.setColor(mIsPressed ? mPressedBorderColor : mBorderColor);
+        mBitmapPaint.setColorFilter(mIsPressed ? mPressedColorFilter : mColorFilter);
+        int borderWidth = mIsPressed ? mPressedBorderWidth : mBorderWidth;
+        mBorderPaint.setStrokeWidth(borderWidth);
+        final float halfBorderWidth = borderWidth * 1.0f / 2;
 
-        drawDrawable(canvas, getBitmapFromDrawable(getDrawable()));
-        drawBorder(canvas);
-        drawPressed(canvas);
-    }
-
-    @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        super.onSizeChanged(w, h, oldw, oldh);
-        width = w;
-        height = h;
-    }
-
-    // 绘制圆角
-    private void drawDrawable(Canvas canvas, Bitmap bitmap) {
-        Paint paint = new Paint();
-        paint.setColor(0xffffffff);
-        paint.setAntiAlias(true);
-
-        int saveFlags = Canvas.MATRIX_SAVE_FLAG
-                | Canvas.CLIP_SAVE_FLAG
-                | Canvas.HAS_ALPHA_LAYER_SAVE_FLAG
-                | Canvas.FULL_COLOR_LAYER_SAVE_FLAG
-                | Canvas.CLIP_TO_LAYER_SAVE_FLAG;
-
-        canvas.saveLayer(0, 0, width, height, null, saveFlags);
-
-        if (shapeType == ShapeType.RECTANGLE) {
-            RectF rectf = new RectF(borderWidth / 2, borderWidth / 2, getWidth() - borderWidth / 2, getHeight() - borderWidth / 2);
-            canvas.drawRoundRect(rectf, radius, radius, paint);
+        if (mIsCircle) {
+            int radius = getWidth() / 2;
+            canvas.drawCircle(radius, radius, radius, mBitmapPaint);
+            if (borderWidth > 0) {
+                canvas.drawCircle(radius, radius, radius - halfBorderWidth, mBorderPaint);
+            }
         } else {
-            canvas.drawCircle(width / 2, height / 2, width / 2 - borderWidth, paint);
-        }
-
-        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN)); // SRC_IN 只显示两层图像交集部分的上层图像
-
-        //Bitmap缩放
-        float scaleWidth = ((float) getWidth()) / bitmap.getWidth();
-        float scaleHeight = ((float) getHeight()) / bitmap.getHeight();
-        Matrix matrix = new Matrix();
-        matrix.postScale(scaleWidth, scaleHeight);
-        bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
-        canvas.drawBitmap(bitmap, 0, 0, paint);
-        canvas.restore();
-    }
-
-    // 绘制边框
-    private void drawBorder(Canvas canvas) {
-        if (borderWidth > 0) {
-            Paint paint = new Paint();
-            paint.setStrokeWidth(borderWidth);
-            paint.setStyle(Paint.Style.STROKE);
-            paint.setColor(borderColor);
-            paint.setAntiAlias(true);
-            if (shapeType == ShapeType.RECTANGLE) {
-                RectF rectf = new RectF(borderWidth / 2, borderWidth / 2, getWidth() - borderWidth / 2, getHeight() - borderWidth / 2);
-                canvas.drawRoundRect(rectf, radius, radius, paint);
-            } else {
-                canvas.drawCircle(width / 2, height / 2, (width - borderWidth) / 2, paint);
+            mRectF.left = halfBorderWidth;
+            mRectF.top = halfBorderWidth;
+            mRectF.right = width - halfBorderWidth;
+            mRectF.bottom = height - halfBorderWidth;
+            canvas.drawRoundRect(mRectF, mCornerRadius, mCornerRadius, mBitmapPaint);
+            if (borderWidth > 0) {
+                canvas.drawRoundRect(mRectF, mCornerRadius, mCornerRadius, mBorderPaint);
             }
         }
     }
 
-    // 绘制按下效果
-    private void drawPressed(Canvas canvas) {
-        if (shapeType == ShapeType.RECTANGLE) {
-            RectF rectf = new RectF(1, 1, width - 1, height - 1);
-            canvas.drawRoundRect(rectf, radius, radius, pressedPaint);
-        } else {
-            canvas.drawCircle(width / 2, height / 2, width / 2, pressedPaint);
-        }
+    @Override
+    public void setImageBitmap(Bitmap bm) {
+        super.setImageBitmap(bm);
+        setupBitmap();
     }
 
     @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                pressedPaint.setAlpha((int) (pressedAlpha * 255));
-                invalidate();
-                break;
-            case MotionEvent.ACTION_UP:
-                pressedPaint.setAlpha(0);
-                invalidate();
-                break;
-            case MotionEvent.ACTION_MOVE:
-                break;
-            default:
-                pressedPaint.setAlpha(0);
-                invalidate();
-                break;
-        }
-        return super.onTouchEvent(event);
+    public void setImageDrawable(Drawable drawable) {
+        super.setImageDrawable(drawable);
+        setupBitmap();
     }
 
-    // 获取Bitmap内容
-    private Bitmap getBitmapFromDrawable(Drawable drawable) {
+    @Override
+    public void setImageResource(@DrawableRes int resId) {
+        super.setImageResource(resId);
+        setupBitmap();
+    }
+
+    @Override
+    public void setImageURI(Uri uri) {
+        super.setImageURI(uri);
+        setupBitmap();
+    }
+
+    public void setupBitmap() {
+        Bitmap bitmap = getBitmap();
+        if (bitmap == mBitmap) {
+            return;
+        }
+
+        mBitmap = getBitmap();
+        if (mBitmap == null) {
+            mBitmapShader = null;
+            invalidate();
+            return;
+        }
+
+        mNeedResetShader = true;
+        mBitmapShader = new BitmapShader(mBitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
+        if (mBitmapPaint == null) {
+            mBitmapPaint = new Paint();
+            mBitmapPaint.setAntiAlias(true);
+        }
+        mBitmapPaint.setShader(mBitmapShader);
+        requestLayout();
+        invalidate();
+    }
+
+    private Bitmap getBitmap() {
+        Drawable drawable = getDrawable();
+        if (drawable == null) {
+            return null;
+        }
+
+        if (drawable instanceof BitmapDrawable) {
+            return ((BitmapDrawable) drawable).getBitmap();
+        } else if (drawable instanceof GifDrawable) {
+            GifDrawable gifDrawable = (GifDrawable) drawable;
+        }
+
         try {
             Bitmap bitmap;
-            if (drawable instanceof BitmapDrawable) {
-                return ((BitmapDrawable) drawable).getBitmap();
-            } else if (drawable instanceof ColorDrawable) {
-                bitmap = Bitmap.createBitmap(COLOR_DRAWABLE_DIMENSION, COLOR_DRAWABLE_DIMENSION, BITMAP_CONFIG);
+
+            if (drawable instanceof ColorDrawable) {
+                bitmap = Bitmap.createBitmap(COLOR_DRAWABLE_DIMEN, COLOR_DRAWABLE_DIMEN, BITMAP_CONFIG);
             } else {
                 bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), BITMAP_CONFIG);
             }
+
             Canvas canvas = new Canvas(bitmap);
             drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
             drawable.draw(canvas);
             return bitmap;
-        } catch (OutOfMemoryError e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
     }
 
-    // 设置边框颜色
-    public void setBorderColor(@ColorRes int id) {
-        this.borderColor = getResources().getColor(id);
-        invalidate();
+    private void updateBitmapShader() {
+        mMatrix.reset();
+        mNeedResetShader = false;
+        if (mBitmapShader == null || mBitmap == null) {
+            return;
+        }
+        final float bmWidth = mBitmap.getWidth();
+        final float bmHeight = mBitmap.getHeight();
+        final float scaleX = mWidth / bmWidth;
+        final float scaleY = mHeight / bmHeight;
+        final float scale = Math.max(scaleX, scaleY);
+        mMatrix.setScale(scale, scale);
+        mMatrix.postTranslate(-(scale * bmWidth - mWidth) / 2, -(scale * bmHeight - mHeight) / 2);
+        mBitmapShader.setLocalMatrix(mMatrix);
+        mBitmapPaint.setShader(mBitmapShader);
     }
 
-    // 设置边框宽度
     public void setBorderWidth(int borderWidth) {
-        this.borderWidth = DisplayUtil.dip2px(getContext(), borderWidth);
-        invalidate();
+        if (mBorderWidth != borderWidth) {
+            mBorderWidth = DisplayUtil.dip2px(getContext(), borderWidth);
+            invalidate();
+        }
     }
 
-    // 设置图片按下颜色透明度
-    public void setPressedAlpha(float pressAlpha) {
-        this.pressedAlpha = pressAlpha;
+    public void setBorderColor(@ColorInt int borderColor) {
+        if (mBorderColor != borderColor) {
+            mBorderColor = borderColor;
+            invalidate();
+        }
     }
 
-    // 设置图片按下的颜色
-    public void setPressedColor(@ColorRes int id) {
-        this.pressedColor = getResources().getColor(id);
-        pressedPaint.setColor(pressedColor);
-        pressedPaint.setAlpha(0);
-        invalidate();
+    public void setCornerRadius(int cornerRadius) {
+        if (mCornerRadius != cornerRadius) {
+            mCornerRadius = DisplayUtil.dip2px(getContext(), cornerRadius);
+            if (!mIsCircle) {
+                invalidate();
+            }
+        }
     }
 
-    // 设置圆角半径
-    public void setRadius(int radius) {
-        this.radius = DisplayUtil.dip2px(getContext(), radius);
-        invalidate();
+    public void setPressedBorderColor(@ColorInt int selectedBorderColor) {
+        if (mPressedBorderColor != selectedBorderColor) {
+            mPressedBorderColor = selectedBorderColor;
+            if (mIsPressed) {
+                invalidate();
+            }
+        }
     }
 
-    // 设置形状类型
-    public void setShapeType(@ShapeType int shapeType) {
-        this.shapeType = shapeType;
-        setClickable(shapeType != ShapeType.NONE);
-        invalidate();
+    public void setPressedBorderWidth(int selectedBorderWidth) {
+        if (mPressedBorderWidth != selectedBorderWidth) {
+            mPressedBorderWidth = DisplayUtil.dip2px(getContext(), selectedBorderWidth);
+            if (mIsPressed) {
+                invalidate();
+            }
+        }
+    }
+
+    public void setPressedMaskColor(@ColorInt int selectedMaskColor) {
+        if (mPressedMaskColor != selectedMaskColor) {
+            mPressedMaskColor = selectedMaskColor;
+            if (mPressedMaskColor != Color.TRANSPARENT) {
+                mPressedColorFilter = new PorterDuffColorFilter(mPressedMaskColor, PorterDuff.Mode.DARKEN);
+            } else {
+                mPressedColorFilter = null;
+            }
+            if (mIsPressed) {
+                invalidate();
+            }
+        }
+        mPressedMaskColor = selectedMaskColor;
+    }
+
+
+    public void setCircle(boolean isCircle) {
+        if (mIsCircle != isCircle) {
+            mIsCircle = isCircle;
+            requestLayout();
+            invalidate();
+        }
+    }
+
+    public int getBorderColor() {
+        return mBorderColor;
+    }
+
+    public int getBorderWidth() {
+        return mBorderWidth;
+    }
+
+    public int getCornerRadius() {
+        return mCornerRadius;
+    }
+
+    public int getPressedBorderColor() {
+        return mPressedBorderColor;
+    }
+
+    public int getPressedBorderWidth() {
+        return mPressedBorderWidth;
+    }
+
+    public int getPressedMaskColor() {
+        return mPressedMaskColor;
+    }
+
+    public boolean isCircle() {
+        return mIsCircle;
+    }
+
+    public boolean isPressed() {
+        return mIsPressed;
+    }
+
+    public void setPressed(boolean isPressed) {
+        if (mIsPressed != isPressed) {
+            mIsPressed = isPressed;
+            invalidate();
+        }
+    }
+
+    public void setPressedModeEnabled(boolean pressedModeEnabled) {
+        mPressedModeEnabled = pressedModeEnabled;
+    }
+
+    public boolean isPressedModeEnabled() {
+        return mPressedModeEnabled;
+    }
+
+    public void setPressedColorFilter(ColorFilter cf) {
+        if (mPressedColorFilter == cf) {
+            return;
+        }
+        mPressedColorFilter = cf;
+        if (mIsPressed) {
+            invalidate();
+        }
+    }
+
+    @Override
+    public void setColorFilter(ColorFilter cf) {
+        if (mColorFilter == cf) {
+            return;
+        }
+        mColorFilter = cf;
+        if (!mIsPressed) {
+            invalidate();
+        }
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if (!this.isClickable()) {
+            this.setPressed(false);
+            return super.onTouchEvent(event);
+        }
+
+        if (!isPressedModeEnabled()) {
+            return super.onTouchEvent(event);
+        }
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                this.setPressed(true);
+                break;
+            case MotionEvent.ACTION_UP:
+            case MotionEvent.ACTION_SCROLL:
+            case MotionEvent.ACTION_OUTSIDE:
+            case MotionEvent.ACTION_CANCEL:
+                this.setPressed(false);
+                break;
+        }
+        return super.onTouchEvent(event);
     }
 }

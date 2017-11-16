@@ -27,32 +27,28 @@
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_margin="5dp"
-                    android:layout_weight="1"
-                    android:scaleType="centerCrop"/>
+                    android:layout_weight="1"/>
 
                 <com.sunfusheng.glideimageview.GlideImageView
                     android:id="@+id/image12"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_margin="5dp"
-                    android:layout_weight="1"
-                    android:scaleType="centerCrop"/>
+                    android:layout_weight="1"/>
 
                 <com.sunfusheng.glideimageview.GlideImageView
                     android:id="@+id/image13"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_margin="5dp"
-                    android:layout_weight="1"
-                    android:scaleType="centerCrop"/>
+                    android:layout_weight="1"/>
 
                 <com.sunfusheng.glideimageview.GlideImageView
                     android:id="@+id/image14"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_margin="5dp"
-                    android:layout_weight="1"
-                    android:scaleType="centerCrop"/>
+                    android:layout_weight="1"/>
             </LinearLayout>
 
             <LinearLayout
@@ -67,12 +63,9 @@
                     android:layout_height="80dp"
                     android:layout_margin="5dp"
                     android:layout_weight="1"
-                    android:scaleType="centerCrop"
-                    app:siv_border_color="@color/red"
-                    app:siv_border_width="1dp"
-                    app:siv_pressed_alpha="0.2"
-                    app:siv_pressed_color="@color/red"
-                    app:siv_radius="5dp"/>
+                    android:clickable="true"
+                    android:focusable="true"
+                    app:riv_pressed_mask_color="@color/transparent20"/>
 
                 <com.sunfusheng.glideimageview.GlideImageView
                     android:id="@+id/image22"
@@ -80,13 +73,16 @@
                     android:layout_height="80dp"
                     android:layout_margin="5dp"
                     android:layout_weight="1"
-                    android:scaleType="centerCrop"
-                    app:siv_border_color="@color/orange"
-                    app:siv_border_width="2dp"
-                    app:siv_pressed_alpha="0.3"
-                    app:siv_pressed_color="@color/orange"
-                    app:siv_radius="15dp"
-                    app:siv_shape_type="rectangle"/>
+                    android:clickable="true"
+                    android:focusable="true"
+                    app:riv_border_color="@color/orange"
+                    app:riv_border_width="2dp"
+                    app:riv_corner_radius="10dp"
+                    app:riv_is_circle="false"
+                    app:riv_pressed_border_color="@color/colorPrimary"
+                    app:riv_pressed_border_width="2dp"
+                    app:riv_pressed_mask_color="@color/transparent20"
+                    app:riv_pressed_mode_enabled="true"/>
 
                 <com.sunfusheng.glideimageview.GlideImageView
                     android:id="@+id/image23"
@@ -94,12 +90,14 @@
                     android:layout_height="80dp"
                     android:layout_margin="5dp"
                     android:layout_weight="1"
-                    android:scaleType="centerCrop"
-                    app:siv_border_color="@color/yellow"
-                    app:siv_border_width="3dp"
-                    app:siv_pressed_alpha="0.3"
-                    app:siv_pressed_color="@color/yellow"
-                    app:siv_shape_type="circle"/>
+                    android:clickable="true"
+                    android:focusable="true"
+                    app:riv_border_color="@color/yellow"
+                    app:riv_border_width="2dp"
+                    app:riv_is_circle="true"
+                    app:riv_pressed_border_color="@color/yellow"
+                    app:riv_pressed_border_width="2dp"
+                    app:riv_pressed_mask_color="@color/placeholder_yellow"/>
 
                 <com.sunfusheng.glideimageview.GlideImageView
                     android:id="@+id/image24"
@@ -107,12 +105,15 @@
                     android:layout_height="80dp"
                     android:layout_margin="5dp"
                     android:layout_weight="1"
-                    android:scaleType="centerCrop"
-                    app:siv_border_color="@color/colorPrimary"
-                    app:siv_border_width="5dp"
-                    app:siv_pressed_alpha="0.5"
-                    app:siv_pressed_color="@color/white"
-                    app:siv_shape_type="circle"/>
+                    android:clickable="true"
+                    android:focusable="true"
+                    app:riv_border_color="@color/orange"
+                    app:riv_border_width="2dp"
+                    app:riv_is_circle="true"
+                    app:riv_pressed_border_color="@color/orange"
+                    app:riv_pressed_border_width="2dp"
+                    app:riv_pressed_mask_color="@color/placeholder_orange"
+                    app:riv_pressed_mode_enabled="true"/>
             </LinearLayout>
 
             <LinearLayout
@@ -127,17 +128,18 @@
                     android:layout_height="80dp"
                     android:layout_margin="5dp"
                     android:layout_weight="1"
-                    app:siv_shape_type="rectangle"/>
+                    android:clickable="true"
+                    android:focusable="true"
+                    app:riv_is_circle="false"/>
 
-                <com.sunfusheng.glideimageview.GlideImageView
+                <ImageView
                     android:id="@+id/image32"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_margin="5dp"
                     android:layout_weight="1"
-                    app:siv_border_color="@color/yellow"
-                    app:siv_border_width="1dp"
-                    app:siv_shape_type="circle"/>
+                    android:clickable="true"
+                    android:focusable="true"/>
 
                 <com.sunfusheng.glideimageview.GlideImageView
                     android:id="@+id/image33"
@@ -145,7 +147,8 @@
                     android:layout_height="80dp"
                     android:layout_margin="5dp"
                     android:layout_weight="1"
-                    app:siv_radius="5dp"/>
+                    android:clickable="true"
+                    android:focusable="true"/>
 
                 <com.sunfusheng.glideimageview.GlideImageView
                     android:id="@+id/image34"
@@ -153,10 +156,8 @@
                     android:layout_height="80dp"
                     android:layout_margin="5dp"
                     android:layout_weight="1"
-                    app:siv_border_color="@color/orange"
-                    app:siv_border_width="1dp"
-                    app:siv_radius="10dp"
-                    app:siv_shape_type="rectangle"/>
+                    android:clickable="true"
+                    android:focusable="true"/>
             </LinearLayout>
 
             <android.support.constraint.ConstraintLayout
@@ -182,8 +183,7 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:siv_shape_type="rectangle"/>
+                        app:layout_constraintTop_toTopOf="parent"/>
 
                     <com.sunfusheng.glideimageview.progress.CircleProgressView
                         android:id="@+id/progressView1"
@@ -220,8 +220,7 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:siv_shape_type="rectangle"/>
+                        app:layout_constraintTop_toTopOf="parent"/>
 
                     <com.sunfusheng.glideimageview.progress.CircleProgressView
                         android:id="@+id/progressView2"
@@ -256,7 +255,7 @@
             android:layout_height="80dp"
             android:layout_gravity="bottom|start"
             android:layout_margin="10dp"
-            android:background="@color/orange"
+            android:background="@color/colorPrimary"
             android:gravity="center"
             android:text="RecycleView"
             android:textColor="@color/white"
@@ -268,7 +267,7 @@
             android:layout_height="80dp"
             android:layout_gravity="bottom|end"
             android:layout_margin="10dp"
-            android:background="@color/orange"
+            android:background="@color/colorPrimary"
             android:gravity="center"
             android:text="NineImageView"
             android:textColor="@color/white"

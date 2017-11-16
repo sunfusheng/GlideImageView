@@ -2,6 +2,7 @@ package com.sunfusheng.glideimageview.sample;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
@@ -10,6 +11,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,7 +20,6 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestOptions;
 import com.sunfusheng.glideimageview.GlideImageLoader;
 import com.sunfusheng.glideimageview.GlideImageView;
-import com.sunfusheng.glideimageview.ShapeImageView;
 import com.sunfusheng.glideimageview.progress.CircleProgressView;
 import com.sunfusheng.glideimageview.sample.about.AboutActivity;
 import com.sunfusheng.glideimageview.sample.image.SingleImageActivity;
@@ -44,7 +45,7 @@ public class MainActivity extends BaseActivity {
     GlideImageView image24;
 
     GlideImageView image31;
-    GlideImageView image32;
+    ImageView image32;
     GlideImageView image33;
     GlideImageView image34;
 
@@ -111,39 +112,49 @@ public class MainActivity extends BaseActivity {
     }
 
     private void line1() {
-        image11.loadImage(url1, R.color.placeholder_color).listener((imageUrl, bytesRead, totalBytes, isDone, exception) -> Log.d("--->image11", "bytesRead: " + bytesRead + " totalBytes: " + totalBytes + " isDone: " + isDone));
+        image11.loadImage(url1, R.color.placeholder).listener((imageUrl, bytesRead, totalBytes, isDone, exception) ->
+                Log.d("--->image11", "bytesRead: " + bytesRead + " totalBytes: " + totalBytes + " isDone: " + isDone));
 
-        image12.setShapeType(ShapeImageView.ShapeType.CIRCLE);
-        image12.setBorderWidth(3);
-        image12.setBorderColor(R.color.transparent20);
-        image12.loadCircleImage(url1, R.color.placeholder_color);
+        image12.setCircle(true);
+        image12.setBorderWidth(5);
+        image12.setBorderColor(getResources().getColor(R.color.transparent20));
+        image12.loadImage(url1, R.color.placeholder);
 
-        image13.setRadius(15);
-        image13.setBorderWidth(3);
-        image13.setBorderColor(R.color.blue);
-        image13.setPressedAlpha(0.3f);
-        image13.setPressedColor(R.color.blue);
-        image13.loadImage(url1, R.color.placeholder_color);
+        image13.setCornerRadius(10);
+        image13.setBorderWidth(2);
+        image13.setBorderColor(getResources().getColor(R.color.blue));
+        image13.setPressedModeEnabled(true);
+        image13.setPressedBorderWidth(2);
+        image13.setPressedBorderColor(getResources().getColor(R.color.blue));
+        image13.setPressedMaskColor(getResources().getColor(R.color.transparent20));
+        image13.loadImage(url1, R.color.placeholder);
+        image13.setOnClickListener(v -> {
+        });
 
-        image14.setShapeType(ShapeImageView.ShapeType.CIRCLE);
-        image14.setBorderWidth(3);
-        image14.setBorderColor(R.color.orange);
-        image14.setPressedAlpha(0.2f);
-        image14.setPressedColor(R.color.orange);
-        image14.loadImage(url1, R.color.placeholder_color);
+        image14.setCircle(true);
+        image14.setBorderWidth(2);
+        image14.setBorderColor(getResources().getColor(R.color.orange));
+        image14.setPressedBorderWidth(2);
+        image14.setPressedBorderColor(getResources().getColor(R.color.orange));
+        image14.setPressedMaskColor(Color.parseColor("#4df57c00"));
+        image14.loadImage(url1, R.color.placeholder);
+        image14.setOnClickListener(v -> {
+        });
     }
 
     private void line2() {
-        image21.loadImage(url2, R.color.placeholder_color);
-        image22.loadImage(url2, R.color.placeholder_color);
-        image23.loadImage(url2, R.color.placeholder_color);
-        image24.loadImage(url2, R.color.placeholder_color);
+        image21.loadImage(url2, R.color.placeholder);
+        image22.loadImage(url2, R.color.placeholder);
+        image23.loadImage(url2, R.color.placeholder);
+        image24.loadImage(url2, R.color.placeholder);
     }
 
     private void line3() {
         image31.loadLocalImage(R.drawable.gif_robot_walk, R.mipmap.ic_launcher);
 
-        image32.loadCircleImage(gif1, R.mipmap.ic_launcher).listener((percent, isDone, exception) -> Log.d("--->image32", "percent: " + percent + " isDone: " + isDone));
+        GlideImageLoader.create(image32).load(gif1, new RequestOptions());
+//        image32.loadCircleImage(gif1, R.mipmap.ic_launcher).listener((percent, isDone, exception) ->
+//                Log.d("--->image32", "percent: " + percent + " isDone: " + isDone));
 
         image33.loadImage(gif2, R.mipmap.ic_launcher);
         image34.loadImage(gif3, R.mipmap.ic_launcher);
@@ -160,7 +171,7 @@ public class MainActivity extends BaseActivity {
             ActivityCompat.startActivity(MainActivity.this, intent, compat.toBundle());
         });
 
-        RequestOptions requestOptions = image41.requestOptions(R.color.placeholder_color).centerCrop();
+        RequestOptions requestOptions = image41.requestOptions(R.color.placeholder).centerCrop();
         if (isLoadAgain) {
             requestOptions.diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true);
         }
@@ -186,7 +197,7 @@ public class MainActivity extends BaseActivity {
             ActivityCompat.startActivity(MainActivity.this, intent, compat.toBundle());
         });
 
-        RequestOptions requestOptions = image42.requestOptions(R.color.placeholder_color).centerCrop();
+        RequestOptions requestOptions = image42.requestOptions(R.color.placeholder).centerCrop();
         if (isLoadAgain) {
             requestOptions.diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true);
         }

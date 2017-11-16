@@ -128,7 +128,7 @@ public class NineImageView extends ViewGroup {
         String url = TextUtils.isEmpty(attr.thumbnailUrl) ? attr.url : attr.thumbnailUrl;
         GlideImageLoader imageLoader = GlideImageLoader.create(imageView);
 
-        RequestOptions requestOptions = imageLoader.requestOptions(R.color.placeholder_color)
+        RequestOptions requestOptions = imageLoader.requestOptions(R.color.placeholder)
                 .centerCrop()
                 .skipMemoryCache(false)
                 .diskCacheStrategy(DiskCacheStrategy.RESOURCE)

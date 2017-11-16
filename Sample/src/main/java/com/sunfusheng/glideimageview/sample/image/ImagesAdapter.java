@@ -80,7 +80,7 @@ public class ImagesAdapter extends PagerAdapter implements OnPhotoTapListener, O
             progressView.setProgress(percent);
             progressView.setVisibility(isDone ? View.GONE : View.VISIBLE);
         });
-        RequestOptions requestOptions = imageLoader.requestOptions(R.color.placeholder_color)
+        RequestOptions requestOptions = imageLoader.requestOptions(R.color.placeholder)
                 .centerCrop()
                 .skipMemoryCache(false)
                 .diskCacheStrategy(DiskCacheStrategy.RESOURCE)

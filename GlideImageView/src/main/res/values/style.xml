@@ -1,28 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <declare-styleable name="RoundImageViewStyle">
+    <declare-styleable name="ShapeImageViewStyle">
         <attr name="riv_border_color" format="color"/>
         <attr name="riv_border_width" format="dimension"/>
+        <attr name="riv_corner_radius" format="dimension"/>
+        <attr name="riv_is_circle" format="boolean"/>
         <attr name="riv_pressed_border_color" format="color"/>
         <attr name="riv_pressed_border_width" format="dimension"/>
         <attr name="riv_pressed_mask_color" format="color"/>
         <attr name="riv_pressed_mode_enabled" format="boolean"/>
-        <attr name="riv_is_circle" format="boolean"/>
-        <attr name="riv_corner_radius" format="dimension"/>
-    </declare-styleable>
-
-    <declare-styleable name="ShapeImageViewStyle">
-        <attr name="siv_border_width" format="dimension"/>
-        <attr name="siv_border_color" format="color"/>
-        <attr name="siv_radius" format="dimension"/>
-        <attr name="siv_pressed_alpha" format="float"/>
-        <attr name="siv_pressed_color" format="color"/>
-        <attr name="siv_shape_type" format="enum">
-            <enum name="none" value="0"/>
-            <enum name="rectangle" value="1"/>
-            <enum name="circle" value="2"/>
-        </attr>
     </declare-styleable>
 
     <declare-styleable name="CircleProgressView">

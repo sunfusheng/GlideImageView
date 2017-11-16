@@ -10,7 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.sunfusheng.glideimageview.GlideRoundImageView;
+import com.sunfusheng.glideimageview.GlideImageView;
 import com.sunfusheng.glideimageview.sample.model.ModelUtil;
 import com.sunfusheng.glideimageview.sample.model.NewsModel;
 
@@ -50,7 +50,7 @@ public class RecyclerViewActivity extends BaseActivity {
         public void onBindViewHolder(ViewHolder viewHolder, int position) {
             NewsModel entity = list.get(position);
             viewHolder.tvTitle.setText(entity.getTitle());
-            viewHolder.imageView.loadImage(entity.getImage_url(), R.color.placeholder_color);
+            viewHolder.imageView.loadImage(entity.getImage_url(), R.color.placeholder);
 
             viewHolder.llRootView.setOnClickListener(v -> Toast.makeText(mContext, entity.getTitle(), Toast.LENGTH_SHORT).show());
         }
@@ -63,7 +63,7 @@ public class RecyclerViewActivity extends BaseActivity {
         class ViewHolder extends RecyclerView.ViewHolder {
             LinearLayout llRootView;
             TextView tvTitle;
-            GlideRoundImageView imageView;
+            GlideImageView imageView;
 
             ViewHolder(View view) {
                 super(view);

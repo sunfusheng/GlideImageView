@@ -10,7 +10,7 @@ import com.sunfusheng.glideimageview.progress.OnGlideImageViewListener;
 import com.sunfusheng.glideimageview.progress.OnProgressListener;
 
 /**
- * Created by sunfusheng on 2017/6/6.
+ * @author sunfusheng on 2017/11/10.
  */
 public class GlideImageView extends ShapeImageView {
 
@@ -83,19 +83,19 @@ public class GlideImageView extends ShapeImageView {
     }
 
     public GlideImageView loadCircleImage(String url, int placeholderResId) {
-        setShapeType(ShapeType.CIRCLE);
+        setCircle(true);
         getImageLoader().loadCircleImage(url, placeholderResId);
         return this;
     }
 
     public GlideImageView loadLocalCircleImage(int resId, int placeholderResId) {
-        setShapeType(ShapeType.CIRCLE);
+        setCircle(true);
         getImageLoader().loadLocalCircleImage(resId, placeholderResId);
         return this;
     }
 
     public GlideImageView loadLocalCircleImage(String localPath, int placeholderResId) {
-        setShapeType(ShapeType.CIRCLE);
+        setCircle(true);
         getImageLoader().loadLocalCircleImage(localPath, placeholderResId);
         return this;
     }

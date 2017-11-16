@@ -45,7 +45,9 @@
     <color name="transparent90_white">#E5ffffff</color>
     <color name="transparent100_white">#FFffffff</color>
 
-    <color name="placeholder_color">#1A000000</color>
+    <color name="placeholder">#33000000</color>
+    <color name="placeholder_yellow">#33fbc02d</color>
+    <color name="placeholder_orange">#33f57c00</color>
 
     <color name="white">#FFFFFF</color>  <!-- 白色 -->
     <color name="yellow">#fbc02d</color> <!-- 黄色 -->
