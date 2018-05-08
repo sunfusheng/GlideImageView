@@ -133,7 +133,7 @@
                     app:riv_is_circle="false"
                     app:riv_pressed_mask_color="@color/transparent20"/>
 
-                <ImageView
+                <com.sunfusheng.glideimageview.GlideImageView
                     android:id="@+id/image32"
                     android:layout_width="80dp"
                     android:layout_height="80dp"

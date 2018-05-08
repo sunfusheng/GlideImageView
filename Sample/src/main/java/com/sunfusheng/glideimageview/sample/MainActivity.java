@@ -10,7 +10,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,7 +43,7 @@ public class MainActivity extends BaseActivity {
     GlideImageView image24;
 
     GlideImageView image31;
-    ImageView image32;
+    GlideImageView image32;
     GlideImageView image33;
     GlideImageView image34;
 
@@ -67,9 +66,9 @@ public class MainActivity extends BaseActivity {
     public static final String girl = "https://raw.githubusercontent.com/sfsheng0322/GlideImageView/master/screenshot/girl.jpg";
     public static final String girl_thumbnail = "https://raw.githubusercontent.com/sfsheng0322/GlideImageView/master/screenshot/girl_thumbnail.jpg";
 
-    String gif1 = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1496754078616&di=cc68338a66a36de619fa11d0c1b2e6f3&imgtype=0&src=http%3A%2F%2Fapp.576tv.com%2FUploads%2Foltz%2F201609%2F25%2F1474813626468299.gif";
-    String gif2 = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1497276275707&di=57c8c7917e91afc1bc86b1b57e743425&imgtype=0&src=http%3A%2F%2Fimg.haatoo.com%2Fpics%2F2016%2F05%2F14%2F9%2F4faf3f52b8e8315af7a469731dc7dce5.jpg";
-    String gif3 = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1497276379533&di=71435f66d66221eb36dab266deb9d6d2&imgtype=0&src=http%3A%2F%2Fatt.bbs.duowan.com%2Fforum%2F201608%2F02%2F190418bmy9zqm94qxlmqf4.gif";
+    String gif1 = "http://img.zcool.cn/community/01e97857c929630000012e7e3c2acf.gif";
+    String gif2 = "http://img.zcool.cn/community/01d6dd554b93f0000001bf72b4f6ec.jpg";
+    String gif3 = "http://5b0988e595225.cdn.sohucs.com/images/20171202/a1cc52d5522f48a8a2d6e7426b13f82b.gif";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -152,8 +151,8 @@ public class MainActivity extends BaseActivity {
         image31.loadLocalImage(R.drawable.gif_robot_walk, R.mipmap.ic_launcher);
 
         GlideImageLoader.create(image32).load(gif1, new RequestOptions());
-//        image32.loadCircleImage(gif1, R.mipmap.ic_launcher).listener((percent, isDone, exception) ->
-//                Log.d("--->image32", "percent: " + percent + " isDone: " + isDone));
+        image32.loadCircleImage(gif1, R.mipmap.ic_launcher).listener((percent, isDone, exception) ->
+                Log.d("--->image32", "percent: " + percent + " isDone: " + isDone));
 
         image33.loadImage(gif2, R.mipmap.ic_launcher);
         image34.loadImage(gif3, R.mipmap.ic_launcher);
