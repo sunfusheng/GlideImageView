@@ -130,7 +130,8 @@
                     android:layout_weight="1"
                     android:clickable="true"
                     android:focusable="true"
-                    app:riv_is_circle="false"/>
+                    app:riv_is_circle="false"
+                    app:riv_pressed_mask_color="@color/transparent20"/>
 
                 <ImageView
                     android:id="@+id/image32"
@@ -148,7 +149,9 @@
                     android:layout_margin="5dp"
                     android:layout_weight="1"
                     android:clickable="true"
-                    android:focusable="true"/>
+                    android:focusable="true"
+                    app:riv_corner_radius="10dp"
+                    app:riv_pressed_mask_color="@color/transparent20"/>
 
                 <com.sunfusheng.glideimageview.GlideImageView
                     android:id="@+id/image34"
@@ -157,12 +160,13 @@
                     android:layout_margin="5dp"
                     android:layout_weight="1"
                     android:clickable="true"
-                    android:focusable="true"/>
+                    android:focusable="true"
+                    app:riv_pressed_mask_color="@color/transparent20"/>
             </LinearLayout>
 
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="100dp"
                 android:layout_margin="10dp">
 
                 <android.support.constraint.ConstraintLayout

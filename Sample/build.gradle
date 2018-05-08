@@ -1,15 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion "26.0.2"
-
+    compileSdkVersion rootProject.compileSdkVersion
     defaultConfig {
         applicationId "com.sunfusheng.glideimageview.sample"
-        minSdkVersion 14
-        targetSdkVersion 26
-        versionCode 3
-        versionName "1.2.0"
+        minSdkVersion rootProject.minSdkVersion
+        targetSdkVersion rootProject.targetSdkVersion
+        versionCode rootProject.versionCode
+        versionName rootProject.versionName
     }
 
     compileOptions {
@@ -30,13 +28,12 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:26.1.0'
-    compile 'com.android.support:percent:26.1.0'
-    compile 'com.android.support:design:26.1.0'
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'com.github.chrisbanes:PhotoView:2.1.3'
+    api 'com.android.support:appcompat-v7:' + rootProject.supportLibraryVersion
+    api 'com.android.support:percent:' + rootProject.supportLibraryVersion
+    api 'com.android.support:design:' + rootProject.supportLibraryVersion
+    api 'com.android.support.constraint:constraint-layout:1.1.0'
+    api 'com.github.chrisbanes:PhotoView:2.1.3'
 
-    compile project(':GlideImageView')
-//    compile 'com.sunfusheng:glideimageview:1.2.0'
+    api project(':GlideImageView')
+//    api 'com.sunfusheng:glideimageview:1.3.0'
 }

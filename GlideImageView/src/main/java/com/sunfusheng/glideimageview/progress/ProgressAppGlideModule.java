@@ -1,6 +1,7 @@
 package com.sunfusheng.glideimageview.progress;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Registry;
@@ -16,9 +17,8 @@ import java.io.InputStream;
  */
 @GlideModule
 public class ProgressAppGlideModule extends AppGlideModule {
-
     @Override
-    public void registerComponents(Context context, Glide glide, Registry registry) {
+    public void registerComponents(@NonNull Context context, @NonNull Glide glide, @NonNull Registry registry) {
         super.registerComponents(context, glide, registry);
         registry.replace(GlideUrl.class, InputStream.class, new OkHttpUrlLoader.Factory(ProgressManager.getOkHttpClient()));
     }

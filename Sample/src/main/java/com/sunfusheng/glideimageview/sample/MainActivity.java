@@ -1,6 +1,5 @@
 package com.sunfusheng.glideimageview.sample;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -160,7 +159,6 @@ public class MainActivity extends BaseActivity {
         image34.loadImage(gif3, R.mipmap.ic_launcher);
     }
 
-    @SuppressLint("CheckResult")
     private void line41() {
         image41.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, SingleImageActivity.class);
@@ -186,7 +184,6 @@ public class MainActivity extends BaseActivity {
         });
     }
 
-    @SuppressLint("CheckResult")
     private void line42() {
         image42.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, SingleImageActivity.class);

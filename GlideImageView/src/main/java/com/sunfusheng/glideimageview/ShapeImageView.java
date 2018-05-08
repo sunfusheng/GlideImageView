@@ -25,7 +25,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.bumptech.glide.load.resource.gif.GifDrawable;
 import com.sunfusheng.glideimageview.util.DisplayUtil;
 
 /**
@@ -107,7 +106,9 @@ public class ShapeImageView extends ImageView {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        int width = getMeasuredWidth(), height = getMeasuredHeight();
+        int width = getMeasuredWidth();
+        int height = getMeasuredHeight();
+
         if (mIsCircle) {
             int size = Math.min(width, height);
             setMeasuredDimension(size, size);
@@ -117,8 +118,7 @@ public class ShapeImageView extends ImageView {
             if (mBitmap == null) {
                 return;
             }
-            if (widthMode == View.MeasureSpec.AT_MOST || widthMode == View.MeasureSpec.UNSPECIFIED ||
-                    heightMode == View.MeasureSpec.AT_MOST || heightMode == View.MeasureSpec.UNSPECIFIED) {
+            if (widthMode == View.MeasureSpec.AT_MOST || widthMode == View.MeasureSpec.UNSPECIFIED || heightMode == View.MeasureSpec.AT_MOST || heightMode == View.MeasureSpec.UNSPECIFIED) {
                 float bmWidth = mBitmap.getWidth(), bmHeight = mBitmap.getHeight();
                 float scaleX = width / bmWidth, scaleY = height / bmHeight;
                 if (scaleX == scaleY) {
@@ -135,7 +135,8 @@ public class ShapeImageView extends ImageView {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        int width = getWidth(), height = getHeight();
+        int width = getWidth();
+        int height = getHeight();
         if (width <= 0 || height <= 0 || mBitmap == null || mBitmapShader == null) {
             return;
         }
@@ -226,13 +227,10 @@ public class ShapeImageView extends ImageView {
 
         if (drawable instanceof BitmapDrawable) {
             return ((BitmapDrawable) drawable).getBitmap();
-        } else if (drawable instanceof GifDrawable) {
-            GifDrawable gifDrawable = (GifDrawable) drawable;
         }
 
         try {
             Bitmap bitmap;
-
             if (drawable instanceof ColorDrawable) {
                 bitmap = Bitmap.createBitmap(COLOR_DRAWABLE_DIMEN, COLOR_DRAWABLE_DIMEN, BITMAP_CONFIG);
             } else {
@@ -255,10 +253,9 @@ public class ShapeImageView extends ImageView {
         if (mBitmapShader == null || mBitmap == null) {
             return;
         }
-        final float bmWidth = mBitmap.getWidth();
-        final float bmHeight = mBitmap.getHeight();
-        final float scaleX = mWidth / bmWidth;
-        final float scaleY = mHeight / bmHeight;
+
+        final float bmWidth = mBitmap.getWidth(), bmHeight = mBitmap.getHeight();
+        final float scaleX = mWidth / bmWidth, scaleY = mHeight / bmHeight;
         final float scale = Math.max(scaleX, scaleY);
         mMatrix.setScale(scale, scale);
         mMatrix.postTranslate(-(scale * bmWidth - mWidth) / 2, -(scale * bmHeight - mHeight) / 2);
@@ -307,11 +304,10 @@ public class ShapeImageView extends ImageView {
         }
     }
 
-    public void setPressedMaskColor(@ColorInt int selectedMaskColor) {
-        if (mPressedMaskColor != selectedMaskColor) {
-            mPressedMaskColor = selectedMaskColor;
-            if (mPressedMaskColor != Color.TRANSPARENT) {
-                mPressedColorFilter = new PorterDuffColorFilter(mPressedMaskColor, PorterDuff.Mode.DARKEN);
+    public void setPressedMaskColor(@ColorInt int pressedMaskColor) {
+        if (mPressedMaskColor != pressedMaskColor) {
+            if (pressedMaskColor != Color.TRANSPARENT) {
+                mPressedColorFilter = new PorterDuffColorFilter(pressedMaskColor, PorterDuff.Mode.DARKEN);
             } else {
                 mPressedColorFilter = null;
             }
@@ -319,7 +315,7 @@ public class ShapeImageView extends ImageView {
                 invalidate();
             }
         }
-        mPressedMaskColor = selectedMaskColor;
+        mPressedMaskColor = pressedMaskColor;
     }
 
 
@@ -378,11 +374,11 @@ public class ShapeImageView extends ImageView {
         return mPressedModeEnabled;
     }
 
-    public void setPressedColorFilter(ColorFilter cf) {
-        if (mPressedColorFilter == cf) {
+    public void setPressedColorFilter(ColorFilter colorFilter) {
+        if (mPressedColorFilter == colorFilter) {
             return;
         }
-        mPressedColorFilter = cf;
+        mPressedColorFilter = colorFilter;
         if (mIsPressed) {
             invalidate();
         }

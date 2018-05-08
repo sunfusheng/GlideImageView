@@ -2,14 +2,12 @@ apply plugin: 'com.android.library'
 apply plugin: 'com.novoda.bintray-release'
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion "26.0.2"
-
+    compileSdkVersion rootProject.compileSdkVersion
     defaultConfig {
-        minSdkVersion 14
-        targetSdkVersion 26
-        versionCode 4
-        versionName "1.3.0"
+        minSdkVersion rootProject.minSdkVersion
+        targetSdkVersion rootProject.targetSdkVersion
+        versionCode rootProject.versionCode
+        versionName rootProject.versionName
     }
 
     lintOptions {
@@ -25,18 +23,17 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:support-v4:26.1.0'
-    compile 'com.github.bumptech.glide:glide:4.3.1'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.3.1'
-    compile "com.github.bumptech.glide:okhttp3-integration:4.3.1"
+    api 'com.android.support:support-v4:' + rootProject.supportLibraryVersion
+    api 'com.github.bumptech.glide:glide:4.7.1'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.7.1'
+    api "com.github.bumptech.glide:okhttp3-integration:4.7.1"
 }
 
 publish {
     userOrg = 'sfsheng0322'
     groupId = 'com.sunfusheng'
     artifactId = 'glideimageview'
-    publishVersion = '1.3.0'
+    publishVersion = rootProject.versionName
     desc = 'GlideImageView is an image loading library which you can listen to the progress of loading.'
     website = 'https://github.com/sfsheng0322/GlideImageView'
 }
