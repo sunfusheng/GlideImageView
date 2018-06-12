@@ -4,8 +4,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.os.Handler;
-import android.os.Looper;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -17,6 +15,7 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.sunfusheng.glideimageview.progress.GlideApp;
+import com.sunfusheng.glideimageview.progress.GlideRequest;
 import com.sunfusheng.glideimageview.progress.OnProgressListener;
 import com.sunfusheng.glideimageview.progress.ProgressManager;
 
@@ -27,7 +26,6 @@ import java.lang.ref.WeakReference;
  */
 public class GlideImageLoader {
 
-    protected static final Handler mainThreadHandler = new Handler(Looper.getMainLooper());
     protected static final String ANDROID_RESOURCE = "android.resource://";
     protected static final String FILE = "file://";
     protected static final String SEPARATOR = "/";
@@ -35,7 +33,6 @@ public class GlideImageLoader {
 
     private WeakReference<ImageView> imageViewWeakReference;
     private String url;
-    private OnProgressListener onProgressListener;
 
     public static GlideImageLoader create(ImageView imageView) {
         return new GlideImageLoader(imageView);
@@ -79,41 +76,37 @@ public class GlideImageLoader {
         return loadImage(url, placeholder, transformation);
     }
 
-    protected GlideImageLoader loadImage(Object obj, @DrawableRes int placeholder, @NonNull Transformation<Bitmap> transformation) {
-        if (obj instanceof String) {
+    protected GlideImageLoader loadImage(Object obj, @DrawableRes int placeholder, Transformation<Bitmap> transformation) {
+        if (obj instanceof String && url.startsWith(HTTP)) {
             url = (String) obj;
         }
-        GlideApp.with(getContext())
-                .load(obj)
-                .placeholder(placeholder)
-                .error(placeholder)
-                .transform(transformation)
-                .listener(new RequestListener<Drawable>() {
-                    @Override
-                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                        ProgressManager.removeListener(url);
-                        return false;
-                    }
 
-                    @Override
-                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                        ProgressManager.removeListener(url);
-                        return false;
-                    }
-                }).into(getImageView());
+        GlideRequest<Drawable> glideRequest = GlideApp.with(getContext()).load(obj);
+        if (placeholder != 0) {
+            glideRequest = glideRequest.placeholder(placeholder).error(placeholder);
+        }
+
+        if (transformation != null) {
+            glideRequest = glideRequest.transform(transformation);
+        }
+
+        glideRequest.listener(new RequestListener<Drawable>() {
+            @Override
+            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                ProgressManager.removeListener(url);
+                return false;
+            }
+
+            @Override
+            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                ProgressManager.removeListener(url);
+                return false;
+            }
+        }).into(getImageView());
         return this;
     }
 
-    private void mainThreadCallback(int percentage, long bytesRead, long totalBytes) {
-        mainThreadHandler.post(() -> {
-            if (onProgressListener != null) {
-                onProgressListener.onProgress(percentage, bytesRead, totalBytes);
-            }
-        });
-    }
-
     public GlideImageLoader listener(OnProgressListener onProgressListener) {
-        this.onProgressListener = onProgressListener;
         ProgressManager.addListener(url, onProgressListener);
         return this;
     }
