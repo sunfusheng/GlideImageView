@@ -13,7 +13,7 @@ import com.bumptech.glide.module.AppGlideModule;
 import java.io.InputStream;
 
 /**
- * Created by sunfusheng on 2017/6/14.
+ * @author by sunfusheng on 2017/6/14.
  */
 @GlideModule
 public class ProgressAppGlideModule extends AppGlideModule {

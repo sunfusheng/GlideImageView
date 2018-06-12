@@ -31,7 +31,7 @@ dependencies {
     api 'com.android.support:appcompat-v7:' + rootProject.supportLibraryVersion
     api 'com.android.support:percent:' + rootProject.supportLibraryVersion
     api 'com.android.support:design:' + rootProject.supportLibraryVersion
-    api 'com.android.support.constraint:constraint-layout:1.1.0'
+    api 'com.android.support.constraint:constraint-layout:1.1.1'
     api 'com.github.chrisbanes:PhotoView:2.1.3'
 
     api project(':GlideImageView')
