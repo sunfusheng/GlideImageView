@@ -12,7 +12,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 /**
- * Created by sunfusheng on 2017/6/14.
+ * @author by sunfusheng on 2017/6/14.
  */
 public class ProgressManager {
 
