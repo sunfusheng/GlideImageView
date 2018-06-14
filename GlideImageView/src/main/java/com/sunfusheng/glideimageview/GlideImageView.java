@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import com.bumptech.glide.load.Transformation;
 import com.sunfusheng.glideimageview.progress.OnProgressListener;
 import com.sunfusheng.glideimageview.transformation.CircleTransformation;
+import com.sunfusheng.glideimageview.transformation.RadiusTransformation;
 
 /**
  * @author sunfusheng on 2017/11/10.
@@ -58,7 +59,7 @@ public class GlideImageView extends ImageView {
     }
 
     public void load(String url, @DrawableRes int placeholder, int radius, OnProgressListener onProgressListener) {
-        load(url, placeholder, new CircleTransformation(), onProgressListener);
+        load(url, placeholder, new RadiusTransformation(getContext(), radius), onProgressListener);
     }
 
     public void load(Object obj, @DrawableRes int placeholder, Transformation<Bitmap> transformation, OnProgressListener onProgressListener) {

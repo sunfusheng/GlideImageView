@@ -77,7 +77,7 @@ public class GlideImageLoader {
     }
 
     protected GlideImageLoader loadImage(Object obj, @DrawableRes int placeholder, Transformation<Bitmap> transformation) {
-        if (obj instanceof String && url.startsWith(HTTP)) {
+        if (obj instanceof String) {
             url = (String) obj;
         }
 

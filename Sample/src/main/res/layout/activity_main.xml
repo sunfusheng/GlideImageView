@@ -19,6 +19,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:orientation="horizontal"
                 android:padding="5dp">
 
@@ -27,28 +28,28 @@
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_margin="5dp"
-                    android:layout_weight="1"/>
+                    android:scaleType="centerCrop"/>
 
                 <com.sunfusheng.glideimageview.GlideImageView
                     android:id="@+id/image12"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_margin="5dp"
-                    android:layout_weight="1"/>
+                    android:scaleType="centerCrop"/>
 
                 <com.sunfusheng.glideimageview.GlideImageView
                     android:id="@+id/image13"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_margin="5dp"
-                    android:layout_weight="1"/>
+                    android:scaleType="centerCrop"/>
 
                 <com.sunfusheng.glideimageview.GlideImageView
                     android:id="@+id/image14"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_margin="5dp"
-                    android:layout_weight="1"/>
+                    android:scaleType="centerCrop"/>
             </LinearLayout>
 
             <LinearLayout
@@ -62,106 +63,28 @@
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_margin="5dp"
-                    android:layout_weight="1"
-                    android:clickable="true"
-                    android:focusable="true"
-                    app:riv_pressed_mask_color="@color/transparent20"/>
+                    android:scaleType="centerCrop"/>
 
                 <com.sunfusheng.glideimageview.GlideImageView
                     android:id="@+id/image22"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_margin="5dp"
-                    android:layout_weight="1"
-                    android:clickable="true"
-                    android:focusable="true"
-                    app:riv_border_color="@color/orange"
-                    app:riv_border_width="2dp"
-                    app:riv_corner_radius="10dp"
-                    app:riv_is_circle="false"
-                    app:riv_pressed_border_color="@color/colorPrimary"
-                    app:riv_pressed_border_width="2dp"
-                    app:riv_pressed_mask_color="@color/transparent20"
-                    app:riv_pressed_mode_enabled="true"/>
+                    android:scaleType="centerCrop"/>
 
                 <com.sunfusheng.glideimageview.GlideImageView
                     android:id="@+id/image23"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_margin="5dp"
-                    android:layout_weight="1"
-                    android:clickable="true"
-                    android:focusable="true"
-                    app:riv_border_color="@color/yellow"
-                    app:riv_border_width="2dp"
-                    app:riv_is_circle="true"
-                    app:riv_pressed_border_color="@color/yellow"
-                    app:riv_pressed_border_width="2dp"
-                    app:riv_pressed_mask_color="@color/placeholder_yellow"/>
+                    android:scaleType="centerCrop"/>
 
                 <com.sunfusheng.glideimageview.GlideImageView
                     android:id="@+id/image24"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_margin="5dp"
-                    android:layout_weight="1"
-                    android:clickable="true"
-                    android:focusable="true"
-                    app:riv_border_color="@color/orange"
-                    app:riv_border_width="2dp"
-                    app:riv_is_circle="true"
-                    app:riv_pressed_border_color="@color/orange"
-                    app:riv_pressed_border_width="2dp"
-                    app:riv_pressed_mask_color="@color/placeholder_orange"
-                    app:riv_pressed_mode_enabled="true"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="5dp">
-
-                <com.sunfusheng.glideimageview.GlideImageView
-                    android:id="@+id/image31"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_margin="5dp"
-                    android:layout_weight="1"
-                    android:clickable="true"
-                    android:focusable="true"
-                    app:riv_is_circle="false"
-                    app:riv_pressed_mask_color="@color/transparent20"/>
-
-                <com.sunfusheng.glideimageview.GlideImageView
-                    android:id="@+id/image32"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_margin="5dp"
-                    android:layout_weight="1"
-                    android:clickable="true"
-                    android:focusable="true"/>
-
-                <com.sunfusheng.glideimageview.GlideImageView
-                    android:id="@+id/image33"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_margin="5dp"
-                    android:layout_weight="1"
-                    android:clickable="true"
-                    android:focusable="true"
-                    app:riv_corner_radius="10dp"
-                    app:riv_pressed_mask_color="@color/transparent20"/>
-
-                <com.sunfusheng.glideimageview.GlideImageView
-                    android:id="@+id/image34"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_margin="5dp"
-                    android:layout_weight="1"
-                    android:clickable="true"
-                    android:focusable="true"
-                    app:riv_pressed_mask_color="@color/transparent20"/>
+                    android:scaleType="centerCrop"/>
             </LinearLayout>
 
             <android.support.constraint.ConstraintLayout
@@ -180,7 +103,7 @@
                     app:layout_constraintRight_toLeftOf="@+id/right_image">
 
                     <com.sunfusheng.glideimageview.GlideImageView
-                        android:id="@+id/image41"
+                        android:id="@+id/image31"
                         android:layout_width="0dp"
                         android:layout_height="0dp"
                         android:transitionName="@string/transitional_image"
@@ -217,7 +140,7 @@
                     app:layout_constraintRight_toRightOf="parent">
 
                     <com.sunfusheng.glideimageview.GlideImageView
-                        android:id="@+id/image42"
+                        android:id="@+id/image32"
                         android:layout_width="0dp"
                         android:layout_height="0dp"
                         android:transitionName="@string/transitional_image"

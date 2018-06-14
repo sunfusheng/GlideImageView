@@ -1,7 +1,6 @@
 package com.sunfusheng.glideimageview.sample.image;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
 import android.text.TextUtils;
@@ -11,21 +10,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.bumptech.glide.RequestBuilder;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
-import com.bumptech.glide.request.RequestOptions;
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.target.Target;
-import com.bumptech.glide.request.transition.Transition;
 import com.github.chrisbanes.photoview.OnOutsidePhotoTapListener;
 import com.github.chrisbanes.photoview.OnPhotoTapListener;
 import com.github.chrisbanes.photoview.PhotoView;
-import com.sunfusheng.glideimageview.GlideImageLoader;
 import com.sunfusheng.glideimageview.progress.CircleProgressView;
 import com.sunfusheng.glideimageview.sample.R;
 import com.sunfusheng.glideimageview.sample.widget.NineImageView.ImageAttr;
-import com.sunfusheng.glideimageview.util.DisplayUtil;
 
 import java.util.List;
 
@@ -75,29 +65,29 @@ public class ImagesAdapter extends PagerAdapter implements OnPhotoTapListener, O
         ImageAttr attr = images.get(position);
         String url = TextUtils.isEmpty(attr.thumbnailUrl) ? attr.url : attr.thumbnailUrl;
 
-        GlideImageLoader imageLoader = GlideImageLoader.create(photoView);
-        imageLoader.setOnGlideImageViewListener(url, (percent, isDone, exception) -> {
-            progressView.setProgress(percent);
-            progressView.setVisibility(isDone ? View.GONE : View.VISIBLE);
-        });
-        RequestOptions requestOptions = imageLoader.requestOptions(R.color.placeholder)
-                .centerCrop()
-                .skipMemoryCache(false)
-                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL);
-        RequestBuilder<Drawable> requestBuilder = imageLoader.requestBuilder(url, requestOptions)
-                .transition(DrawableTransitionOptions.withCrossFade());
-        requestBuilder.into(new SimpleTarget<Drawable>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
-            @Override
-            public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
-                if (resource.getIntrinsicHeight() > DisplayUtil.getScreenHeight(mContext)) {
-                    photoView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                }
-                requestBuilder.into(photoView);
-            }
-        });
+//        GlideImageLoader imageLoader = GlideImageLoader.create(photoView);
+//        imageLoader.setOnGlideImageViewListener(url, (percent, isDone, exception) -> {
+//            progressView.setProgress(percent);
+//            progressView.setVisibility(isDone ? View.GONE : View.VISIBLE);
+//        });
+//        RequestOptions requestOptions = imageLoader.requestOptions(R.color.placeholder)
+//                .centerCrop()
+//                .skipMemoryCache(false)
+//                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+//                .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL);
+//        RequestBuilder<Drawable> requestBuilder = imageLoader.requestBuilder(url, requestOptions)
+//                .transition(DrawableTransitionOptions.withCrossFade());
+//        requestBuilder.into(new SimpleTarget<Drawable>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
+//            @Override
+//            public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
+//                if (resource.getIntrinsicHeight() > DisplayUtil.getScreenHeight(mContext)) {
+//                    photoView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+//                }
+//                requestBuilder.into(photoView);
+//            }
+//        });
 
-        container.addView(view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+//        container.addView(view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         return view;
     }
 
