@@ -37,15 +37,15 @@ public class MainActivity extends BaseActivity {
     String url1 = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1497688355699&di=ea69a930b82ce88561c635089995e124&imgtype=0&src=http%3A%2F%2Fcms-bucket.nosdn.127.net%2Ff84e566bcf654b3698363409fbd676ef20161119091503.jpg";
     String url2 = "http://img1.imgtn.bdimg.com/it/u=4027212837,1228313366&fm=23&gp=0.jpg";
 
+    String gif1 = "http://img.zcool.cn/community/01e97857c929630000012e7e3c2acf.gif";
+    String gif2 = "http://5b0988e595225.cdn.sohucs.com/images/20171202/a1cc52d5522f48a8a2d6e7426b13f82b.gif";
+    String gif3 = "http://img.zcool.cn/community/01d6dd554b93f0000001bf72b4f6ec.jpg";
+
     public static final String cat = "https://raw.githubusercontent.com/sfsheng0322/GlideImageView/master/screenshot/cat.jpg";
     public static final String cat_thumbnail = "https://raw.githubusercontent.com/sfsheng0322/GlideImageView/master/screenshot/cat_thumbnail.jpg";
 
     public static final String girl = "https://raw.githubusercontent.com/sfsheng0322/GlideImageView/master/screenshot/girl.jpg";
     public static final String girl_thumbnail = "https://raw.githubusercontent.com/sfsheng0322/GlideImageView/master/screenshot/girl_thumbnail.jpg";
-
-    String gif1 = "http://img.zcool.cn/community/01e97857c929630000012e7e3c2acf.gif";
-    String gif2 = "http://img.zcool.cn/community/01d6dd554b93f0000001bf72b4f6ec.jpg";
-    String gif3 = "http://5b0988e595225.cdn.sohucs.com/images/20171202/a1cc52d5522f48a8a2d6e7426b13f82b.gif";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,7 +87,10 @@ public class MainActivity extends BaseActivity {
     }
 
     private void line2() {
-
+        image21.load(gif1);
+        image22.load(gif2, R.color.placeholder, 10);
+        image23.loadCircle(gif3);
+        image24.loadDrawable(R.drawable.gif_robot_walk);
     }
 
     private void line3() {

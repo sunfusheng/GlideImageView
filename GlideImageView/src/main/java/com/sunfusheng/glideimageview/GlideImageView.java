@@ -3,6 +3,7 @@ package com.sunfusheng.glideimageview;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.support.annotation.DrawableRes;
+import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
@@ -76,5 +77,17 @@ public class GlideImageView extends ImageView {
 
     public void loadCircle(String url, @DrawableRes int placeholder, OnProgressListener onProgressListener) {
         load(url, placeholder, new CircleTransformation(), onProgressListener);
+    }
+
+    public void loadDrawable(@DrawableRes int resId) {
+        loadDrawable(resId, 0);
+    }
+
+    public void loadDrawable(@DrawableRes int resId, @DrawableRes int placeholder) {
+        loadDrawable(resId, placeholder, null);
+    }
+
+    public void loadDrawable(@DrawableRes int resId, @DrawableRes int placeholder, @NonNull Transformation<Bitmap> transformation) {
+        getImageLoader().load(resId, placeholder, transformation);
     }
 }

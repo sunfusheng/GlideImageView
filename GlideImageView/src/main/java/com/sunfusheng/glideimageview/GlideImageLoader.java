@@ -68,14 +68,6 @@ public class GlideImageLoader {
         return loadImage(resId2Uri(resId), placeholder, transformation);
     }
 
-    public GlideImageLoader load(Uri uri, @DrawableRes int placeholder, @NonNull Transformation<Bitmap> transformation) {
-        return loadImage(uri, placeholder, transformation);
-    }
-
-    public GlideImageLoader load(String url, @DrawableRes int placeholder, @NonNull Transformation<Bitmap> transformation) {
-        return loadImage(url, placeholder, transformation);
-    }
-
     protected GlideImageLoader loadImage(Object obj, @DrawableRes int placeholder, Transformation<Bitmap> transformation) {
         if (obj instanceof String) {
             url = (String) obj;
