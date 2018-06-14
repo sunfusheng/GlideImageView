@@ -42,15 +42,19 @@ public class GlideImageView extends ImageView {
     }
 
     public void load(String url) {
-        load(url);
+        load(url, 0);
     }
 
     public void load(String url, @DrawableRes int placeholder) {
-        load(url, placeholder);
+        load(url, placeholder, null);
     }
 
     public void load(String url, @DrawableRes int placeholder, OnProgressListener onProgressListener) {
-        load(url, placeholder);
+        load(url, placeholder, null, onProgressListener);
+    }
+
+    public void load(String url, @DrawableRes int placeholder, int radius) {
+        load(url, placeholder, radius, null);
     }
 
     public void load(String url, @DrawableRes int placeholder, int radius, OnProgressListener onProgressListener) {
@@ -59,6 +63,14 @@ public class GlideImageView extends ImageView {
 
     public void load(Object obj, @DrawableRes int placeholder, Transformation<Bitmap> transformation, OnProgressListener onProgressListener) {
         getImageLoader().loadImage(obj, placeholder, transformation).listener(onProgressListener);
+    }
+
+    public void loadCircle(String url) {
+        loadCircle(url, 0);
+    }
+
+    public void loadCircle(String url, @DrawableRes int placeholder) {
+        loadCircle(url, placeholder, null);
     }
 
     public void loadCircle(String url, @DrawableRes int placeholder, OnProgressListener onProgressListener) {

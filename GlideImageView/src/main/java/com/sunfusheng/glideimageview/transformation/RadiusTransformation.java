@@ -1,5 +1,6 @@
 package com.sunfusheng.glideimageview.transformation;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapShader;
 import android.graphics.Canvas;
@@ -9,6 +10,7 @@ import android.support.annotation.NonNull;
 
 import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;
 import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
+import com.sunfusheng.glideimageview.util.DisplayUtil;
 
 import java.security.MessageDigest;
 
@@ -19,8 +21,8 @@ public class RadiusTransformation extends BitmapTransformation {
 
     private int radius;
 
-    public RadiusTransformation(int radius) {
-        this.radius = radius;
+    public RadiusTransformation(Context context, int radius) {
+        this.radius = DisplayUtil.dip2px(context, radius);
     }
 
     @Override
