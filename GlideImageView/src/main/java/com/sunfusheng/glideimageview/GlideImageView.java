@@ -17,6 +17,8 @@ import com.sunfusheng.glideimageview.transformation.RadiusTransformation;
  */
 public class GlideImageView extends ImageView {
 
+    private float pressedAlpha = 0.4f;
+    private float unableAlpha = 0.3f;
     private GlideImageLoader imageLoader;
 
     public GlideImageView(Context context) {
@@ -51,12 +53,12 @@ public class GlideImageView extends ImageView {
         load(url, placeholder, null);
     }
 
-    public void load(String url, @DrawableRes int placeholder, OnProgressListener onProgressListener) {
-        load(url, placeholder, null, onProgressListener);
-    }
-
     public void load(String url, @DrawableRes int placeholder, int radius) {
         load(url, placeholder, radius, null);
+    }
+
+    public void load(String url, @DrawableRes int placeholder, OnProgressListener onProgressListener) {
+        load(url, placeholder, null, onProgressListener);
     }
 
     public void load(String url, @DrawableRes int placeholder, int radius, OnProgressListener onProgressListener) {
@@ -89,5 +91,17 @@ public class GlideImageView extends ImageView {
 
     public void loadDrawable(@DrawableRes int resId, @DrawableRes int placeholder, @NonNull Transformation<Bitmap> transformation) {
         getImageLoader().load(resId, placeholder, transformation);
+    }
+
+    @Override
+    protected void drawableStateChanged() {
+        super.drawableStateChanged();
+        if (isPressed()) {
+            setAlpha(pressedAlpha);
+        } else if (!isEnabled()) {
+            setAlpha(unableAlpha);
+        } else {
+            setAlpha(1.0f);
+        }
     }
 }

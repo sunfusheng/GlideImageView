@@ -11,6 +11,7 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.Transformation;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
@@ -22,7 +23,7 @@ import com.sunfusheng.glideimageview.progress.ProgressManager;
 import java.lang.ref.WeakReference;
 
 /**
- * Created by sunfusheng on 2017/6/6.
+ * @author by sunfusheng on 2017/6/6.
  */
 public class GlideImageLoader {
 
@@ -82,16 +83,16 @@ public class GlideImageLoader {
             glideRequest = glideRequest.transform(transformation);
         }
 
+        glideRequest = glideRequest.diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true);
+
         glideRequest.listener(new RequestListener<Drawable>() {
             @Override
             public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                ProgressManager.removeListener(url);
                 return false;
             }
 
             @Override
             public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                ProgressManager.removeListener(url);
                 return false;
             }
         }).into(getImageView());

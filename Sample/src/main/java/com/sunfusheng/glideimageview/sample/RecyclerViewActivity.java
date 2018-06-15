@@ -1,6 +1,7 @@
 package com.sunfusheng.glideimageview.sample;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -40,18 +41,18 @@ public class RecyclerViewActivity extends BaseActivity {
             this.list = list;
         }
 
+        @NonNull
         @Override
-        public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+        public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
             View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_right_image, viewGroup, false);
             return new ViewHolder(view);
         }
 
         @Override
-        public void onBindViewHolder(ViewHolder viewHolder, int position) {
+        public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
             NewsModel entity = list.get(position);
             viewHolder.tvTitle.setText(entity.getTitle());
             viewHolder.imageView.load(entity.getImage_url(), R.color.placeholder);
-
             viewHolder.llRootView.setOnClickListener(v -> Toast.makeText(mContext, entity.getTitle(), Toast.LENGTH_SHORT).show());
         }
 

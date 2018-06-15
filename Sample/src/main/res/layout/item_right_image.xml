@@ -39,6 +39,7 @@
                 android:id="@+id/giv"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
+                android:scaleType="centerCrop"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintDimensionRatio="16:9"
                 app:layout_constraintLeft_toLeftOf="parent"

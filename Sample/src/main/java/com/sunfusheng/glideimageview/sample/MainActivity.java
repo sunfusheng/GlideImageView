@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import com.sunfusheng.glideimageview.GlideImageView;
@@ -12,7 +13,7 @@ import com.sunfusheng.glideimageview.progress.CircleProgressView;
 import com.sunfusheng.glideimageview.sample.about.AboutActivity;
 
 /**
- * Created by sunfusheng on 2017/6/3.
+ * @author by sunfusheng on 2017/6/3.
  */
 public class MainActivity extends BaseActivity {
 
@@ -81,9 +82,7 @@ public class MainActivity extends BaseActivity {
         image11.load(url1);
         image12.loadCircle(url1);
         image13.load(url2, R.color.placeholder);
-        image14.load(url2, R.color.placeholder, 10, (percentage, bytesRead, totalBytes) -> {
-            Log.d("--->", "percentage: " + percentage + " totalBytes: " + totalBytes + " bytesRead: " + bytesRead);
-        });
+        image14.load(url2, R.color.placeholder, 10);
     }
 
     private void line2() {
@@ -94,7 +93,25 @@ public class MainActivity extends BaseActivity {
     }
 
     private void line3() {
+        image31.load(girl, R.color.placeholder, (percentage, bytesRead, totalBytes) -> {
+            Log.d("--->", "【load girl】 percentage: " + percentage + " totalBytes: " + totalBytes + " bytesRead: " + bytesRead);
+            if (percentage >= 100) {
+                progressView1.setVisibility(View.GONE);
+            } else {
+                progressView1.setVisibility(View.VISIBLE);
+                progressView1.setProgress(percentage);
+            }
+        });
 
+        image32.load(cat, R.color.placeholder, (percentage, bytesRead, totalBytes) -> {
+            Log.d("--->", "【load cat】percentage: " + percentage + " totalBytes: " + totalBytes + " bytesRead: " + bytesRead);
+            if (percentage >= 100) {
+                progressView2.setVisibility(View.GONE);
+            } else {
+                progressView2.setVisibility(View.VISIBLE);
+                progressView2.setProgress(percentage);
+            }
+        });
     }
 
 //    Intent intent = new Intent(MainActivity.this, SingleImageActivity.class);

@@ -3,11 +3,8 @@ package com.sunfusheng.glideimageview.progress;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.NonNull;
-import android.text.TextUtils;
 
 import java.io.IOException;
-import java.lang.ref.WeakReference;
-import java.util.Map;
 
 import okhttp3.MediaType;
 import okhttp3.ResponseBody;
@@ -25,14 +22,14 @@ public class ProgressResponseBody extends ResponseBody {
     private static final Handler mainThreadHandler = new Handler(Looper.getMainLooper());
 
     private String url;
-    private Map<String, WeakReference<OnProgressListener>> listenersMap;
+    private ProgressResponseBody.InternalProgressListener internalProgressListener;
 
     private ResponseBody responseBody;
     private BufferedSource bufferedSource;
 
-    ProgressResponseBody(String url, Map<String, WeakReference<OnProgressListener>> listenersMap, ResponseBody responseBody) {
+    ProgressResponseBody(String url, ProgressResponseBody.InternalProgressListener internalProgressListener, ResponseBody responseBody) {
         this.url = url;
-        this.listenersMap = listenersMap;
+        this.internalProgressListener = internalProgressListener;
         this.responseBody = responseBody;
     }
 
@@ -64,26 +61,16 @@ public class ProgressResponseBody extends ResponseBody {
                 long bytesRead = super.read(sink, byteCount);
                 totalBytesRead += (bytesRead == -1) ? 0 : bytesRead;
 
-                OnProgressListener onProgressListener = getProgressListener();
-                if (onProgressListener != null && lastTotalBytesRead != totalBytesRead) {
+                if (internalProgressListener != null && lastTotalBytesRead != totalBytesRead) {
                     lastTotalBytesRead = totalBytesRead;
-                    int percentage = (int) ((bytesRead * 1f / contentLength()) * 100f);
-                    mainThreadHandler.post(() -> onProgressListener.onProgress(percentage, totalBytesRead, contentLength()));
+                    mainThreadHandler.post(() -> internalProgressListener.onProgress(url, totalBytesRead, contentLength()));
                 }
                 return bytesRead;
             }
         };
     }
 
-    private OnProgressListener getProgressListener() {
-        if (TextUtils.isEmpty(url) || listenersMap == null || listenersMap.size() == 0) {
-            return null;
-        }
-
-        WeakReference<OnProgressListener> listenerWeakReference = listenersMap.get(url);
-        if (listenerWeakReference != null) {
-            return listenerWeakReference.get();
-        }
-        return null;
+    interface InternalProgressListener {
+        void onProgress(String url, long bytesRead, long totalBytes);
     }
 }
