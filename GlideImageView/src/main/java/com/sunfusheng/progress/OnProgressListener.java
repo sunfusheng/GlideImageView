@@ -1,4 +1,4 @@
-package com.sunfusheng.glideimageview.progress;
+package com.sunfusheng.progress;
 
 /**
  * @author by sunfusheng on 2017/6/14.

@@ -10,7 +10,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.TextView;
 
-import com.sunfusheng.glideimageview.GlideImageView;
+import com.sunfusheng.GlideImageView;
 import com.sunfusheng.glideimageview.sample.BaseActivity;
 import com.sunfusheng.glideimageview.sample.R;
 import com.sunfusheng.glideimageview.sample.util.AppUtil;

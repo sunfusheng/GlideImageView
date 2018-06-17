@@ -1,4 +1,4 @@
-package com.sunfusheng.glideimageview.transformation;
+package com.sunfusheng.transformation;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapShader;

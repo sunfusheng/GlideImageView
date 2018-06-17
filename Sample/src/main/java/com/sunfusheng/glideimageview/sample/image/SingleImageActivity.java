@@ -5,8 +5,8 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-import com.sunfusheng.glideimageview.GlideImageView;
-import com.sunfusheng.glideimageview.progress.CircleProgressView;
+import com.sunfusheng.GlideImageView;
+import com.sunfusheng.progress.CircleProgressView;
 import com.sunfusheng.glideimageview.sample.R;
 
 /**

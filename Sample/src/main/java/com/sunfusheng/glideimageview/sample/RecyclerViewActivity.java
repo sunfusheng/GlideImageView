@@ -11,7 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.sunfusheng.glideimageview.GlideImageView;
+import com.sunfusheng.GlideImageView;
 import com.sunfusheng.glideimageview.sample.model.ModelUtil;
 import com.sunfusheng.glideimageview.sample.model.NewsModel;
 

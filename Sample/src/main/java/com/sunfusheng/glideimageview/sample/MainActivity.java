@@ -10,8 +10,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import com.sunfusheng.glideimageview.GlideImageView;
-import com.sunfusheng.glideimageview.progress.CircleProgressView;
+import com.sunfusheng.GlideImageView;
+import com.sunfusheng.progress.CircleProgressView;
 import com.sunfusheng.glideimageview.sample.about.AboutActivity;
 import com.sunfusheng.glideimageview.sample.image.SingleImageActivity;
 

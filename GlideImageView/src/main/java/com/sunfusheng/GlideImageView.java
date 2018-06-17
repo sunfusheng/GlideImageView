@@ -1,4 +1,4 @@
-package com.sunfusheng.glideimageview;
+package com.sunfusheng;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -8,9 +8,9 @@ import android.util.AttributeSet;
 import android.widget.ImageView;
 
 import com.bumptech.glide.load.Transformation;
-import com.sunfusheng.glideimageview.progress.OnProgressListener;
-import com.sunfusheng.glideimageview.transformation.CircleTransformation;
-import com.sunfusheng.glideimageview.transformation.RadiusTransformation;
+import com.sunfusheng.progress.OnProgressListener;
+import com.sunfusheng.transformation.CircleTransformation;
+import com.sunfusheng.transformation.RadiusTransformation;
 
 /**
  * @author sunfusheng on 2017/11/10.

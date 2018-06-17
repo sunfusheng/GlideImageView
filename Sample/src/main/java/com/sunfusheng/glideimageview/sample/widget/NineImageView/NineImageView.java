@@ -12,9 +12,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.sunfusheng.glideimageview.GlideImageLoader;
+import com.sunfusheng.GlideImageLoader;
 import com.sunfusheng.glideimageview.sample.R;
-import com.sunfusheng.glideimageview.util.DisplayUtil;
+import com.sunfusheng.util.DisplayUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,7 +56,7 @@ public class NineImageView extends ViewGroup {
     }
 
     private void init(Context context, AttributeSet attrs) {
-        int WIDTH = DisplayUtil.getScreenWidth(context) - DisplayUtil.dip2px(context, 15 * 2);
+        int WIDTH = DisplayUtil.getWindowWidth(context) - DisplayUtil.dp2px(context, 15 * 2);
         singleImageMaxWidth = WIDTH * 2 / 3;
         singleImageMinWidth = WIDTH / 3;
         singleImageWidth = singleImageMinWidth;

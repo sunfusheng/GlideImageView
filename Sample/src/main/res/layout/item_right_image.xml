@@ -35,7 +35,7 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true">
 
-            <com.sunfusheng.glideimageview.GlideImageView
+            <com.sunfusheng.GlideImageView
                 android:id="@+id/giv"
                 android:layout_width="0dp"
                 android:layout_height="0dp"

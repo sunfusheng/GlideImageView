@@ -14,7 +14,7 @@
         android:layout_centerInParent="true"
         android:background="@color/placeholder">
 
-        <com.sunfusheng.glideimageview.GlideImageView
+        <com.sunfusheng.GlideImageView
             android:id="@+id/glideImageView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -24,7 +24,7 @@
             app:layout_widthPercent="100%"/>
     </android.support.percent.PercentRelativeLayout>
 
-    <com.sunfusheng.glideimageview.progress.CircleProgressView
+    <com.sunfusheng.progress.CircleProgressView
         android:id="@+id/progressView"
         android:layout_width="50dp"
         android:layout_height="50dp"

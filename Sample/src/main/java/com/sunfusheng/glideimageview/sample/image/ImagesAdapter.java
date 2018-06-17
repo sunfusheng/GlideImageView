@@ -13,7 +13,7 @@ import android.widget.ImageView;
 import com.github.chrisbanes.photoview.OnOutsidePhotoTapListener;
 import com.github.chrisbanes.photoview.OnPhotoTapListener;
 import com.github.chrisbanes.photoview.PhotoView;
-import com.sunfusheng.glideimageview.progress.CircleProgressView;
+import com.sunfusheng.progress.CircleProgressView;
 import com.sunfusheng.glideimageview.sample.R;
 import com.sunfusheng.glideimageview.sample.widget.NineImageView.ImageAttr;
 

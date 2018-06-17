@@ -1,4 +1,4 @@
-package com.sunfusheng.glideimageview;
+package com.sunfusheng;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -14,10 +14,10 @@ import com.bumptech.glide.load.Transformation;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
-import com.sunfusheng.glideimageview.progress.GlideApp;
-import com.sunfusheng.glideimageview.progress.GlideRequest;
-import com.sunfusheng.glideimageview.progress.OnProgressListener;
-import com.sunfusheng.glideimageview.progress.ProgressManager;
+import com.sunfusheng.progress.GlideApp;
+import com.sunfusheng.progress.GlideRequest;
+import com.sunfusheng.progress.OnProgressListener;
+import com.sunfusheng.progress.ProgressManager;
 
 import java.lang.ref.WeakReference;
 

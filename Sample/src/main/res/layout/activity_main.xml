@@ -23,28 +23,28 @@
                 android:orientation="horizontal"
                 android:padding="5dp">
 
-                <com.sunfusheng.glideimageview.GlideImageView
+                <com.sunfusheng.GlideImageView
                     android:id="@+id/image11"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_margin="5dp"
                     android:scaleType="centerCrop"/>
 
-                <com.sunfusheng.glideimageview.GlideImageView
+                <com.sunfusheng.GlideImageView
                     android:id="@+id/image12"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_margin="5dp"
                     android:scaleType="centerCrop"/>
 
-                <com.sunfusheng.glideimageview.GlideImageView
+                <com.sunfusheng.GlideImageView
                     android:id="@+id/image13"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_margin="5dp"
                     android:scaleType="centerCrop"/>
 
-                <com.sunfusheng.glideimageview.GlideImageView
+                <com.sunfusheng.GlideImageView
                     android:id="@+id/image14"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
@@ -58,28 +58,28 @@
                 android:orientation="horizontal"
                 android:padding="5dp">
 
-                <com.sunfusheng.glideimageview.GlideImageView
+                <com.sunfusheng.GlideImageView
                     android:id="@+id/image21"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_margin="5dp"
                     android:scaleType="centerCrop"/>
 
-                <com.sunfusheng.glideimageview.GlideImageView
+                <com.sunfusheng.GlideImageView
                     android:id="@+id/image22"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_margin="5dp"
                     android:scaleType="centerCrop"/>
 
-                <com.sunfusheng.glideimageview.GlideImageView
+                <com.sunfusheng.GlideImageView
                     android:id="@+id/image23"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_margin="5dp"
                     android:scaleType="centerCrop"/>
 
-                <com.sunfusheng.glideimageview.GlideImageView
+                <com.sunfusheng.GlideImageView
                     android:id="@+id/image24"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
@@ -102,7 +102,7 @@
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toLeftOf="@+id/right_image">
 
-                    <com.sunfusheng.glideimageview.GlideImageView
+                    <com.sunfusheng.GlideImageView
                         android:id="@+id/image31"
                         android:layout_width="0dp"
                         android:layout_height="0dp"
@@ -113,7 +113,7 @@
                         app:layout_constraintRight_toRightOf="parent"
                         app:layout_constraintTop_toTopOf="parent"/>
 
-                    <com.sunfusheng.glideimageview.progress.CircleProgressView
+                    <com.sunfusheng.progress.CircleProgressView
                         android:id="@+id/progressView1"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
@@ -141,7 +141,7 @@
                     app:layout_constraintLeft_toRightOf="@+id/left_image"
                     app:layout_constraintRight_toRightOf="parent">
 
-                    <com.sunfusheng.glideimageview.GlideImageView
+                    <com.sunfusheng.GlideImageView
                         android:id="@+id/image32"
                         android:layout_width="0dp"
                         android:layout_height="0dp"
@@ -152,7 +152,7 @@
                         app:layout_constraintRight_toRightOf="parent"
                         app:layout_constraintTop_toTopOf="parent"/>
 
-                    <com.sunfusheng.glideimageview.progress.CircleProgressView
+                    <com.sunfusheng.progress.CircleProgressView
                         android:id="@+id/progressView2"
                         android:layout_width="50dp"
                         android:layout_height="50dp"

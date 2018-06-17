@@ -1,4 +1,4 @@
-package com.sunfusheng.glideimageview;
+package com.sunfusheng;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -25,7 +25,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.sunfusheng.glideimageview.util.DisplayUtil;
+import com.sunfusheng.glideimageview.R;
+import com.sunfusheng.util.DisplayUtil;
 
 /**
  * 提供为图片添加圆角、边框、剪裁到圆形或其他形状等功能。
@@ -265,7 +266,7 @@ public class ShapeImageView extends ImageView {
 
     public void setBorderWidth(int borderWidth) {
         if (mBorderWidth != borderWidth) {
-            mBorderWidth = DisplayUtil.dip2px(getContext(), borderWidth);
+            mBorderWidth = DisplayUtil.dp2px(getContext(), borderWidth);
             invalidate();
         }
     }
@@ -279,7 +280,7 @@ public class ShapeImageView extends ImageView {
 
     public void setCornerRadius(int cornerRadius) {
         if (mCornerRadius != cornerRadius) {
-            mCornerRadius = DisplayUtil.dip2px(getContext(), cornerRadius);
+            mCornerRadius = DisplayUtil.dp2px(getContext(), cornerRadius);
             if (!mIsCircle) {
                 invalidate();
             }
@@ -297,7 +298,7 @@ public class ShapeImageView extends ImageView {
 
     public void setPressedBorderWidth(int selectedBorderWidth) {
         if (mPressedBorderWidth != selectedBorderWidth) {
-            mPressedBorderWidth = DisplayUtil.dip2px(getContext(), selectedBorderWidth);
+            mPressedBorderWidth = DisplayUtil.dp2px(getContext(), selectedBorderWidth);
             if (mIsPressed) {
                 invalidate();
             }

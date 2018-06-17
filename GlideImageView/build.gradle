@@ -37,7 +37,7 @@ dependencies {
 publish {
     userOrg = 'sfsheng0322'
     groupId = 'com.sunfusheng'
-    artifactId = 'glideimageview'
+    artifactId = 'GlideImageView'
     publishVersion = rootProject.versionName
     desc = 'GlideImageView is an image loading library which you can listen to the progress of loading.'
     website = 'https://github.com/sfsheng0322/GlideImageView'

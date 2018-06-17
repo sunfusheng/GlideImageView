@@ -32,7 +32,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1">
 
-            <com.sunfusheng.glideimageview.GlideImageView
+            <com.sunfusheng.GlideImageView
                 android:id="@+id/giv1"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
@@ -48,7 +48,7 @@
             android:layout_marginLeft="@dimen/d3"
             android:layout_weight="1">
 
-            <com.sunfusheng.glideimageview.GlideImageView
+            <com.sunfusheng.GlideImageView
                 android:id="@+id/giv2"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
@@ -64,7 +64,7 @@
             android:layout_marginLeft="@dimen/d3"
             android:layout_weight="1">
 
-            <com.sunfusheng.glideimageview.GlideImageView
+            <com.sunfusheng.GlideImageView
                 android:id="@+id/giv3"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"

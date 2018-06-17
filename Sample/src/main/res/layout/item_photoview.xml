@@ -11,7 +11,7 @@
         android:layout_height="match_parent"
         android:layout_centerInParent="true"/>
 
-    <com.sunfusheng.glideimageview.progress.CircleProgressView
+    <com.sunfusheng.progress.CircleProgressView
         android:id="@+id/progressView"
         android:layout_width="50dp"
         android:layout_height="50dp"

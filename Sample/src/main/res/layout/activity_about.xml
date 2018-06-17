@@ -20,7 +20,7 @@
             app:expandedTitleGravity="center_horizontal|bottom"
             app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
 
-            <com.sunfusheng.glideimageview.GlideImageView
+            <com.sunfusheng.GlideImageView
                 android:id="@+id/iv_girl"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

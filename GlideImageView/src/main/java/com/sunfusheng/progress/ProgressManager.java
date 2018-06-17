@@ -1,4 +1,4 @@
-package com.sunfusheng.glideimageview.progress;
+package com.sunfusheng.progress;
 
 import android.text.TextUtils;
 import android.util.Log;
