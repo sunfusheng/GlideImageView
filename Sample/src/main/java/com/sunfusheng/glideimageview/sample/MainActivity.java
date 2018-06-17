@@ -2,6 +2,8 @@ package com.sunfusheng.glideimageview.sample;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -11,6 +13,7 @@ import android.widget.TextView;
 import com.sunfusheng.glideimageview.GlideImageView;
 import com.sunfusheng.glideimageview.progress.CircleProgressView;
 import com.sunfusheng.glideimageview.sample.about.AboutActivity;
+import com.sunfusheng.glideimageview.sample.image.SingleImageActivity;
 
 /**
  * @author by sunfusheng on 2017/6/3.
@@ -73,6 +76,22 @@ public class MainActivity extends BaseActivity {
         draggableView1.setOnClickListener(v -> startActivity(new Intent(mContext, RecyclerViewActivity.class)));
         draggableView2.setOnClickListener(v -> startActivity(new Intent(mContext, NineImageViewActivity.class)));
 
+        image31.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, SingleImageActivity.class);
+            intent.putExtra(SingleImageActivity.KEY_IMAGE_URL, girl);
+            intent.putExtra(SingleImageActivity.KEY_IMAGE_URL_THUMBNAIL, girl_thumbnail);
+            ActivityOptionsCompat compat = ActivityOptionsCompat.makeSceneTransitionAnimation(MainActivity.this, image31, getString(R.string.transitional_image));
+            ActivityCompat.startActivity(MainActivity.this, intent, compat.toBundle());
+        });
+
+        image32.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, SingleImageActivity.class);
+            intent.putExtra(SingleImageActivity.KEY_IMAGE_URL, cat);
+            intent.putExtra(SingleImageActivity.KEY_IMAGE_URL_THUMBNAIL, cat_thumbnail);
+            ActivityOptionsCompat compat = ActivityOptionsCompat.makeSceneTransitionAnimation(MainActivity.this, image32, getString(R.string.transitional_image));
+            ActivityCompat.startActivity(MainActivity.this, intent, compat.toBundle());
+        });
+
         line1();
         line2();
         line3();
@@ -104,7 +123,6 @@ public class MainActivity extends BaseActivity {
         });
 
         image32.load(cat, R.color.placeholder, (percentage, bytesRead, totalBytes) -> {
-            Log.d("--->", "【load cat】percentage: " + percentage + " totalBytes: " + totalBytes + " bytesRead: " + bytesRead);
             if (percentage >= 100) {
                 progressView2.setVisibility(View.GONE);
             } else {
@@ -113,13 +131,6 @@ public class MainActivity extends BaseActivity {
             }
         });
     }
-
-//    Intent intent = new Intent(MainActivity.this, SingleImageActivity.class);
-//            intent.putExtra(KEY_IMAGE_URL, cat);
-//            intent.putExtra(KEY_IMAGE_URL_THUMBNAIL, cat_thumbnail);
-//    ActivityOptionsCompat compat = ActivityOptionsCompat
-//            .makeSceneTransitionAnimation(MainActivity.this, image41, getString(R.string.transitional_image));
-//            ActivityCompat.startActivity(MainActivity.this, intent, compat.toBundle());
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
