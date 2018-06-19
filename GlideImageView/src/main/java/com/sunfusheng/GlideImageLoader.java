@@ -6,14 +6,9 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.widget.ImageView;
 
-import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.Transformation;
-import com.bumptech.glide.load.engine.GlideException;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.Target;
 import com.sunfusheng.progress.GlideApp;
 import com.sunfusheng.progress.GlideRequest;
 import com.sunfusheng.progress.OnProgressListener;
@@ -68,12 +63,15 @@ public class GlideImageLoader {
         return loadImage(resId2Uri(resId), placeholder, transformation);
     }
 
-    protected GlideImageLoader loadImage(Object obj, @DrawableRes int placeholder, Transformation<Bitmap> transformation) {
+    protected GlideRequest<Drawable> loadImage(Object obj) {
         if (obj instanceof String) {
             url = (String) obj;
         }
+        return GlideApp.with(getContext()).load(obj);
+    }
 
-        GlideRequest<Drawable> glideRequest = GlideApp.with(getContext()).load(obj);
+    protected GlideImageLoader loadImage(Object obj, @DrawableRes int placeholder, Transformation<Bitmap> transformation) {
+        GlideRequest<Drawable> glideRequest = loadImage(obj);
         if (placeholder != 0) {
             glideRequest = glideRequest.placeholder(placeholder).error(placeholder);
         }
@@ -82,19 +80,7 @@ public class GlideImageLoader {
             glideRequest = glideRequest.transform(transformation);
         }
 
-//        glideRequest = glideRequest.diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true);
-
-        glideRequest.listener(new RequestListener<Drawable>() {
-            @Override
-            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                return false;
-            }
-
-            @Override
-            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                return false;
-            }
-        }).into(getImageView());
+        glideRequest.into(getImageView());
         return this;
     }
 

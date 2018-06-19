@@ -3,7 +3,6 @@ package com.sunfusheng.glideimageview.sample.image;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
-import android.text.TextUtils;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,9 +12,9 @@ import android.widget.ImageView;
 import com.github.chrisbanes.photoview.OnOutsidePhotoTapListener;
 import com.github.chrisbanes.photoview.OnPhotoTapListener;
 import com.github.chrisbanes.photoview.PhotoView;
-import com.sunfusheng.progress.CircleProgressView;
 import com.sunfusheng.glideimageview.sample.R;
-import com.sunfusheng.glideimageview.sample.widget.NineImageView.ImageAttr;
+import com.sunfusheng.glideimageview.sample.widget.MultiImageView.ImageData;
+import com.sunfusheng.progress.CircleProgressView;
 
 import java.util.List;
 
@@ -23,10 +22,10 @@ public class ImagesAdapter extends PagerAdapter implements OnPhotoTapListener, O
 
     private Context mContext;
     private LayoutInflater mInflater;
-    private List<ImageAttr> images;
+    private List<ImageData> images;
     private SparseArray<PhotoView> photoViews = new SparseArray<>();
 
-    public ImagesAdapter(Context context, @NonNull List<ImageAttr> images) {
+    public ImagesAdapter(Context context, @NonNull List<ImageData> images) {
         super();
         this.mContext = context;
         this.mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -39,12 +38,12 @@ public class ImagesAdapter extends PagerAdapter implements OnPhotoTapListener, O
     }
 
     @Override
-    public boolean isViewFromObject(View view, Object object) {
+    public boolean isViewFromObject(@NonNull View view, @NonNull Object object) {
         return view == object;
     }
 
     @Override
-    public void setPrimaryItem(ViewGroup container, int position, Object object) {
+    public void setPrimaryItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
         super.setPrimaryItem(container, position, object);
     }
 
@@ -53,7 +52,7 @@ public class ImagesAdapter extends PagerAdapter implements OnPhotoTapListener, O
     }
 
     @Override
-    public Object instantiateItem(ViewGroup container, int position) {
+    public Object instantiateItem(@NonNull ViewGroup container, int position) {
         View view = mInflater.inflate(R.layout.item_photoview, container, false);
         CircleProgressView progressView = (CircleProgressView) view.findViewById(R.id.progressView);
         PhotoView photoView = (PhotoView) view.findViewById(R.id.photoView);
@@ -61,9 +60,6 @@ public class ImagesAdapter extends PagerAdapter implements OnPhotoTapListener, O
         photoView.setOnPhotoTapListener(this);
         photoView.setOnOutsidePhotoTapListener(this);
         photoViews.put(position, photoView);
-
-        ImageAttr attr = images.get(position);
-        String url = TextUtils.isEmpty(attr.thumbnailUrl) ? attr.url : attr.thumbnailUrl;
 
 //        GlideImageLoader imageLoader = GlideImageLoader.create(photoView);
 //        imageLoader.setOnGlideImageViewListener(url, (percent, isDone, exception) -> {
@@ -92,7 +88,7 @@ public class ImagesAdapter extends PagerAdapter implements OnPhotoTapListener, O
     }
 
     @Override
-    public void destroyItem(ViewGroup container, int position, Object object) {
+    public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
         container.removeView((View) object);
     }
 

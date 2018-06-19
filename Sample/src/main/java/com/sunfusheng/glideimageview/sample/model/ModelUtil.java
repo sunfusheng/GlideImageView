@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by sunfusheng on 2017/6/27.
+ * @author by sunfusheng on 2017/6/27.
  */
 public class ModelUtil {
 
@@ -26,8 +26,8 @@ public class ModelUtil {
         list.add(new ImageModel("又一个小猫咪(450X798)", images));
 
         images = new ArrayList<>();
-        images.add("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1498628972675&di=329747bae23548dfd988fbc6dcaf76b7&imgtype=0&src=http%3A%2F%2Fwww.17sucai.com%2Fupload%2F534358%2F2016-06-13%2Facdf7f6e040aee07147f9e3508833c8a_big.jpg");
-        list.add(new ImageModel("一个小猫咪(650X406)", images));
+        images.add("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1529402445474&di=b5da3b2f6a466e618e1e32d4dd2bda4d&imgtype=0&src=http%3A%2F%2F2b.zol-img.com.cn%2Fproduct%2F133_500x2000%2F801%2Fce21ke76FRh4A.jpg");
+        list.add(new ImageModel("一个小猫咪(534X300)", images));
 
         images = new ArrayList<>();
         images.add("http://img15.3lian.com/2015/h1/308/d/199.jpg");
@@ -44,7 +44,6 @@ public class ModelUtil {
         images.add("http://img2.imgtn.bdimg.com/it/u=2850936076,2080165544&fm=206&gp=0.jpg");
         images.add("http://img3.imgtn.bdimg.com/it/u=524208507,12616758&fm=206&gp=0.jpg");
         images.add("http://img3.imgtn.bdimg.com/it/u=698582197,4250615262&fm=206&gp=0.jpg");
-        images.add("http://img5.imgtn.bdimg.com/it/u=1467751238,3257336851&fm=11&gp=0.jpg");
         images.add("http://img5.imgtn.bdimg.com/it/u=3191365283,111438732&fm=21&gp=0.jpg");
         images.add("http://img5.imgtn.bdimg.com/it/u=482494496,1350922497&fm=206&gp=0.jpg");
         images.add("http://img4.imgtn.bdimg.com/it/u=2440866214,1867472386&fm=21&gp=0.jpg");
@@ -53,7 +52,40 @@ public class ModelUtil {
         images.add("http://img5.imgtn.bdimg.com/it/u=2091366266,1524114981&fm=21&gp=0.jpg");
         images.add("http://img5.imgtn.bdimg.com/it/u=2091366266,1524114981&fm=21&gp=0.jpg");
         images.add("http://img5.imgtn.bdimg.com/it/u=1424970962,1243597989&fm=21&gp=0.jpg");
-        list.add(new ImageModel("一共12张图片", images));
+        list.add(new ImageModel("11张图片", images));
+
+        images = new ArrayList<>();
+        images.add("http://img2.imgtn.bdimg.com/it/u=2850936076,2080165544&fm=206&gp=0.jpg");
+        images.add("http://img3.imgtn.bdimg.com/it/u=524208507,12616758&fm=206&gp=0.jpg");
+        images.add("http://img3.imgtn.bdimg.com/it/u=698582197,4250615262&fm=206&gp=0.jpg");
+        list.add(new ImageModel("3张图片", images));
+
+        images = new ArrayList<>();
+        images.add("http://img2.imgtn.bdimg.com/it/u=2850936076,2080165544&fm=206&gp=0.jpg");
+        images.add("http://img3.imgtn.bdimg.com/it/u=524208507,12616758&fm=206&gp=0.jpg");
+        images.add("http://img3.imgtn.bdimg.com/it/u=698582197,4250615262&fm=206&gp=0.jpg");
+        images.add("http://img5.imgtn.bdimg.com/it/u=3191365283,111438732&fm=21&gp=0.jpg");
+        images.add("http://img5.imgtn.bdimg.com/it/u=482494496,1350922497&fm=206&gp=0.jpg");
+        images.add("http://img4.imgtn.bdimg.com/it/u=2440866214,1867472386&fm=21&gp=0.jpg");
+        images.add("http://img3.imgtn.bdimg.com/it/u=3040385967,1031044866&fm=21&gp=0.jpg");
+        images.add("http://img1.imgtn.bdimg.com/it/u=1832737924,144748431&fm=21&gp=0.jpg");
+        images.add("http://img5.imgtn.bdimg.com/it/u=2091366266,1524114981&fm=21&gp=0.jpg");
+        list.add(new ImageModel("9张图片", images));
+
+        images = new ArrayList<>();
+        images.add("http://img3.imgtn.bdimg.com/it/u=524208507,12616758&fm=206&gp=0.jpg");
+        images.add("http://img3.imgtn.bdimg.com/it/u=698582197,4250615262&fm=206&gp=0.jpg");
+        images.add("http://img5.imgtn.bdimg.com/it/u=3191365283,111438732&fm=21&gp=0.jpg");
+        images.add("http://img5.imgtn.bdimg.com/it/u=482494496,1350922497&fm=206&gp=0.jpg");
+        images.add("http://img4.imgtn.bdimg.com/it/u=2440866214,1867472386&fm=21&gp=0.jpg");
+        list.add(new ImageModel("5张图片", images));
+
+        images = new ArrayList<>();
+        images.add("http://img2.imgtn.bdimg.com/it/u=2850936076,2080165544&fm=206&gp=0.jpg");
+        images.add("http://img3.imgtn.bdimg.com/it/u=524208507,12616758&fm=206&gp=0.jpg");
+        images.add("http://img3.imgtn.bdimg.com/it/u=698582197,4250615262&fm=206&gp=0.jpg");
+        images.add("http://img5.imgtn.bdimg.com/it/u=3191365283,111438732&fm=21&gp=0.jpg");
+        list.add(new ImageModel("4张图片", images));
 
         return list;
     }

@@ -14,7 +14,7 @@ import android.widget.FrameLayout;
 import com.sunfusheng.util.DisplayUtil;
 
 /**
- * Created by sunfusheng on 2017/6/27.
+ * @author by sunfusheng on 2017/6/27.
  */
 public class DraggableFrameLayout extends FrameLayout {
 
@@ -42,37 +42,37 @@ public class DraggableFrameLayout extends FrameLayout {
         dragHelper = ViewDragHelper.create(this, new ViewDragHelper.Callback() {
 
             @Override
-            public boolean tryCaptureView(View child, int pointerId) {
+            public boolean tryCaptureView(@NonNull View child, int pointerId) {
                 return true;
             }
 
             @Override
-            public void onViewCaptured(View capturedChild, int activePointerId) {
+            public void onViewCaptured(@NonNull View capturedChild, int activePointerId) {
                 super.onViewCaptured(capturedChild, activePointerId);
             }
 
             @Override
-            public int clampViewPositionHorizontal(View child, int left, int dx) {
+            public int clampViewPositionHorizontal(@NonNull View child, int left, int dx) {
                 return left;
             }
 
             @Override
-            public int clampViewPositionVertical(View child, int top, int dy) {
+            public int clampViewPositionVertical(@NonNull View child, int top, int dy) {
                 return top;
             }
 
             @Override
-            public int getViewHorizontalDragRange(View child) {
+            public int getViewHorizontalDragRange(@NonNull View child) {
                 return getMeasuredWidth() - child.getMeasuredWidth();
             }
 
             @Override
-            public int getViewVerticalDragRange(View child) {
+            public int getViewVerticalDragRange(@NonNull View child) {
                 return getMeasuredHeight() - child.getMeasuredHeight();
             }
 
             @Override
-            public void onViewReleased(View releasedChild, float xvel, float yvel) {
+            public void onViewReleased(@NonNull View releasedChild, float xvel, float yvel) {
                 super.onViewReleased(releasedChild, xvel, yvel);
                 int viewWidth = releasedChild.getWidth();
                 int viewHeight = releasedChild.getHeight();

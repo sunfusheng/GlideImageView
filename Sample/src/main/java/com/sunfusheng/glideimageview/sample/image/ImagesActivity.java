@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.ViewTreeObserver;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -16,7 +15,7 @@ import com.github.chrisbanes.photoview.PhotoView;
 import com.sunfusheng.glideimageview.sample.R;
 import com.sunfusheng.glideimageview.sample.util.ColorUtil;
 import com.sunfusheng.glideimageview.sample.util.StatusBarUtil;
-import com.sunfusheng.glideimageview.sample.widget.NineImageView.ImageAttr;
+import com.sunfusheng.glideimageview.sample.widget.MultiImageView.ImageData;
 import com.sunfusheng.util.DisplayUtil;
 
 import java.util.List;
@@ -31,7 +30,7 @@ public class ImagesActivity extends Activity implements ViewTreeObserver.OnPreDr
     private ViewPager viewPager;
     private TextView tvTip;
     private ImagesAdapter mAdapter;
-    private List<ImageAttr> imageAttrs;
+    private List<ImageData> imageAttrs;
     private boolean isAnimating;
 
     private int curPosition;
@@ -55,7 +54,7 @@ public class ImagesActivity extends Activity implements ViewTreeObserver.OnPreDr
         screenHeight = DisplayUtil.getWindowHeight(this);
 
         Intent intent = getIntent();
-        imageAttrs = (List<ImageAttr>) intent.getSerializableExtra(IMAGE_ATTR);
+        imageAttrs = (List<ImageData>) intent.getSerializableExtra(IMAGE_ATTR);
         curPosition = intent.getIntExtra(CUR_POSITION, 0);
         tvTip.setText(String.format(getString(R.string.image_index), (curPosition + 1), imageAttrs.size()));
 
@@ -77,62 +76,62 @@ public class ImagesActivity extends Activity implements ViewTreeObserver.OnPreDr
         finishWithAnim();
     }
 
-    private void initImageAttr(PhotoView photoView, ImageAttr attr, boolean isFinish) {
-        int originalWidth = attr.width;
-        int originalHeight = attr.height;
-        int originalCenterX = attr.left + originalWidth / 2;
-        int originalCenterY = attr.top + originalHeight / 2;
-
-        float widthRatio = screenWidth * 1.0f / attr.realWidth;
-        float heightRatio = screenHeight * 1.0f / attr.realHeight;
-        int finalHeight = (int) (attr.realHeight * widthRatio);
-        int finalWidth = screenWidth; //imageAttrs.size() == 1 ? screenWidth : finalHeight;
-
-        scaleX = originalWidth * 1.0f / finalWidth;
-        scaleY = originalHeight * 1.0f / finalHeight;
-        translationX = originalCenterX - screenWidth / 2;
-        translationY = originalCenterY - screenHeight / 2;
-
-        Log.d("--->", "(left, top): (" + attr.left + ", " + attr.top + ")");
-        Log.d("--->", "originalWidth: " + originalWidth + " originalHeight: " + originalHeight);
-        Log.d("--->", "finalWidth: " + finalWidth + " finalHeight: " + finalHeight);
-        Log.d("--->", "scaleX: " + scaleX + " scaleY: " + scaleY);
-        Log.d("--->", "translationX: " + translationX + " translationY: " + translationY);
-        Log.d("--->", "" + attr.toString());
-        Log.d("--->", "----------------------------------------------------------------");
+    private void initImageAttr(PhotoView photoView, ImageData attr, boolean isFinish) {
+//        int originalWidth = attr.width;
+//        int originalHeight = attr.height;
+//        int originalCenterX = attr.left + originalWidth / 2;
+//        int originalCenterY = attr.top + originalHeight / 2;
+//
+//        float widthRatio = screenWidth * 1.0f / attr.realWidth;
+//        float heightRatio = screenHeight * 1.0f / attr.realHeight;
+//        int finalHeight = (int) (attr.realHeight * widthRatio);
+//        int finalWidth = screenWidth; //imageAttrs.size() == 1 ? screenWidth : finalHeight;
+//
+//        scaleX = originalWidth * 1.0f / finalWidth;
+//        scaleY = originalHeight * 1.0f / finalHeight;
+//        translationX = originalCenterX - screenWidth / 2;
+//        translationY = originalCenterY - screenHeight / 2;
+//
+//        Log.d("--->", "(left, top): (" + attr.left + ", " + attr.top + ")");
+//        Log.d("--->", "originalWidth: " + originalWidth + " originalHeight: " + originalHeight);
+//        Log.d("--->", "finalWidth: " + finalWidth + " finalHeight: " + finalHeight);
+//        Log.d("--->", "scaleX: " + scaleX + " scaleY: " + scaleY);
+//        Log.d("--->", "translationX: " + translationX + " translationY: " + translationY);
+//        Log.d("--->", "" + attr.toString());
+//        Log.d("--->", "----------------------------------------------------------------");
     }
 
     @Override
     public boolean onPreDraw() {
-        if (isAnimating) return true;
-        rootView.getViewTreeObserver().removeOnPreDrawListener(this);
-        PhotoView photoView = mAdapter.getPhotoView(curPosition);
-        ImageAttr attr = imageAttrs.get(curPosition);
-        initImageAttr(photoView, attr, false);
-
-        translateXAnim(photoView, translationX, 0);
-        translateYAnim(photoView, translationY, 0);
-        scaleXAnim(photoView, scaleX, 1);
-        scaleYAnim(photoView, scaleY, 1);
-        setBackgroundColor(0f, 1f, new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animation) {
-                isAnimating = true;
-            }
-
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                isAnimating = false;
-            }
-
-            @Override
-            public void onAnimationCancel(Animator animation) {
-            }
-
-            @Override
-            public void onAnimationRepeat(Animator animation) {
-            }
-        });
+//        if (isAnimating) return true;
+//        rootView.getViewTreeObserver().removeOnPreDrawListener(this);
+//        PhotoView photoView = mAdapter.getPhotoView(curPosition);
+//        ImageAttr attr = imageAttrs.get(curPosition);
+//        initImageAttr(photoView, attr, false);
+//
+//        translateXAnim(photoView, translationX, 0);
+//        translateYAnim(photoView, translationY, 0);
+//        scaleXAnim(photoView, scaleX, 1);
+//        scaleYAnim(photoView, scaleY, 1);
+//        setBackgroundColor(0f, 1f, new Animator.AnimatorListener() {
+//            @Override
+//            public void onAnimationStart(Animator animation) {
+//                isAnimating = true;
+//            }
+//
+//            @Override
+//            public void onAnimationEnd(Animator animation) {
+//                isAnimating = false;
+//            }
+//
+//            @Override
+//            public void onAnimationCancel(Animator animation) {
+//            }
+//
+//            @Override
+//            public void onAnimationRepeat(Animator animation) {
+//            }
+//        });
         return true;
     }
 
@@ -140,7 +139,7 @@ public class ImagesActivity extends Activity implements ViewTreeObserver.OnPreDr
         if (isAnimating) return;
         PhotoView photoView = mAdapter.getPhotoView(curPosition);
         photoView.setScale(1f);
-        ImageAttr attr = imageAttrs.get(curPosition);
+        ImageData attr = imageAttrs.get(curPosition);
         initImageAttr(photoView, attr, true);
 
         translateXAnim(photoView, 0, translationX);

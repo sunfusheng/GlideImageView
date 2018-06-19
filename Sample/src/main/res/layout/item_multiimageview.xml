@@ -4,13 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?attr/selectableItemBackground"
+    android:background="?android:attr/selectableItemBackground"
     android:orientation="vertical"
     android:paddingLeft="@dimen/d5"
     android:paddingRight="@dimen/d5">
 
     <TextView
-        android:id="@+id/tv_title"
+        android:id="@+id/desc"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/d5"
@@ -20,8 +20,8 @@
         android:textSize="@dimen/f6"
         tools:text="标题"/>
 
-    <com.sunfusheng.glideimageview.sample.widget.NineImageView.NineImageView
-        android:id="@+id/nineImageView"
+    <com.sunfusheng.glideimageview.sample.widget.MultiImageView.MultiImageView
+        android:id="@+id/multiImageView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/d4"/>

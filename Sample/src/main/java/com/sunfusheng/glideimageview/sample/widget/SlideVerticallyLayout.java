@@ -80,19 +80,13 @@ public class SlideVerticallyLayout extends FrameLayout {
                 isCanScroll = false;
             }
         });
-        addSlideCallback(new ISlideCallback() {
-            @Override
-            public void onPositionChange(int offsetY) {
-                float factor = (float) (getHeight() - offsetY) / (float) getHeight();
-                setBackgroundColor(((int) (factor * 0xc4)) << 24);
-            }
+        addSlideCallback(offsetY -> {
+            float factor = (float) (getHeight() - offsetY) / (float) getHeight();
+            setBackgroundColor(((int) (factor * 0xc4)) << 24);
         });
-        addSlideCallback(new ISlideCallback() {
-            @Override
-            public void onPositionChange(int offsetY) {
-                for (View view : mSlideView) {
-                    view.setTranslationY(offsetY);
-                }
+        addSlideCallback(offsetY -> {
+            for (View view : mSlideView) {
+                view.setTranslationY(offsetY);
             }
         });
     }

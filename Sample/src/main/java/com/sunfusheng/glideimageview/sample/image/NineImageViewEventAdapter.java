@@ -4,37 +4,30 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 
-import com.sunfusheng.glideimageview.sample.widget.NineImageView.ImageAttr;
-import com.sunfusheng.glideimageview.sample.widget.NineImageView.NineImageView;
-import com.sunfusheng.glideimageview.sample.widget.NineImageView.NineImageViewAdapter;
+import com.sunfusheng.glideimageview.sample.widget.MultiImageView.ImageData;
+import com.sunfusheng.glideimageview.sample.widget.MultiImageView.MultiImageView;
 
 import java.io.Serializable;
 import java.util.List;
 
 
-public class NineImageViewEventAdapter extends NineImageViewAdapter {
+public class NineImageViewEventAdapter {
 
-    public NineImageViewEventAdapter(Context context, List<ImageAttr> imageAttr) {
-        super(context, imageAttr);
-    }
-
-    @Override
-    protected void onImageItemClick(Context context, NineImageView nineImageView, int index, List<ImageAttr> images) {
-        for (int i = 0; i < images.size(); i++) {
-            ImageAttr attr = images.get(i);
-            View imageView = nineImageView.getChildAt(i);
-            if (i >= nineImageView.getMaxSize()) {
-                imageView = nineImageView.getChildAt(nineImageView.getMaxSize() - 1);
-            }
-            attr.width = imageView.getWidth();
-            attr.height = imageView.getHeight();
-            int[] points = new int[2];
-            imageView.getLocationInWindow(points);
-            attr.left = points[0];
-            attr.top = points[1];
-        }
+    protected void onImageItemClick(Context context, MultiImageView nineImageView, int index, List<ImageData> images) {
+//        for (int i = 0; i < images.size(); i++) {
+//            ImageData attr = images.get(i);
+//            View imageView = nineImageView.getChildAt(i);
+//            if (i >= nineImageView.getMaxSize()) {
+//                imageView = nineImageView.getChildAt(nineImageView.getMaxSize() - 1);
+//            }
+//            attr.width = imageView.getWidth();
+//            attr.height = imageView.getHeight();
+//            int[] points = new int[2];
+//            imageView.getLocationInWindow(points);
+//            attr.left = points[0];
+//            attr.top = points[1];
+//        }
 
         Intent intent = new Intent(context, ImagesActivity.class);
         Bundle bundle = new Bundle();
