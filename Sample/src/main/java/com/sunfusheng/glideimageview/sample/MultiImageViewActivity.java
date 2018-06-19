@@ -27,6 +27,8 @@ public class MultiImageViewActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_recyclerview);
 
+        setTitle("MultiImageView");
+
         RecyclerView recyclerView = findViewById(R.id.recycleView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
@@ -49,7 +51,7 @@ public class MultiImageViewActivity extends BaseActivity {
         RecyclerViewAdapter(Context context, List<ImageModel> list) {
             this.list = list;
             margin = DisplayUtil.dp2px(context, 3);
-            maxImgHeight = maxImgWidth = DisplayUtil.getWindowWidth(context) - DisplayUtil.dp2px(context, 16) * 2;
+            maxImgHeight = maxImgWidth = (DisplayUtil.getWindowWidth(context) - DisplayUtil.dp2px(context, 16) * 2) * 3 / 4;
             cellHeight = cellWidth = (maxImgWidth - margin * 3) / 3;
             minImgHeight = minImgWidth = cellWidth;
         }
@@ -75,7 +77,9 @@ public class MultiImageViewActivity extends BaseActivity {
                 if (size >= 9) break;
             }
 
-            viewHolder.multiImageView.setData(list, getLayoutHelper(list));
+            viewHolder.multiImageView.enableRoundCorner(true)
+                    .setRoundCornerRadius(5)
+                    .setData(list, getLayoutHelper(list));
         }
 
         private GridLayoutHelper getLayoutHelper(List<ImageData> list) {

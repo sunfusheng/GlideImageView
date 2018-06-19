@@ -1,9 +1,13 @@
 package com.sunfusheng.glideimageview.sample.widget.MultiImageView;
 
 import android.content.Context;
+import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
 import android.graphics.RectF;
+import android.graphics.Xfermode;
 import android.util.AttributeSet;
 import android.view.ViewGroup;
 
@@ -19,8 +23,11 @@ public class MultiImageView extends ViewGroup {
     private List<ImageData> dataSource;
     private LayoutHelper layoutHelper;
     private int size;
-    private int radius;
-    private final Paint coverRoundRectPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+
+    private boolean enableRoundCorner;
+    private int roundCornerRadius;
+    private final Xfermode DST_IN = new PorterDuffXfermode(PorterDuff.Mode.DST_IN);
+    private final Paint roundPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private final Path roundPath = new Path();
     private RectF roundRect = new RectF(0, 0, 0, 0);
 
@@ -41,7 +48,7 @@ public class MultiImageView extends ViewGroup {
     }
 
     private void init() {
-        radius = DisplayUtil.dp2px(getContext(), 5);
+        setRoundCornerRadius(5);
     }
 
     public void setData(List<ImageData> dataSource, LayoutHelper layoutHelper) {
@@ -70,6 +77,16 @@ public class MultiImageView extends ViewGroup {
         requestLayout();
     }
 
+    public MultiImageView enableRoundCorner(boolean enableRoundCorner) {
+        this.enableRoundCorner = enableRoundCorner;
+        return this;
+    }
+
+    public MultiImageView setRoundCornerRadius(int roundCornerRadius) {
+        this.roundCornerRadius = DisplayUtil.dp2px(getContext(), roundCornerRadius);
+        return this;
+    }
+
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         int width = 0;
@@ -88,7 +105,6 @@ public class MultiImageView extends ViewGroup {
         int heightSpecSize = MeasureSpec.getSize(heightMeasureSpec);
         float widthScale = 1;
         float heightScale = 1;
-        float scale = Math.min(widthScale, heightScale);
 
         switch (widthSpecMode) {
             case MeasureSpec.EXACTLY:
@@ -114,6 +130,7 @@ public class MultiImageView extends ViewGroup {
                 break;
         }
 
+        float scale = Math.min(widthScale, heightScale);
         if (scale < 1) {
             width = 0;
             height = 0;
@@ -134,7 +151,9 @@ public class MultiImageView extends ViewGroup {
         roundRect.right = width;
         roundRect.bottom = height;
         roundPath.reset();
-        roundPath.addRoundRect(roundRect, radius, radius, Path.Direction.CW);
+        if (enableRoundCorner) {
+            roundPath.addRoundRect(roundRect, roundCornerRadius, roundCornerRadius, Path.Direction.CW);
+        }
         super.onMeasure(MeasureSpec.makeMeasureSpec(width, MeasureSpec.EXACTLY), MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY));
         for (int i = 0; i < dataSource.size(); i++) {
             ImageCell imageCell = (ImageCell) getChildAt(i);
@@ -158,5 +177,27 @@ public class MultiImageView extends ViewGroup {
             }
         }
         shouldLoad = false;
+    }
+
+    @Override
+    protected void dispatchDraw(Canvas canvas) {
+        if (enableRoundCorner) {
+            canvas.saveLayer(0, 0, getMeasuredWidth(), getMeasuredHeight(), roundPaint, Canvas.ALL_SAVE_FLAG);
+            super.dispatchDraw(canvas);
+            if (size == 1) {
+                Paint borderPaint = new Paint();
+                borderPaint.setAntiAlias(true);
+                borderPaint.setStyle(Paint.Style.STROKE);
+                borderPaint.setColor(getResources().getColor(android.R.color.transparent));
+                canvas.drawPath(roundPath, borderPaint);
+            }
+
+            roundPaint.setXfermode(DST_IN);
+            canvas.drawPath(roundPath, roundPaint);
+            roundPaint.setXfermode(null);
+            canvas.restore();
+        } else {
+            super.dispatchDraw(canvas);
+        }
     }
 }

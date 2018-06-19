@@ -11,9 +11,9 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.sunfusheng.GlideImageView;
-import com.sunfusheng.progress.CircleProgressView;
 import com.sunfusheng.glideimageview.sample.about.AboutActivity;
 import com.sunfusheng.glideimageview.sample.image.SingleImageActivity;
+import com.sunfusheng.progress.CircleProgressView;
 
 /**
  * @author by sunfusheng on 2017/6/3.
@@ -35,8 +35,7 @@ public class MainActivity extends BaseActivity {
     GlideImageView image32;
     CircleProgressView progressView2;
 
-    TextView draggableView1;
-    TextView draggableView2;
+    TextView draggableView;
 
     String url1 = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1497688355699&di=ea69a930b82ce88561c635089995e124&imgtype=0&src=http%3A%2F%2Fcms-bucket.nosdn.127.net%2Ff84e566bcf654b3698363409fbd676ef20161119091503.jpg";
     String url2 = "http://img1.imgtn.bdimg.com/it/u=4027212837,1228313366&fm=23&gp=0.jpg";
@@ -71,10 +70,9 @@ public class MainActivity extends BaseActivity {
         image32 = findViewById(R.id.image32);
         progressView2 = findViewById(R.id.progressView2);
 
-        draggableView1 = findViewById(R.id.draggableView1);
-        draggableView2 = findViewById(R.id.draggableView2);
-        draggableView1.setOnClickListener(v -> startActivity(new Intent(mContext, RecyclerViewActivity.class)));
-        draggableView2.setOnClickListener(v -> startActivity(new Intent(mContext, MultiImageViewActivity.class)));
+        draggableView = findViewById(R.id.draggableView);
+        image11.setOnClickListener(v -> startActivity(new Intent(mContext, RecyclerViewActivity.class)));
+        draggableView.setOnClickListener(v -> startActivity(new Intent(mContext, MultiImageViewActivity.class)));
 
         image31.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, SingleImageActivity.class);
