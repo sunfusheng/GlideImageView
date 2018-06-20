@@ -6,11 +6,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.sunfusheng.GlideImageView;
-import com.sunfusheng.progress.CircleProgressView;
 import com.sunfusheng.glideimageview.sample.R;
+import com.sunfusheng.progress.CircleProgressView;
 
 /**
- * @author  by sunfusheng on 2017/6/15.
+ * @author by sunfusheng on 2017/6/15.
  */
 public class SingleImageActivity extends AppCompatActivity {
 
@@ -39,8 +39,8 @@ public class SingleImageActivity extends AppCompatActivity {
     }
 
     private void loadImage() {
-        glideImageView.load(image_url, R.color.transparent, (percentage, bytesRead, totalBytes) -> {
-            if (percentage >= 100) {
+        glideImageView.load(image_url, R.color.transparent, (isComplete, percentage, bytesRead, totalBytes) -> {
+            if (isComplete) {
                 progressView.setVisibility(View.GONE);
             } else {
                 progressView.setVisibility(View.VISIBLE);

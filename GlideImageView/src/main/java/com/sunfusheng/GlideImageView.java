@@ -8,6 +8,8 @@ import android.util.AttributeSet;
 import android.widget.ImageView;
 
 import com.bumptech.glide.load.Transformation;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.sunfusheng.progress.OnProgressListener;
 import com.sunfusheng.transformation.CircleTransformation;
 import com.sunfusheng.transformation.RadiusTransformation;
@@ -17,6 +19,7 @@ import com.sunfusheng.transformation.RadiusTransformation;
  */
 public class GlideImageView extends ImageView {
 
+    private boolean enableState = false;
     private float pressedAlpha = 0.4f;
     private float unableAlpha = 0.3f;
     private GlideImageLoader imageLoader;
@@ -43,6 +46,29 @@ public class GlideImageView extends ImageView {
             imageLoader = GlideImageLoader.create(this);
         }
         return imageLoader;
+    }
+
+    public GlideImageView apply(RequestOptions options) {
+        getImageLoader().setRequestOptions(options);
+        return this;
+    }
+
+    public GlideImageView centerCrop() {
+        RequestOptions options = getImageLoader().getRequestOptions();
+        getImageLoader().setRequestOptions(options.centerCrop());
+        return this;
+    }
+
+    public GlideImageView fitCenter() {
+        RequestOptions options = getImageLoader().getRequestOptions();
+        getImageLoader().setRequestOptions(options.fitCenter());
+        return this;
+    }
+
+    public GlideImageView diskCacheStrategy(@NonNull DiskCacheStrategy strategy) {
+        RequestOptions options = getImageLoader().getRequestOptions();
+        getImageLoader().setRequestOptions(options.diskCacheStrategy(strategy));
+        return this;
     }
 
     public void load(String url) {
@@ -96,12 +122,14 @@ public class GlideImageView extends ImageView {
     @Override
     protected void drawableStateChanged() {
         super.drawableStateChanged();
-        if (isPressed()) {
-            setAlpha(pressedAlpha);
-        } else if (!isEnabled()) {
-            setAlpha(unableAlpha);
-        } else {
-            setAlpha(1.0f);
+        if (enableState) {
+            if (isPressed()) {
+                setAlpha(pressedAlpha);
+            } else if (!isEnabled()) {
+                setAlpha(unableAlpha);
+            } else {
+                setAlpha(1.0f);
+            }
         }
     }
 }

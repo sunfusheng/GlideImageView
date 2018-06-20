@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.sunfusheng.FirUpdater;
 import com.sunfusheng.GlideImageView;
 import com.sunfusheng.glideimageview.sample.about.AboutActivity;
@@ -45,11 +46,11 @@ public class MainActivity extends BaseActivity {
     String gif2 = "http://5b0988e595225.cdn.sohucs.com/images/20171202/a1cc52d5522f48a8a2d6e7426b13f82b.gif";
     String gif3 = "http://img.zcool.cn/community/01d6dd554b93f0000001bf72b4f6ec.jpg";
 
-    public static final String cat = "https://raw.githubusercontent.com/sfsheng0322/GlideImageView/master/screenshot/cat.jpg";
-    public static final String cat_thumbnail = "https://raw.githubusercontent.com/sfsheng0322/GlideImageView/master/screenshot/cat_thumbnail.jpg";
+    public static final String cat = "https://raw.githubusercontent.com/sfsheng0322/GlideImageView/master/resources/cat.jpg";
+    public static final String cat_thumbnail = "https://raw.githubusercontent.com/sfsheng0322/GlideImageView/master/resources/cat_thumbnail.jpg";
 
-    public static final String girl = "https://raw.githubusercontent.com/sfsheng0322/GlideImageView/master/screenshot/girl.jpg";
-    public static final String girl_thumbnail = "https://raw.githubusercontent.com/sfsheng0322/GlideImageView/master/screenshot/girl_thumbnail.jpg";
+    public static final String girl = "https://raw.githubusercontent.com/sfsheng0322/GlideImageView/master/resources/girl.jpg";
+    public static final String girl_thumbnail = "https://raw.githubusercontent.com/sfsheng0322/GlideImageView/master/resources/girl_thumbnail.jpg";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,21 +102,21 @@ public class MainActivity extends BaseActivity {
     private void line1() {
         image11.load(url1);
         image12.loadCircle(url1);
-        image13.load(url2, R.color.placeholder);
-        image14.load(url2, R.color.placeholder, 10);
+        image13.load(url2, R.mipmap.image_loading);
+        image14.load(url2, R.mipmap.image_loading, 10);
     }
 
     private void line2() {
         image21.load(gif1);
-        image22.load(gif2, R.color.placeholder, 10);
+        image22.load(gif2, R.mipmap.image_loading, 10);
         image23.loadCircle(gif3);
         image24.loadDrawable(R.drawable.gif_robot_walk);
     }
 
     private void line3() {
-        image31.load(girl, R.color.placeholder, (percentage, bytesRead, totalBytes) -> {
+        image31.fitCenter().diskCacheStrategy(DiskCacheStrategy.NONE).load(girl, R.color.placeholder, (isComplete, percentage, bytesRead, totalBytes) -> {
             Log.d("--->", "【load girl】 percentage: " + percentage + " totalBytes: " + totalBytes + " bytesRead: " + bytesRead);
-            if (percentage >= 100) {
+            if (isComplete) {
                 progressView1.setVisibility(View.GONE);
             } else {
                 progressView1.setVisibility(View.VISIBLE);
@@ -123,8 +124,8 @@ public class MainActivity extends BaseActivity {
             }
         });
 
-        image32.load(cat, R.color.placeholder, (percentage, bytesRead, totalBytes) -> {
-            if (percentage >= 100) {
+        image32.load(cat, R.color.placeholder, (isComplete, percentage, bytesRead, totalBytes) -> {
+            if (isComplete) {
                 progressView2.setVisibility(View.GONE);
             } else {
                 progressView2.setVisibility(View.VISIBLE);

@@ -8,6 +8,7 @@ import android.graphics.Point;
 public class ImageData {
     public String localUrl;
     public String remoteUrl;
+    public String text;
 
     public int startX;
     public int startY;

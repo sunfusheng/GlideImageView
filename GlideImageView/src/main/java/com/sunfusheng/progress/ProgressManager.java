@@ -40,8 +40,9 @@ public class ProgressManager {
         OnProgressListener onProgressListener = getProgressListener(url);
         if (onProgressListener != null) {
             int percentage = (int) ((bytesRead * 1f / totalBytes) * 100f);
-            onProgressListener.onProgress(percentage, bytesRead, totalBytes);
-            if (percentage >= 100) {
+            boolean isComplete = percentage >= 100;
+            onProgressListener.onProgress(isComplete, percentage, bytesRead, totalBytes);
+            if (isComplete) {
                 removeListener(url);
             }
         }

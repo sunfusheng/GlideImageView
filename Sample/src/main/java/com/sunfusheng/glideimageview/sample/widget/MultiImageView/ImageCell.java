@@ -83,8 +83,7 @@ public class ImageCell extends android.support.v7.widget.AppCompatImageView {
     }
 
     private class ImageCellTarget extends DrawableImageViewTarget {
-
-        public ImageCellTarget(ImageView view) {
+        ImageCellTarget(ImageView view) {
             super(view);
         }
 
