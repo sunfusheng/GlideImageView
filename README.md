@@ -12,10 +12,10 @@
 
 <table>
     <tr>
-        <td><img src="/screenshot/image4.png"></td>
-        <td><img src="/screenshot/gif6.gif"></td>
-        <td><img src="/screenshot/gif1.gif"></td>
-        <td><img src="/screenshot/gif3.gif"></td>
+        <td><img src="/resources/image4.png"></td>
+        <td><img src="/resources/gif6.gif"></td>
+        <td><img src="/resources/gif1.gif"></td>
+        <td><img src="/resources/gif3.gif"></td>
     </tr>
 </table>
 
@@ -23,7 +23,7 @@
 
 ### 监听先加载缩略图再加载高清图片进度的效果图
 
-<img src="/screenshot/gif5.gif">
+<img src="/resources/gif5.gif">
 
 <br/>
 
@@ -117,7 +117,7 @@
   
 <br/>
     
-<img src="/screenshot/gif4.gif">
+<img src="/resources/gif4.gif">
 
 <br/>
 

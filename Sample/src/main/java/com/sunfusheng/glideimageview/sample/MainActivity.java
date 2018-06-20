@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.sunfusheng.FirUpdater;
 import com.sunfusheng.GlideImageView;
 import com.sunfusheng.glideimageview.sample.about.AboutActivity;
 import com.sunfusheng.glideimageview.sample.image.SingleImageActivity;
@@ -54,6 +55,8 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        new FirUpdater(this, "3c57fb226edf7facf821501e4eba08d2", "59461f4c548b7a45cb000050").checkVersion();
 
         image11 = findViewById(R.id.image11);
         image12 = findViewById(R.id.image12);

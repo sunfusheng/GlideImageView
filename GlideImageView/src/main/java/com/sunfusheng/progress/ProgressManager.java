@@ -1,7 +1,6 @@
 package com.sunfusheng.progress;
 
 import android.text.TextUtils;
-import android.util.Log;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -50,13 +49,11 @@ public class ProgressManager {
 
     public static void addListener(String url, OnProgressListener listener) {
         if (!TextUtils.isEmpty(url) && listener != null) {
-            Log.d("--->", "【addListener】url: " + url + "\nlistener: " + listener);
             listenersMap.put(url, listener);
         }
     }
 
     public static void removeListener(String url) {
-        Log.d("--->", "【removeListener】url: " + url);
         if (!TextUtils.isEmpty(url)) {
             listenersMap.remove(url);
         }

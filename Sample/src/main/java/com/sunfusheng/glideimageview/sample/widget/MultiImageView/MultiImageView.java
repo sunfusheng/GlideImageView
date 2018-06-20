@@ -21,8 +21,10 @@ import java.util.List;
 public class MultiImageView extends ViewGroup {
 
     private List<ImageData> dataSource;
-    private LayoutHelper layoutHelper;
     private int size;
+    private int margin;
+    private int cellWidth;
+    private int cellHeight;
 
     private boolean enableRoundCorner;
     private int roundCornerRadius;
@@ -48,12 +50,25 @@ public class MultiImageView extends ViewGroup {
     }
 
     private void init() {
+        margin = DisplayUtil.dp2px(getContext(), 3);
+        cellWidth = cellHeight = DisplayUtil.dp2px(getContext(), 60);
         setRoundCornerRadius(5);
     }
 
-    public void setData(List<ImageData> dataSource, LayoutHelper layoutHelper) {
-        this.dataSource = dataSource;
-        this.layoutHelper = layoutHelper;
+    public void setData(List<ImageData> list) {
+        setData(list, getDefaultLayoutHelper(list));
+    }
+
+    private GridLayoutHelper getDefaultLayoutHelper(List<ImageData> list) {
+        int imageCount = list != null ? list.size() : 0;
+        if (imageCount > 3) {
+            imageCount = (int) Math.ceil(Math.sqrt(imageCount));
+        }
+        return new GridLayoutHelper(imageCount, cellWidth, cellHeight, margin);
+    }
+
+    public void setData(List<ImageData> list, LayoutHelper layoutHelper) {
+        this.dataSource = list;
         this.shouldLoad = true;
 
         size = dataSource != null ? dataSource.size() : 0;
@@ -148,12 +163,13 @@ public class MultiImageView extends ViewGroup {
             }
         }
 
-        roundRect.right = width;
-        roundRect.bottom = height;
-        roundPath.reset();
         if (enableRoundCorner) {
+            roundRect.right = width;
+            roundRect.bottom = height;
+            roundPath.reset();
             roundPath.addRoundRect(roundRect, roundCornerRadius, roundCornerRadius, Path.Direction.CW);
         }
+
         super.onMeasure(MeasureSpec.makeMeasureSpec(width, MeasureSpec.EXACTLY), MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY));
         for (int i = 0; i < dataSource.size(); i++) {
             ImageCell imageCell = (ImageCell) getChildAt(i);
