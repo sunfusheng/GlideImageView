@@ -12,22 +12,32 @@ public class ModelUtil {
         List<ImageModel> list = new ArrayList<>();
 
         ArrayList<String> images = new ArrayList<>();
+        images.add("http://img3.imgtn.bdimg.com/it/u=3040385967,1031044866&fm=21&gp=0.jpg");
+        images.add("http://img1.imgtn.bdimg.com/it/u=1832737924,144748431&fm=21&gp=0.jpg");
+        images.add("http://img.zcool.cn/community/01d6dd554b93f0000001bf72b4f6ec.jpg");
+        list.add(new ImageModel("2张图片和1张GIF动态图", images));
+
+        images = new ArrayList<>();
+        images.add("http://5b0988e595225.cdn.sohucs.com/images/20171202/a1cc52d5522f48a8a2d6e7426b13f82b.gif");
+        list.add(new ImageModel("1张GIF动态图", images));
+
+        images = new ArrayList<>();
+        images.add("http://img5.imgtn.bdimg.com/it/u=2091366266,1524114981&fm=21&gp=0.jpg");
+        images.add("http://img5.imgtn.bdimg.com/it/u=2091366266,1524114981&fm=21&gp=0.jpg");
+        images.add("http://img5.imgtn.bdimg.com/it/u=1424970962,1243597989&fm=21&gp=0.jpg");
+        list.add(new ImageModel("3张图片", images));
+
+        images = new ArrayList<>();
         images.add("http://pic.58pic.com/58pic/13/62/02/07d58PICcxz_1024.jpg");
         list.add(new ImageModel("画卷：天道酬勤", images));
 
         images = new ArrayList<>();
-        images.add("http://img.pconline.com.cn/images/photo2/591572/1100105945280.jpg");
-        images.add("http://www.pop-photo.com.cn/data/attachment/forum/myspace/image/2011/07/0/46/76/467693_233590968.jpg");
-        images.add("http://www.52design.com/pic/20121/201211313245374.jpg");
-        list.add(new ImageModel("微距离摄影", images));
+        images.add("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1529402445474&di=b5da3b2f6a466e618e1e32d4dd2bda4d&imgtype=0&src=http%3A%2F%2F2b.zol-img.com.cn%2Fproduct%2F133_500x2000%2F801%2Fce21ke76FRh4A.jpg");
+        list.add(new ImageModel("一个小猫咪(534X300)", images));
 
         images = new ArrayList<>();
         images.add("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1498629002766&di=6fac924b9c9bc0858074a5eb455e4bd8&imgtype=0&src=http%3A%2F%2Fimg1.3lian.com%2F2015%2Fw21%2F8%2Fd%2F85.jpg");
         list.add(new ImageModel("又一个小猫咪(450X798)", images));
-
-        images = new ArrayList<>();
-        images.add("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1529402445474&di=b5da3b2f6a466e618e1e32d4dd2bda4d&imgtype=0&src=http%3A%2F%2F2b.zol-img.com.cn%2Fproduct%2F133_500x2000%2F801%2Fce21ke76FRh4A.jpg");
-        list.add(new ImageModel("一个小猫咪(534X300)", images));
 
         images = new ArrayList<>();
         images.add("http://img15.3lian.com/2015/h1/308/d/199.jpg");
@@ -59,6 +69,11 @@ public class ModelUtil {
         images.add("http://img3.imgtn.bdimg.com/it/u=524208507,12616758&fm=206&gp=0.jpg");
         images.add("http://img3.imgtn.bdimg.com/it/u=698582197,4250615262&fm=206&gp=0.jpg");
         list.add(new ImageModel("3张图片", images));
+
+        images = new ArrayList<>();
+        images.add("http://img.zcool.cn/community/01d6dd554b93f0000001bf72b4f6ec.jpg");
+        images.add("http://5b0988e595225.cdn.sohucs.com/images/20171202/a1cc52d5522f48a8a2d6e7426b13f82b.gif");
+        list.add(new ImageModel("2张GIF动态图", images));
 
         images = new ArrayList<>();
         images.add("http://img2.imgtn.bdimg.com/it/u=2850936076,2080165544&fm=206&gp=0.jpg");

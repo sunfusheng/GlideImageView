@@ -180,16 +180,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
+        <ImageView
             android:id="@+id/draggableView"
-            android:layout_width="120dp"
-            android:layout_height="80dp"
-            android:layout_gravity="bottom|end"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="bottom|start"
             android:layout_margin="10dp"
-            android:background="@color/colorPrimary"
-            android:gravity="center"
-            android:text="MultiImageView"
-            android:textColor="@color/white"
-            android:textSize="15sp"/>
+            android:src="@mipmap/ic_multi_imageview"/>
     </com.sunfusheng.glideimageview.sample.widget.DraggableFrameLayout>
 </FrameLayout>

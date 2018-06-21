@@ -6,22 +6,17 @@ import android.graphics.Point;
  * @author sunfusheng on 2018/6/19.
  */
 public class ImageData {
-    public String localUrl;
-    public String remoteUrl;
-    public String text;
+    public String url;
+    public String centerText;
+    public String cornerText;
 
     public int startX;
     public int startY;
     public int width;
     public int height;
 
-    public ImageData(String remoteUrl) {
-        this.remoteUrl = remoteUrl;
-    }
-
-    public ImageData(String localUrl, String remoteUrl) {
-        this.localUrl = localUrl;
-        this.remoteUrl = remoteUrl;
+    public ImageData(String url) {
+        this.url = url;
     }
 
     public ImageData from(ImageData imageData, LayoutHelper layoutHelper, int position) {

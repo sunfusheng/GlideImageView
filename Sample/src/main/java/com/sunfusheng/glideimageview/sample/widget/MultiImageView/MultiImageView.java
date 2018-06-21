@@ -8,10 +8,12 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.RectF;
 import android.graphics.Xfermode;
+import android.os.SystemClock;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.ViewGroup;
 
-import com.sunfusheng.util.DisplayUtil;
+import com.sunfusheng.util.Utils;
 
 import java.util.List;
 
@@ -50,8 +52,8 @@ public class MultiImageView extends ViewGroup {
     }
 
     private void init() {
-        margin = DisplayUtil.dp2px(getContext(), 3);
-        cellWidth = cellHeight = DisplayUtil.dp2px(getContext(), 60);
+        margin = Utils.dp2px(getContext(), 3);
+        cellWidth = cellHeight = Utils.dp2px(getContext(), 60);
         setRoundCornerRadius(5);
     }
 
@@ -71,6 +73,7 @@ public class MultiImageView extends ViewGroup {
         this.dataSource = list;
         this.shouldLoad = true;
 
+        long start = SystemClock.currentThreadTimeMillis();
         size = dataSource != null ? dataSource.size() : 0;
         if (size > 0 && layoutHelper != null) {
             for (int i = 0; i < getChildCount(); i++) {
@@ -82,7 +85,7 @@ public class MultiImageView extends ViewGroup {
                 imageData.from(imageData, layoutHelper, position);
                 ImageCell imageCell = (ImageCell) getChildAt(position);
                 if (imageCell == null) {
-                    imageCell = new ImageCell(getContext());
+                    imageCell = new ImageCell(getContext(), loadGif);
                     addView(imageCell);
                 }
                 imageCell.setData(imageData);
@@ -90,6 +93,7 @@ public class MultiImageView extends ViewGroup {
             }
         }
         requestLayout();
+        Log.d("--->", "MultiImageView setData() consume time:" + (SystemClock.currentThreadTimeMillis() - start));
     }
 
     public MultiImageView enableRoundCorner(boolean enableRoundCorner) {
@@ -98,7 +102,12 @@ public class MultiImageView extends ViewGroup {
     }
 
     public MultiImageView setRoundCornerRadius(int roundCornerRadius) {
-        this.roundCornerRadius = DisplayUtil.dp2px(getContext(), roundCornerRadius);
+        this.roundCornerRadius = Utils.dp2px(getContext(), roundCornerRadius);
+        return this;
+    }
+
+    public MultiImageView loadGif(boolean loadGif) {
+        this.loadGif = loadGif;
         return this;
     }
 

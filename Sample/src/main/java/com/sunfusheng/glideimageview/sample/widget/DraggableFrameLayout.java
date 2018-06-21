@@ -11,7 +11,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 
-import com.sunfusheng.util.DisplayUtil;
+import com.sunfusheng.util.Utils;
 
 /**
  * @author by sunfusheng on 2017/6/27.
@@ -36,8 +36,8 @@ public class DraggableFrameLayout extends FrameLayout {
     }
 
     private void init() {
-        screenWidth = DisplayUtil.getWindowWidth(getContext());
-        margin = DisplayUtil.dp2px(getContext(), margin);
+        screenWidth = Utils.getWindowWidth(getContext());
+        margin = Utils.dp2px(getContext(), margin);
 
         dragHelper = ViewDragHelper.create(this, new ViewDragHelper.Callback() {
 

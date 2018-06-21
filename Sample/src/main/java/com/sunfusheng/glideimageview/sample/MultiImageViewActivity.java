@@ -15,7 +15,7 @@ import com.sunfusheng.glideimageview.sample.model.ModelUtil;
 import com.sunfusheng.glideimageview.sample.widget.MultiImageView.GridLayoutHelper;
 import com.sunfusheng.glideimageview.sample.widget.MultiImageView.ImageData;
 import com.sunfusheng.glideimageview.sample.widget.MultiImageView.MultiImageView;
-import com.sunfusheng.util.DisplayUtil;
+import com.sunfusheng.util.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,8 +50,8 @@ public class MultiImageViewActivity extends BaseActivity {
 
         RecyclerViewAdapter(Context context, List<ImageModel> list) {
             this.list = list;
-            margin = DisplayUtil.dp2px(context, 3);
-            maxImgHeight = maxImgWidth = (DisplayUtil.getWindowWidth(context) - DisplayUtil.dp2px(context, 16) * 2) * 3 / 4;
+            margin = Utils.dp2px(context, 3);
+            maxImgHeight = maxImgWidth = (Utils.getWindowWidth(context) - Utils.dp2px(context, 16) * 2) * 3 / 4;
             cellHeight = cellWidth = (maxImgWidth - margin * 3) / 3;
             minImgHeight = minImgWidth = cellWidth;
         }
@@ -77,8 +77,13 @@ public class MultiImageViewActivity extends BaseActivity {
                 if (size >= 9) break;
             }
 
+            if (model.images.size() > 9) {
+                list.get(8).centerText = "+" + String.valueOf(model.images.size() - 9);
+            }
+
             viewHolder.multiImageView.enableRoundCorner(true)
                     .setRoundCornerRadius(5)
+                    .loadGif(false)
                     .setData(list, getLayoutHelper(list));
         }
 

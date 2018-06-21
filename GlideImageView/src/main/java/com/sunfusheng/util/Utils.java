@@ -1,10 +1,11 @@
 package com.sunfusheng.util;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.WindowManager;
 
-public class DisplayUtil {
+public class Utils {
 
     private static WindowManager windowManager;
 
@@ -51,5 +52,22 @@ public class DisplayUtil {
 
     public static int getWindowHeight(Context context) {
         return getDisplayMetrics(context).heightPixels;
+    }
+
+    public static String getPathFormat(String path) {
+        if (!TextUtils.isEmpty(path)) {
+            int lastPeriodIndex = path.lastIndexOf('.');
+            if (lastPeriodIndex > 0 && lastPeriodIndex + 1 < path.length()) {
+                String format = path.substring(lastPeriodIndex + 1);
+                if (!TextUtils.isEmpty(format)) {
+                    return format.toLowerCase();
+                }
+            }
+        }
+        return "";
+    }
+
+    public static boolean isGif(String url) {
+        return "gif".equals(getPathFormat(url));
     }
 }

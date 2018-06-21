@@ -16,7 +16,7 @@ import com.sunfusheng.glideimageview.sample.R;
 import com.sunfusheng.glideimageview.sample.util.ColorUtil;
 import com.sunfusheng.glideimageview.sample.util.StatusBarUtil;
 import com.sunfusheng.glideimageview.sample.widget.MultiImageView.ImageData;
-import com.sunfusheng.util.DisplayUtil;
+import com.sunfusheng.util.Utils;
 
 import java.util.List;
 
@@ -50,8 +50,8 @@ public class ImagesActivity extends Activity implements ViewTreeObserver.OnPreDr
         viewPager = (ViewPager) findViewById(R.id.viewPager);
         tvTip = (TextView) findViewById(R.id.tv_tip);
         rootView = (RelativeLayout) findViewById(R.id.rootView);
-        screenWidth = DisplayUtil.getWindowWidth(this);
-        screenHeight = DisplayUtil.getWindowHeight(this);
+        screenWidth = Utils.getWindowWidth(this);
+        screenHeight = Utils.getWindowHeight(this);
 
         Intent intent = getIntent();
         imageAttrs = (List<ImageData>) intent.getSerializableExtra(IMAGE_ATTR);

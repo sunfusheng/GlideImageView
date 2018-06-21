@@ -10,7 +10,7 @@ import android.support.annotation.NonNull;
 
 import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;
 import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
-import com.sunfusheng.util.DisplayUtil;
+import com.sunfusheng.util.Utils;
 
 import java.security.MessageDigest;
 
@@ -22,7 +22,7 @@ public class RadiusTransformation extends BitmapTransformation {
     private int radius;
 
     public RadiusTransformation(Context context, int radius) {
-        this.radius = DisplayUtil.dp2px(context, radius);
+        this.radius = Utils.dp2px(context, radius);
     }
 
     @Override
