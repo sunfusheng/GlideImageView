@@ -1,6 +1,7 @@
 package com.sunfusheng.glideimageview.sample;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,12 +14,15 @@ import android.widget.TextView;
 import com.sunfusheng.glideimageview.sample.model.ImageModel;
 import com.sunfusheng.glideimageview.sample.model.ModelUtil;
 import com.sunfusheng.glideimageview.sample.widget.MultiImageView.GridLayoutHelper;
+import com.sunfusheng.glideimageview.sample.widget.MultiImageView.ImageCell;
 import com.sunfusheng.glideimageview.sample.widget.MultiImageView.ImageData;
 import com.sunfusheng.glideimageview.sample.widget.MultiImageView.MultiImageView;
 import com.sunfusheng.util.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MultiImageViewActivity extends BaseActivity {
 
@@ -48,12 +52,36 @@ public class MultiImageViewActivity extends BaseActivity {
         private int minImgWidth;
         private int minImgHeight;
 
+        private Drawable gifDrawable;
+        private Drawable highDrawable;
+
+        private MultiImageView multiImageView;
+        private int count = 2;
+        private String text = "+" + String.valueOf(count);
+
         RecyclerViewAdapter(Context context, List<ImageModel> list) {
             this.list = list;
             margin = Utils.dp2px(context, 3);
             maxImgHeight = maxImgWidth = (Utils.getWindowWidth(context) - Utils.dp2px(context, 16) * 2) * 3 / 4;
             cellHeight = cellWidth = (maxImgWidth - margin * 3) / 3;
             minImgHeight = minImgWidth = cellWidth;
+
+            gifDrawable = Utils.getTextDrawable(context, 24, 14, 2, "GIF", 11, R.color.transparent30);
+            highDrawable = Utils.getTextDrawable(context, 25, 14, 2, "长图", 10, R.color.transparent30);
+
+            new Timer().schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    int index = 8;
+                    if (multiImageView != null && multiImageView.getImageCell(index) != null) {
+                        count++;
+                        text = "+" + String.valueOf(count);
+                        ImageCell imageCell = multiImageView.getImageCell(index);
+                        imageCell.setText(text);
+                        multiImageView.getData().get(index).text = text;
+                    }
+                }
+            }, 1000, 1000);
         }
 
         @NonNull
@@ -78,12 +106,16 @@ public class MultiImageViewActivity extends BaseActivity {
             }
 
             if (model.images.size() > 9) {
-                list.get(8).centerText = "+" + String.valueOf(model.images.size() - 9);
+                list.get(8).text = text;
+                if (multiImageView == null) {
+                    multiImageView = viewHolder.multiImageView;
+                }
             }
 
             viewHolder.multiImageView.enableRoundCorner(true)
                     .setRoundCornerRadius(5)
                     .loadGif(false)
+                    .setGifDrawable(gifDrawable)
                     .setData(list, getLayoutHelper(list), model.desc);
         }
 

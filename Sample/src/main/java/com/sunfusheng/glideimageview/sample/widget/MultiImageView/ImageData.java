@@ -7,8 +7,7 @@ import android.graphics.Point;
  */
 public class ImageData {
     public String url;
-    public String centerText;
-    public String cornerText;
+    public String text;
 
     public int startX;
     public int startY;

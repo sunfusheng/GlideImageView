@@ -8,9 +8,10 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.RectF;
 import android.graphics.Xfermode;
+import android.graphics.drawable.Drawable;
 import android.os.SystemClock;
 import android.util.AttributeSet;
-import android.util.Log;
+import android.view.View;
 import android.view.ViewGroup;
 
 import com.sunfusheng.util.Utils;
@@ -37,6 +38,8 @@ public class MultiImageView extends ViewGroup {
 
     private boolean loadGif;
     private boolean shouldLoad;
+    private Drawable gifDrawable;
+
 
     public MultiImageView(Context context) {
         this(context, null);
@@ -82,7 +85,7 @@ public class MultiImageView extends ViewGroup {
                 imageData.from(imageData, layoutHelper, index);
                 ImageCell imageCell = (ImageCell) getChildAt(index);
                 if (imageCell == null) {
-                    imageCell = new ImageCell(getContext(), loadGif);
+                    imageCell = new ImageCell(getContext()).setLoadGif(loadGif).setGifDrawable(gifDrawable);
                     addView(imageCell);
                 }
                 imageCell.setData(imageData);
@@ -93,7 +96,11 @@ public class MultiImageView extends ViewGroup {
             }
         }
         requestLayout();
-        Log.d("--->", "MultiImageView setData() consume time:" + (SystemClock.currentThreadTimeMillis() - start));
+//        Log.d("--->", "MultiImageView setData() consume time:" + (SystemClock.currentThreadTimeMillis() - start) + " desc: " + desc);
+    }
+
+    public List<ImageData> getData() {
+        return dataSource;
     }
 
     public MultiImageView enableRoundCorner(boolean enableRoundCorner) {
@@ -109,6 +116,19 @@ public class MultiImageView extends ViewGroup {
     public MultiImageView loadGif(boolean loadGif) {
         this.loadGif = loadGif;
         return this;
+    }
+
+    public MultiImageView setGifDrawable(Drawable gifDrawable) {
+        this.gifDrawable = gifDrawable;
+        return this;
+    }
+
+    public ImageCell getImageCell(int index) {
+        View view = getChildAt(index);
+        if (view != null && view.getVisibility() == VISIBLE) {
+            return (ImageCell) view;
+        }
+        return null;
     }
 
     @Override

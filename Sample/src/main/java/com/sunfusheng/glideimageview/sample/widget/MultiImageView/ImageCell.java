@@ -2,18 +2,19 @@ package com.sunfusheng.glideimageview.sample.widget.MultiImageView;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.os.SystemClock;
+import android.support.annotation.ColorRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.AppCompatImageView;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.view.LayoutInflater;
-import android.view.View;
+import android.util.Log;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
@@ -23,27 +24,32 @@ import com.bumptech.glide.request.transition.Transition;
 import com.sunfusheng.glideimageview.sample.R;
 import com.sunfusheng.progress.GlideApp;
 import com.sunfusheng.progress.GlideRequests;
+import com.sunfusheng.util.Utils;
 
 /**
  * @author sunfusheng on 2018/6/19.
  */
-public class ImageCell extends RelativeLayout {
+public class ImageCell extends AppCompatImageView {
 
     private static final float THUMBNAIL_RATIO = 0.1f;
-
-    private ImageView vImage;
-    private View vCover;
-    private TextView vCenterText;
-    private TextView vCornerText;
-
     private GlideRequests glideRequests;
     private ImageData imageData;
 
+    private boolean isGif;
     private boolean loadGif;
+    private Drawable gifDrawable;
+    private int gifWidth;
+    private int gifHeight;
+    private Rect gifRect;
+    private int gifMargin;
 
-    public ImageCell(Context context, boolean loadGif) {
+    private Paint textPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private Paint.FontMetricsInt fontMetrics;
+    private float textX;
+    private float textY;
+
+    public ImageCell(Context context) {
         this(context, null);
-        this.loadGif = loadGif;
     }
 
     public ImageCell(Context context, AttributeSet attrs) {
@@ -56,51 +62,33 @@ public class ImageCell extends RelativeLayout {
     }
 
     private void init() {
-        long start = SystemClock.currentThreadTimeMillis();
-        LayoutInflater.from(getContext()).inflate(R.layout.layout_image_cell, this);
-        vImage = findViewById(R.id.imageView);
-        vCover = findViewById(R.id.cover);
-        vCenterText = findViewById(R.id.center_text);
-        vCornerText = findViewById(R.id.corner_text);
         glideRequests = GlideApp.with(getContext());
-//        Log.d("--->", "ImageCell init() time:" + (SystemClock.currentThreadTimeMillis() - start));
+        gifRect = new Rect();
+        gifMargin = Utils.dp2px(getContext(), 4);
+
+        textPaint.setTextSize(Utils.dp2px(getContext(), 20));
+        textPaint.setTextAlign(Paint.Align.CENTER);
+        textPaint.setColor(Color.WHITE);
+        fontMetrics = textPaint.getFontMetricsInt();
     }
 
     public void setData(ImageData imageData) {
         this.imageData = imageData;
         if (imageData != null) {
-            setCenterText(imageData.centerText);
-            setCornerText(imageData.cornerText);
             load(imageData.url);
         }
     }
 
-    public ImageCell setCenterText(String text) {
-        if (!TextUtils.isEmpty(text)) {
-            vCenterText.setText(text);
-            if (vCover.getVisibility() != VISIBLE && vCenterText.getVisibility() != VISIBLE) {
-                vCover.setVisibility(VISIBLE);
-                vCenterText.setVisibility(VISIBLE);
-            }
-        } else {
-            if (vCover.getVisibility() != GONE && vCenterText.getVisibility() != GONE) {
-                vCover.setVisibility(GONE);
-                vCenterText.setVisibility(GONE);
-            }
-        }
+    public ImageCell setLoadGif(boolean loadGif) {
+        this.loadGif = loadGif;
         return this;
     }
 
-    public ImageCell setCornerText(String text) {
-        if (!TextUtils.isEmpty(text)) {
-            vCornerText.setText(text);
-            if (vCornerText.getVisibility() != VISIBLE) {
-                vCornerText.setVisibility(VISIBLE);
-            }
-        } else {
-            if (vCornerText.getVisibility() != GONE) {
-                vCornerText.setVisibility(GONE);
-            }
+    public ImageCell setGifDrawable(Drawable gifDrawable) {
+        this.gifDrawable = gifDrawable;
+        if (gifDrawable != null) {
+            gifWidth = Utils.dp2px(getContext(), gifDrawable.getIntrinsicWidth());
+            gifHeight = Utils.dp2px(getContext(), gifDrawable.getIntrinsicHeight());
         }
         return this;
     }
@@ -113,16 +101,14 @@ public class ImageCell extends RelativeLayout {
                 .transition(new DrawableTransitionOptions().dontTransition())
                 .thumbnail(THUMBNAIL_RATIO)
                 .diskCacheStrategy(DiskCacheStrategy.DATA)
-                .into(new ImageCellTarget(vImage) {
+                .into(new ImageCellTarget(this) {
                     @Override
                     public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
                         Drawable drawable = resource;
+                        isGif = false;
                         if (!loadGif && resource instanceof GifDrawable) {
-                            GifDrawable gifDrawable = (GifDrawable) resource;
-                            drawable = new BitmapDrawable(gifDrawable.getFirstFrame());
-                            setCornerText("GIF");
-                        } else {
-                            setCornerText(imageData.cornerText);
+                            isGif = true;
+                            drawable = new BitmapDrawable(((GifDrawable) resource).getFirstFrame());
                         }
                         super.onResourceReady(drawable, transition);
                     }
@@ -130,8 +116,54 @@ public class ImageCell extends RelativeLayout {
     }
 
     @Override
+    protected void onLayout(boolean changed, int l, int t, int r, int b) {
+        super.onLayout(changed, l, t, r, b);
+        if (gifDrawable != null) {
+            gifRect.set(r - l - gifMargin - gifWidth,
+                    b - t - gifHeight - gifMargin,
+                    r - l - gifMargin,
+                    b - t - gifMargin);
+        }
+    }
+
+    @Override
     public void draw(Canvas canvas) {
         super.draw(canvas);
+        if (isGif && gifDrawable != null) {
+            gifDrawable.setBounds(gifRect);
+            gifDrawable.draw(canvas);
+        }
+
+        Log.d("--->","imageData.text:"+imageData.text);
+
+        if (!TextUtils.isEmpty(imageData.text)) {
+            getDrawable().getBounds();
+            canvas.drawColor(getResources().getColor(R.color.transparent30));
+            textX = getWidth() / 2;
+            textY = getHeight() / 2 + (fontMetrics.bottom - fontMetrics.top) / 2 - fontMetrics.bottom;
+            canvas.drawText(imageData.text, textX, textY, textPaint);
+        }
+    }
+
+    public ImageCell setText(String text) {
+        if (imageData != null) {
+            imageData.text = text;
+            postInvalidate();
+        }
+        return this;
+    }
+
+    public ImageCell setTextColor(@ColorRes int color) {
+        textPaint.setColor(getResources().getColor(color));
+        postInvalidate();
+        return this;
+    }
+
+    public ImageCell setTextSize(int size) {
+        textPaint.setTextSize(Utils.dp2px(getContext(), size));
+        fontMetrics = textPaint.getFontMetricsInt();
+        postInvalidate();
+        return this;
     }
 
     private class ImageCellTarget extends DrawableImageViewTarget {

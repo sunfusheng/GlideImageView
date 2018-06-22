@@ -1,6 +1,14 @@
 package com.sunfusheng.util;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.RectF;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.support.annotation.ColorRes;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.WindowManager;
@@ -69,5 +77,26 @@ public class Utils {
 
     public static boolean isGif(String url) {
         return "gif".equals(getPathFormat(url));
+    }
+
+    public static Bitmap getTextBitmap(Context context, int width, int height, int radius, String text, int textSize, @ColorRes int bgColor) {
+        radius = dp2px(context, radius);
+        Bitmap bitmap = Bitmap.createBitmap(dp2px(context, width), dp2px(context, height), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        RectF rect = new RectF(0, 0, canvas.getWidth(), canvas.getHeight());
+        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        paint.setColor(context.getResources().getColor(bgColor));
+        canvas.drawRoundRect(new RectF(0, 0, rect.width(), rect.height()), radius, radius, paint);
+        paint.setColor(Color.WHITE);
+        paint.setTextSize(dp2px(context, textSize));
+        paint.setTextAlign(Paint.Align.CENTER);
+        Paint.FontMetricsInt fontMetrics = paint.getFontMetricsInt();
+        float baseline = (rect.bottom + rect.top - fontMetrics.bottom - fontMetrics.top) / 2;
+        canvas.drawText(text, rect.centerX(), baseline, paint);
+        return bitmap;
+    }
+
+    public static Drawable getTextDrawable(Context context, int width, int height, int radius, String text, int textSize, @ColorRes int bgColor) {
+        return new BitmapDrawable(getTextBitmap(context, width, height, radius, text, textSize, bgColor));
     }
 }
