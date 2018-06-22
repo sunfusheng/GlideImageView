@@ -29,9 +29,8 @@ public class GlideImageLoader {
     protected static final String FILE = "file://";
     protected static final String SEPARATOR = "/";
 
-    private WeakReference<ImageView> imageViewWeakReference;
     private String url;
-
+    private WeakReference<ImageView> imageViewWeakReference;
     private RequestOptions requestOptions;
 
     public static GlideImageLoader create(ImageView imageView) {
@@ -107,7 +106,7 @@ public class GlideImageLoader {
         return this;
     }
 
-    private static class GlideImageViewTarget extends DrawableImageViewTarget {
+    private class GlideImageViewTarget extends DrawableImageViewTarget {
         public GlideImageViewTarget(ImageView view) {
             super(view);
         }
@@ -119,11 +118,21 @@ public class GlideImageLoader {
 
         @Override
         public void onLoadFailed(@Nullable Drawable errorDrawable) {
+            OnProgressListener onProgressListener = ProgressManager.getProgressListener(getUrl());
+            if (onProgressListener != null) {
+                onProgressListener.onProgress(true, 100, 0, 0);
+                ProgressManager.removeListener(getUrl());
+            }
             super.onLoadFailed(errorDrawable);
         }
 
         @Override
         public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
+            OnProgressListener onProgressListener = ProgressManager.getProgressListener(getUrl());
+            if (onProgressListener != null) {
+                onProgressListener.onProgress(true, 100, 0, 0);
+                ProgressManager.removeListener(getUrl());
+            }
             super.onResourceReady(resource, transition);
         }
     }

@@ -1,6 +1,12 @@
 package com.sunfusheng.glideimageview.sample;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.RectF;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
@@ -8,6 +14,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.sunfusheng.FirUpdater;
@@ -15,6 +22,7 @@ import com.sunfusheng.GlideImageView;
 import com.sunfusheng.glideimageview.sample.about.AboutActivity;
 import com.sunfusheng.glideimageview.sample.image.SingleImageActivity;
 import com.sunfusheng.progress.CircleProgressView;
+import com.sunfusheng.util.Utils;
 
 /**
  * @author by sunfusheng on 2017/6/3.
@@ -96,6 +104,33 @@ public class MainActivity extends BaseActivity {
         line1();
         line2();
         line3();
+
+        ImageView vBitMap = findViewById(R.id.bitmap);
+        Bitmap bitmap = getTextBitmap(this, 60, 30, "GIF", 20);
+        vBitMap.setImageBitmap(bitmap);
+
+    }
+
+    public static Bitmap getTextBitmap(Context context, int width, int height, String text, int textSize) {
+        int padding = Utils.dp2px(context, 1);
+        int radius = Utils.dp2px(context, 3);
+        Bitmap bitmap = Bitmap.createBitmap(Utils.dp2px(context, width), Utils.dp2px(context, height), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        RectF rect = new RectF(0, 0, canvas.getWidth(), canvas.getHeight());
+        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        // draw background
+        paint.setColor(Color.BLUE);
+        canvas.drawRoundRect(rect, radius, radius, paint);
+        paint.setColor(Color.RED);
+        canvas.drawRoundRect(new RectF(padding, padding, rect.width() - padding, rect.height() - padding), radius, radius, paint);
+        // draw text
+        paint.setColor(Color.WHITE);
+        paint.setTextSize(Utils.dp2px(context, textSize));
+        paint.setTextAlign(Paint.Align.CENTER);
+        Paint.FontMetricsInt fontMetrics = paint.getFontMetricsInt();
+        float baseline = (rect.bottom + rect.top - fontMetrics.bottom - fontMetrics.top) / 2;
+        canvas.drawText(text, rect.centerX(), baseline, paint);
+        return bitmap;
     }
 
     private void line1() {
@@ -113,8 +148,8 @@ public class MainActivity extends BaseActivity {
     }
 
     private void line3() {
-        image31.fitCenter().diskCacheStrategy(DiskCacheStrategy.NONE).load(girl, R.color.placeholder, (isComplete, percentage, bytesRead, totalBytes) -> {
-            Log.d("--->", "【load girl】 percentage: " + percentage + " totalBytes: " + totalBytes + " bytesRead: " + bytesRead);
+        image31.fitCenter().error(R.mipmap.image_load_err).diskCacheStrategy(DiskCacheStrategy.NONE).load(girl, R.color.placeholder, (isComplete, percentage, bytesRead, totalBytes) -> {
+//            Log.d("--->", "load percentage: " + percentage + " totalBytes: " + totalBytes + " bytesRead: " + bytesRead);
             if (isComplete) {
                 progressView1.setVisibility(View.GONE);
             } else {
@@ -123,7 +158,7 @@ public class MainActivity extends BaseActivity {
             }
         });
 
-        image32.load(cat, R.color.placeholder, (isComplete, percentage, bytesRead, totalBytes) -> {
+        image32.error(R.mipmap.image_load_err).load(cat, R.color.placeholder, (isComplete, percentage, bytesRead, totalBytes) -> {
             if (isComplete) {
                 progressView2.setVisibility(View.GONE);
             } else {

@@ -53,8 +53,8 @@ public class ProgressResponseBody extends ResponseBody {
 
     private Source source(Source source) {
         return new ForwardingSource(source) {
-            long totalBytesRead = 0;
-            long lastTotalBytesRead = 0;
+            long totalBytesRead;
+            long lastTotalBytesRead;
 
             @Override
             public long read(@NonNull Buffer sink, long byteCount) throws IOException {

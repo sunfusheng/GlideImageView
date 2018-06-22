@@ -173,6 +173,12 @@
 
             </android.support.constraint.ConstraintLayout>
 
+            <ImageView
+                android:id="@+id/bitmap"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"/>
+
         </LinearLayout>
     </ScrollView>
 

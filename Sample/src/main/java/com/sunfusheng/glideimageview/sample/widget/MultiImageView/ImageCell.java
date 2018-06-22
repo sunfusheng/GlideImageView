@@ -1,13 +1,14 @@
 package com.sunfusheng.glideimageview.sample.widget.MultiImageView;
 
 import android.content.Context;
+import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -55,12 +56,14 @@ public class ImageCell extends RelativeLayout {
     }
 
     private void init() {
+        long start = SystemClock.currentThreadTimeMillis();
         LayoutInflater.from(getContext()).inflate(R.layout.layout_image_cell, this);
         vImage = findViewById(R.id.imageView);
         vCover = findViewById(R.id.cover);
         vCenterText = findViewById(R.id.center_text);
         vCornerText = findViewById(R.id.corner_text);
         glideRequests = GlideApp.with(getContext());
+//        Log.d("--->", "ImageCell init() time:" + (SystemClock.currentThreadTimeMillis() - start));
     }
 
     public void setData(ImageData imageData) {
@@ -114,7 +117,6 @@ public class ImageCell extends RelativeLayout {
                     @Override
                     public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
                         Drawable drawable = resource;
-                        Log.d("--->", "width: " + drawable.getIntrinsicWidth() + " height: " + drawable.getIntrinsicHeight());
                         if (!loadGif && resource instanceof GifDrawable) {
                             GifDrawable gifDrawable = (GifDrawable) resource;
                             drawable = new BitmapDrawable(gifDrawable.getFirstFrame());
@@ -125,6 +127,11 @@ public class ImageCell extends RelativeLayout {
                         super.onResourceReady(drawable, transition);
                     }
                 });
+    }
+
+    @Override
+    public void draw(Canvas canvas) {
+        super.draw(canvas);
     }
 
     private class ImageCellTarget extends DrawableImageViewTarget {

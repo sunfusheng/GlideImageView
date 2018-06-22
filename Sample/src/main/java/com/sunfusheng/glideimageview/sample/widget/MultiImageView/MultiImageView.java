@@ -58,7 +58,7 @@ public class MultiImageView extends ViewGroup {
     }
 
     public void setData(List<ImageData> list) {
-        setData(list, getDefaultLayoutHelper(list));
+        setData(list, getDefaultLayoutHelper(list), "");
     }
 
     private GridLayoutHelper getDefaultLayoutHelper(List<ImageData> list) {
@@ -69,27 +69,27 @@ public class MultiImageView extends ViewGroup {
         return new GridLayoutHelper(imageCount, cellWidth, cellHeight, margin);
     }
 
-    public void setData(List<ImageData> list, LayoutHelper layoutHelper) {
+    public void setData(List<ImageData> list, LayoutHelper layoutHelper, String desc) {
         this.dataSource = list;
         this.shouldLoad = true;
 
         long start = SystemClock.currentThreadTimeMillis();
         size = dataSource != null ? dataSource.size() : 0;
         if (size > 0 && layoutHelper != null) {
-            for (int i = 0; i < getChildCount(); i++) {
-                getChildAt(i).setVisibility(GONE);
-            }
-
-            for (int position = 0; position < size; position++) {
-                ImageData imageData = dataSource.get(position);
-                imageData.from(imageData, layoutHelper, position);
-                ImageCell imageCell = (ImageCell) getChildAt(position);
+            int index = 0;
+            for (; index < size; index++) {
+                ImageData imageData = dataSource.get(index);
+                imageData.from(imageData, layoutHelper, index);
+                ImageCell imageCell = (ImageCell) getChildAt(index);
                 if (imageCell == null) {
                     imageCell = new ImageCell(getContext(), loadGif);
                     addView(imageCell);
                 }
                 imageCell.setData(imageData);
                 imageCell.setVisibility(VISIBLE);
+            }
+            for (; index < getChildCount(); index++) {
+                getChildAt(index).setVisibility(GONE);
             }
         }
         requestLayout();
@@ -155,6 +155,7 @@ public class MultiImageView extends ViewGroup {
         }
 
         float scale = Math.min(widthScale, heightScale);
+
         if (scale < 1) {
             width = 0;
             height = 0;
@@ -171,7 +172,6 @@ public class MultiImageView extends ViewGroup {
                 height = currHeight > height ? currHeight : height;
             }
         }
-
         if (enableRoundCorner) {
             roundRect.right = width;
             roundRect.bottom = height;

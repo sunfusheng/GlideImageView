@@ -71,6 +71,36 @@ public class GlideImageView extends ImageView {
         return this;
     }
 
+    public GlideImageView placeholder(@DrawableRes int resId) {
+        RequestOptions options = getImageLoader().getRequestOptions();
+        getImageLoader().setRequestOptions(options.placeholder(resId));
+        return this;
+    }
+
+    public GlideImageView error(@DrawableRes int resId) {
+        RequestOptions options = getImageLoader().getRequestOptions();
+        getImageLoader().setRequestOptions(options.error(resId));
+        return this;
+    }
+
+    public GlideImageView fallback(@DrawableRes int resId) {
+        RequestOptions options = getImageLoader().getRequestOptions();
+        getImageLoader().setRequestOptions(options.fallback(resId));
+        return this;
+    }
+
+    public GlideImageView dontAnimate() {
+        RequestOptions options = getImageLoader().getRequestOptions();
+        getImageLoader().setRequestOptions(options.dontAnimate());
+        return this;
+    }
+
+    public GlideImageView dontTransform() {
+        RequestOptions options = getImageLoader().getRequestOptions();
+        getImageLoader().setRequestOptions(options.dontTransform());
+        return this;
+    }
+
     public void load(String url) {
         load(url, 0);
     }
@@ -131,5 +161,17 @@ public class GlideImageView extends ImageView {
                 setAlpha(1.0f);
             }
         }
+    }
+
+    public void setEnableState(boolean enableState) {
+        this.enableState = enableState;
+    }
+
+    public void setPressedAlpha(float pressedAlpha) {
+        this.pressedAlpha = pressedAlpha;
+    }
+
+    public void setUnableAlpha(float unableAlpha) {
+        this.unableAlpha = unableAlpha;
     }
 }

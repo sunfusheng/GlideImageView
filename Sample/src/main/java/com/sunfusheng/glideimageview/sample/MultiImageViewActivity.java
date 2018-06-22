@@ -84,7 +84,7 @@ public class MultiImageViewActivity extends BaseActivity {
             viewHolder.multiImageView.enableRoundCorner(true)
                     .setRoundCornerRadius(5)
                     .loadGif(false)
-                    .setData(list, getLayoutHelper(list));
+                    .setData(list, getLayoutHelper(list), model.desc);
         }
 
         private GridLayoutHelper getLayoutHelper(List<ImageData> list) {

@@ -51,6 +51,7 @@ public class ProgressManager {
     public static void addListener(String url, OnProgressListener listener) {
         if (!TextUtils.isEmpty(url) && listener != null) {
             listenersMap.put(url, listener);
+            listener.onProgress(false, 1, 0, 0);
         }
     }
 

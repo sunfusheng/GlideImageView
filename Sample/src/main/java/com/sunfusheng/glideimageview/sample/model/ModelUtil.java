@@ -22,7 +22,7 @@ public class ModelUtil {
         list.add(new ImageModel("1张GIF动态图", images));
 
         images = new ArrayList<>();
-        images.add("http://img5.imgtn.bdimg.com/it/u=2091366266,1524114981&fm=21&gp=0.jpg");
+        images.add("http://img3.imgtn.bdimg.com/it/u=524208507,12616758&fm=206&gp=0.jpg");
         images.add("http://img5.imgtn.bdimg.com/it/u=2091366266,1524114981&fm=21&gp=0.jpg");
         images.add("http://img5.imgtn.bdimg.com/it/u=1424970962,1243597989&fm=21&gp=0.jpg");
         list.add(new ImageModel("3张图片", images));
