@@ -1,5 +1,6 @@
 package com.sunfusheng;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.support.annotation.DrawableRes;
@@ -17,6 +18,7 @@ import com.sunfusheng.transformation.RadiusTransformation;
 /**
  * @author sunfusheng on 2017/11/10.
  */
+@SuppressLint("CheckResult")
 public class GlideImageView extends ImageView {
 
     private boolean enableState = false;
@@ -49,55 +51,47 @@ public class GlideImageView extends ImageView {
     }
 
     public GlideImageView apply(RequestOptions options) {
-        getImageLoader().setRequestOptions(options);
+        getImageLoader().getGlideRequest().apply(options);
         return this;
     }
 
     public GlideImageView centerCrop() {
-        RequestOptions options = getImageLoader().getRequestOptions();
-        getImageLoader().setRequestOptions(options.centerCrop());
+        getImageLoader().getGlideRequest().centerCrop();
         return this;
     }
 
     public GlideImageView fitCenter() {
-        RequestOptions options = getImageLoader().getRequestOptions();
-        getImageLoader().setRequestOptions(options.fitCenter());
+        getImageLoader().getGlideRequest().fitCenter();
         return this;
     }
 
     public GlideImageView diskCacheStrategy(@NonNull DiskCacheStrategy strategy) {
-        RequestOptions options = getImageLoader().getRequestOptions();
-        getImageLoader().setRequestOptions(options.diskCacheStrategy(strategy));
+        getImageLoader().getGlideRequest().diskCacheStrategy(strategy);
         return this;
     }
 
     public GlideImageView placeholder(@DrawableRes int resId) {
-        RequestOptions options = getImageLoader().getRequestOptions();
-        getImageLoader().setRequestOptions(options.placeholder(resId));
+        getImageLoader().getGlideRequest().placeholder(resId);
         return this;
     }
 
     public GlideImageView error(@DrawableRes int resId) {
-        RequestOptions options = getImageLoader().getRequestOptions();
-        getImageLoader().setRequestOptions(options.error(resId));
+        getImageLoader().getGlideRequest().error(resId);
         return this;
     }
 
     public GlideImageView fallback(@DrawableRes int resId) {
-        RequestOptions options = getImageLoader().getRequestOptions();
-        getImageLoader().setRequestOptions(options.fallback(resId));
+        getImageLoader().getGlideRequest().fallback(resId);
         return this;
     }
 
     public GlideImageView dontAnimate() {
-        RequestOptions options = getImageLoader().getRequestOptions();
-        getImageLoader().setRequestOptions(options.dontAnimate());
+        getImageLoader().getGlideRequest().dontTransform();
         return this;
     }
 
     public GlideImageView dontTransform() {
-        RequestOptions options = getImageLoader().getRequestOptions();
-        getImageLoader().setRequestOptions(options.dontTransform());
+        getImageLoader().getGlideRequest().dontTransform();
         return this;
     }
 
@@ -106,7 +100,7 @@ public class GlideImageView extends ImageView {
     }
 
     public void load(String url, @DrawableRes int placeholder) {
-        load(url, placeholder, null);
+        load(url, placeholder, 0);
     }
 
     public void load(String url, @DrawableRes int placeholder, int radius) {
@@ -121,8 +115,12 @@ public class GlideImageView extends ImageView {
         load(url, placeholder, new RadiusTransformation(getContext(), radius), onProgressListener);
     }
 
+    public void load(Object obj, @DrawableRes int placeholder, Transformation<Bitmap> transformation) {
+        getImageLoader().loadImage(obj, placeholder, transformation);
+    }
+
     public void load(Object obj, @DrawableRes int placeholder, Transformation<Bitmap> transformation, OnProgressListener onProgressListener) {
-        getImageLoader().loadImage(obj, placeholder, transformation).listener(onProgressListener);
+        getImageLoader().listener(obj, onProgressListener).loadImage(obj, placeholder, transformation);
     }
 
     public void loadCircle(String url) {

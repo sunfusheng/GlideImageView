@@ -53,7 +53,7 @@ public class MultiImageViewActivity extends BaseActivity {
         private int minImgHeight;
 
         private Drawable gifDrawable;
-        private Drawable highDrawable;
+        private Drawable longDrawable;
 
         private MultiImageView multiImageView;
         private int count = 2;
@@ -67,7 +67,7 @@ public class MultiImageViewActivity extends BaseActivity {
             minImgHeight = minImgWidth = cellWidth;
 
             gifDrawable = Utils.getTextDrawable(context, 24, 14, 2, "GIF", 11, R.color.transparent30);
-            highDrawable = Utils.getTextDrawable(context, 25, 14, 2, "长图", 10, R.color.transparent30);
+            longDrawable = Utils.getTextDrawable(context, 25, 14, 2, "长图", 10, R.color.transparent30);
 
             new Timer().schedule(new TimerTask() {
                 @Override

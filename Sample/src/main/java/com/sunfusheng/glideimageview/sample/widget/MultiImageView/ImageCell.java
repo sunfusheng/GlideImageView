@@ -13,7 +13,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatImageView;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.widget.ImageView;
 
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -133,8 +132,6 @@ public class ImageCell extends AppCompatImageView {
             gifDrawable.setBounds(gifRect);
             gifDrawable.draw(canvas);
         }
-
-        Log.d("--->","imageData.text:"+imageData.text);
 
         if (!TextUtils.isEmpty(imageData.text)) {
             getDrawable().getBounds();

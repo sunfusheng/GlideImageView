@@ -8,12 +8,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.bumptech.glide.load.MultiTransformation;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.sunfusheng.FirUpdater;
 import com.sunfusheng.GlideImageView;
 import com.sunfusheng.glideimageview.sample.about.AboutActivity;
 import com.sunfusheng.glideimageview.sample.image.SingleImageActivity;
 import com.sunfusheng.progress.CircleProgressView;
+import com.sunfusheng.transformation.BlurTransformation;
+import com.sunfusheng.transformation.RadiusTransformation;
 
 /**
  * @author by sunfusheng on 2017/6/3.
@@ -35,10 +38,13 @@ public class MainActivity extends BaseActivity {
     GlideImageView image32;
     CircleProgressView progressView2;
 
+    GlideImageView image41;
+
     View draggableView;
 
     String url1 = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1497688355699&di=ea69a930b82ce88561c635089995e124&imgtype=0&src=http%3A%2F%2Fcms-bucket.nosdn.127.net%2Ff84e566bcf654b3698363409fbd676ef20161119091503.jpg";
     String url2 = "http://img1.imgtn.bdimg.com/it/u=4027212837,1228313366&fm=23&gp=0.jpg";
+    String url3 = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1529402445474&di=b5da3b2f6a466e618e1e32d4dd2bda4d&imgtype=0&src=http%3A%2F%2F2b.zol-img.com.cn%2Fproduct%2F133_500x2000%2F801%2Fce21ke76FRh4A.jpg";
 
     String gif1 = "http://img.zcool.cn/community/01e97857c929630000012e7e3c2acf.gif";
     String gif2 = "http://5b0988e595225.cdn.sohucs.com/images/20171202/a1cc52d5522f48a8a2d6e7426b13f82b.gif";
@@ -72,6 +78,8 @@ public class MainActivity extends BaseActivity {
         image32 = findViewById(R.id.image32);
         progressView2 = findViewById(R.id.progressView2);
 
+        image41 = findViewById(R.id.image41);
+
         draggableView = findViewById(R.id.draggableView);
         image11.setOnClickListener(v -> startActivity(new Intent(mContext, RecyclerViewActivity.class)));
         draggableView.setOnClickListener(v -> startActivity(new Intent(mContext, MultiImageViewActivity.class)));
@@ -95,6 +103,7 @@ public class MainActivity extends BaseActivity {
         line1();
         line2();
         line3();
+        line4();
     }
 
     private void line1() {
@@ -105,14 +114,14 @@ public class MainActivity extends BaseActivity {
     }
 
     private void line2() {
-        image21.load(gif1);
-        image22.load(gif2, R.mipmap.image_loading, 10);
-        image23.loadCircle(gif3);
-        image24.loadDrawable(R.drawable.gif_robot_walk);
+        image21.fitCenter().load(gif1);
+        image22.fitCenter().load(gif2, R.mipmap.image_loading, 10);
+        image23.fitCenter().loadCircle(gif3);
+        image24.fitCenter().loadDrawable(R.drawable.gif_robot_walk);
     }
 
     private void line3() {
-        image31.fitCenter().error(R.mipmap.image_load_err).diskCacheStrategy(DiskCacheStrategy.NONE).load(girl, R.color.placeholder, (isComplete, percentage, bytesRead, totalBytes) -> {
+        image31.centerCrop().error(R.mipmap.image_load_err).diskCacheStrategy(DiskCacheStrategy.NONE).load(girl, R.color.placeholder, (isComplete, percentage, bytesRead, totalBytes) -> {
 //            Log.d("--->", "load percentage: " + percentage + " totalBytes: " + totalBytes + " bytesRead: " + bytesRead);
             if (isComplete) {
                 progressView1.setVisibility(View.GONE);
@@ -122,7 +131,7 @@ public class MainActivity extends BaseActivity {
             }
         });
 
-        image32.error(R.mipmap.image_load_err).load(cat, R.color.placeholder, (isComplete, percentage, bytesRead, totalBytes) -> {
+        image32.centerCrop().error(R.mipmap.image_load_err).load(cat, R.color.placeholder, (isComplete, percentage, bytesRead, totalBytes) -> {
             if (isComplete) {
                 progressView2.setVisibility(View.GONE);
             } else {
@@ -130,6 +139,13 @@ public class MainActivity extends BaseActivity {
                 progressView2.setProgress(percentage);
             }
         });
+    }
+
+    private void line4() {
+        RadiusTransformation radiusTransformation = new RadiusTransformation(this, 10);
+        BlurTransformation blurTransformation = new BlurTransformation(25, 1);
+        MultiTransformation multiTransformation = new MultiTransformation(radiusTransformation, blurTransformation);
+        image41.fitCenter().load(url3, R.mipmap.image_loading, blurTransformation);
     }
 
     @Override

@@ -10,7 +10,6 @@ import android.support.annotation.Nullable;
 import android.widget.ImageView;
 
 import com.bumptech.glide.load.Transformation;
-import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.DrawableImageViewTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.sunfusheng.progress.GlideApp;
@@ -31,7 +30,7 @@ public class GlideImageLoader {
 
     private String url;
     private WeakReference<ImageView> imageViewWeakReference;
-    private RequestOptions requestOptions;
+    private GlideRequest<Drawable> glideRequest;
 
     public static GlideImageLoader create(ImageView imageView) {
         return new GlideImageLoader(imageView);
@@ -39,6 +38,7 @@ public class GlideImageLoader {
 
     private GlideImageLoader(ImageView imageView) {
         imageViewWeakReference = new WeakReference<>(imageView);
+        glideRequest = GlideApp.with(getContext()).asDrawable();
     }
 
     public ImageView getImageView() {
@@ -59,15 +59,11 @@ public class GlideImageLoader {
         return url;
     }
 
-    public RequestOptions getRequestOptions() {
-        if (requestOptions == null) {
-            requestOptions = new RequestOptions();
+    public GlideRequest getGlideRequest() {
+        if (glideRequest == null) {
+            glideRequest = GlideApp.with(getContext()).asDrawable();
         }
-        return requestOptions;
-    }
-
-    public void setRequestOptions(RequestOptions requestOptions) {
-        this.requestOptions = requestOptions;
+        return glideRequest;
     }
 
     protected Uri resId2Uri(@DrawableRes int resId) {
@@ -82,32 +78,34 @@ public class GlideImageLoader {
         if (obj instanceof String) {
             url = (String) obj;
         }
-        return GlideApp.with(getContext()).load(obj);
+        return glideRequest.load(obj);
     }
 
+
     protected GlideImageLoader loadImage(Object obj, @DrawableRes int placeholder, Transformation<Bitmap> transformation) {
-        GlideRequest<Drawable> glideRequest = loadImage(obj);
+        glideRequest = loadImage(obj);
         if (placeholder != 0) {
-            glideRequest = glideRequest.placeholder(placeholder).error(placeholder);
+            glideRequest = glideRequest.placeholder(placeholder);
         }
 
         if (transformation != null) {
             glideRequest = glideRequest.transform(transformation);
         }
 
-        glideRequest = glideRequest.apply(getRequestOptions());
-
         glideRequest.into(new GlideImageViewTarget(getImageView()));
         return this;
     }
 
-    public GlideImageLoader listener(OnProgressListener onProgressListener) {
+    public GlideImageLoader listener(Object obj, OnProgressListener onProgressListener) {
+        if (obj instanceof String) {
+            url = (String) obj;
+        }
         ProgressManager.addListener(url, onProgressListener);
         return this;
     }
 
     private class GlideImageViewTarget extends DrawableImageViewTarget {
-        public GlideImageViewTarget(ImageView view) {
+        GlideImageViewTarget(ImageView view) {
             super(view);
         }
 
