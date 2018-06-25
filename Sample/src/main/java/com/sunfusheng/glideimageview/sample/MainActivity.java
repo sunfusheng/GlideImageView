@@ -8,7 +8,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.bumptech.glide.load.MultiTransformation;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.sunfusheng.FirUpdater;
 import com.sunfusheng.GlideImageView;
@@ -16,7 +15,6 @@ import com.sunfusheng.glideimageview.sample.about.AboutActivity;
 import com.sunfusheng.glideimageview.sample.image.SingleImageActivity;
 import com.sunfusheng.progress.CircleProgressView;
 import com.sunfusheng.transformation.BlurTransformation;
-import com.sunfusheng.transformation.RadiusTransformation;
 
 /**
  * @author by sunfusheng on 2017/6/3.
@@ -142,10 +140,14 @@ public class MainActivity extends BaseActivity {
     }
 
     private void line4() {
-        RadiusTransformation radiusTransformation = new RadiusTransformation(this, 10);
-        BlurTransformation blurTransformation = new BlurTransformation(25, 1);
-        MultiTransformation multiTransformation = new MultiTransformation(radiusTransformation, blurTransformation);
-        image41.fitCenter().load(url3, R.mipmap.image_loading, blurTransformation);
+        image41.fitCenter().load(url3, R.mipmap.image_loading, new BlurTransformation(25, 1));
+
+        image41.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, SingleImageActivity.class);
+            intent.putExtra(SingleImageActivity.KEY_IMAGE_URL, url3);
+            ActivityOptionsCompat compat = ActivityOptionsCompat.makeSceneTransitionAnimation(MainActivity.this, image41, getString(R.string.transitional_image));
+            ActivityCompat.startActivity(MainActivity.this, intent, compat.toBundle());
+        });
     }
 
     @Override

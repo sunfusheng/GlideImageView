@@ -65,11 +65,11 @@ public class BlurTransformation extends BitmapTransformation {
 
     @Override
     public int hashCode() {
-        return Util.hashCode(ID.hashCode(), Util.hashCode(radius));
+        return Util.hashCode(ID.hashCode(), Util.hashCode(radius, Util.hashCode(sampling)));
     }
 
     @Override
     public void updateDiskCacheKey(@NonNull MessageDigest messageDigest) {
-        messageDigest.update((ID + radius + sampling).getBytes(CHARSET));
+        messageDigest.update((ID + radius * 10 + sampling).getBytes(CHARSET));
     }
 }

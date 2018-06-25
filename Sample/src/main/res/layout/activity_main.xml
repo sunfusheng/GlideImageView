@@ -146,7 +146,8 @@
                 android:layout_height="135dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="10dp"
-                android:layout_marginTop="10dp"/>
+                android:layout_marginTop="10dp"
+                android:transitionName="@string/transitional_image"/>
 
         </LinearLayout>
     </ScrollView>
