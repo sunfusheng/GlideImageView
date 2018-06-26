@@ -9,9 +9,6 @@
         android:id="@+id/imageView"
         android:layout_width="300dp"
         android:layout_height="300dp"
-        android:layout_centerInParent="true"
-        app:riv_is_circle="true"
-        app:riv_pressed_mask_color="@color/transparent10"
-        app:riv_pressed_mode_enabled="true"/>
+        android:layout_centerInParent="true"/>
 
 </RelativeLayout>

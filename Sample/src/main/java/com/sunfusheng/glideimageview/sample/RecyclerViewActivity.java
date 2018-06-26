@@ -52,7 +52,7 @@ public class RecyclerViewActivity extends BaseActivity {
         public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
             NewsModel entity = list.get(position);
             viewHolder.tvTitle.setText(entity.getTitle());
-            viewHolder.imageView.load(entity.getImage_url(), R.color.placeholder);
+            viewHolder.imageView.centerCrop().load(entity.getImage_url(), R.color.placeholder);
             viewHolder.llRootView.setOnClickListener(v -> Toast.makeText(mContext, entity.getTitle(), Toast.LENGTH_SHORT).show());
         }
 

@@ -1,29 +1,43 @@
 package com.sunfusheng.util;
 
+import android.content.Context;
 import android.graphics.Bitmap;
+import android.os.Build;
+import android.renderscript.Allocation;
+import android.renderscript.Element;
+import android.renderscript.RenderScript;
+import android.renderscript.ScriptIntrinsicBlur;
+import android.support.annotation.RequiresApi;
 
 /**
  * @author sunfusheng on 2018/6/25.
  */
 public class BlurUtils {
 
-    public static Bitmap blur(Bitmap sentBitmap, int radius, boolean canReuseInBitmap) {
-        Bitmap bitmap;
-        if (canReuseInBitmap) {
-            bitmap = sentBitmap;
-        } else {
-            bitmap = sentBitmap.copy(sentBitmap.getConfig(), true);
-        }
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
+    public static Bitmap rsBlur(Context context, Bitmap toTransform, int radius) {
+        RenderScript renderScript = RenderScript.create(context);
+        Allocation input = Allocation.createFromBitmap(renderScript, toTransform);
+        Allocation output = Allocation.createTyped(renderScript, input.getType());
+        ScriptIntrinsicBlur scriptIntrinsicBlur = ScriptIntrinsicBlur.create(renderScript, Element.U8_4(renderScript));
+        scriptIntrinsicBlur.setInput(input);
+        scriptIntrinsicBlur.setRadius(radius);
+        scriptIntrinsicBlur.forEach(output);
+        output.copyTo(toTransform);
+        renderScript.destroy();
+        return toTransform;
+    }
 
+    public static Bitmap blur(Bitmap toTransform, int radius) {
         if (radius < 1) {
             return (null);
         }
 
-        int w = bitmap.getWidth();
-        int h = bitmap.getHeight();
+        int w = toTransform.getWidth();
+        int h = toTransform.getHeight();
 
         int[] pix = new int[w * h];
-        bitmap.getPixels(pix, 0, w, 0, 0, w, h);
+        toTransform.getPixels(pix, 0, w, 0, 0, w, h);
 
         int wm = w - 1;
         int hm = h - 1;
@@ -207,7 +221,7 @@ public class BlurUtils {
             }
         }
 
-        bitmap.setPixels(pix, 0, w, 0, 0, w, h);
-        return bitmap;
+        toTransform.setPixels(pix, 0, w, 0, 0, w, h);
+        return toTransform;
     }
 }

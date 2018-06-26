@@ -161,15 +161,18 @@ public class GlideImageView extends ImageView {
         }
     }
 
-    public void setEnableState(boolean enableState) {
+    public GlideImageView enableState(boolean enableState) {
         this.enableState = enableState;
+        return this;
     }
 
-    public void setPressedAlpha(float pressedAlpha) {
+    public GlideImageView pressedAlpha(float pressedAlpha) {
         this.pressedAlpha = pressedAlpha;
+        return this;
     }
 
-    public void setUnableAlpha(float unableAlpha) {
+    public GlideImageView unableAlpha(float unableAlpha) {
         this.unableAlpha = unableAlpha;
+        return this;
     }
 }

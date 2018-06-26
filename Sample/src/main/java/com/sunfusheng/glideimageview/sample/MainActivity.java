@@ -105,7 +105,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void line1() {
-        image11.load(url1);
+        image11.enableState(true).load(url1);
         image12.loadCircle(url1);
         image13.load(url2, R.mipmap.image_loading);
         image14.load(url2, R.mipmap.image_loading, 10);
@@ -140,7 +140,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void line4() {
-        image41.fitCenter().load(url3, R.mipmap.image_loading, new BlurTransformation(25, 1));
+        image41.fitCenter().load(url3, R.mipmap.image_loading, new BlurTransformation(this, 25, 1));
 
         image41.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, SingleImageActivity.class);

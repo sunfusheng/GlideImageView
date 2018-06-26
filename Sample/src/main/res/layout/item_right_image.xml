@@ -2,7 +2,6 @@
 <LinearLayout
     android:id="@+id/ll_root_view"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -21,32 +20,19 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/d2"
-            android:layout_toLeftOf="@+id/prl_image"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/giv"
             android:ellipsize="end"
             android:maxLines="2"
             android:textColor="@color/c1"
             android:textSize="@dimen/f6"
             tools:text="标题"/>
 
-        <android.support.constraint.ConstraintLayout
-            android:id="@+id/prl_image"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true">
-
-            <com.sunfusheng.GlideImageView
-                android:id="@+id/giv"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:scaleType="centerCrop"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintDimensionRatio="16:9"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:riv_pressed_mask_color="@color/transparent30"/>
-        </android.support.constraint.ConstraintLayout>
+        <com.sunfusheng.GlideImageView
+            android:id="@+id/giv"
+            android:layout_width="120dp"
+            android:layout_height="90dp"
+            android:layout_alignParentRight="true"/>
     </RelativeLayout>
 
     <View
