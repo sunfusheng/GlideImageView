@@ -48,7 +48,7 @@ public class NineImageViewActivity extends BaseActivity {
 
         RecyclerViewAdapter(Context context, List<ImageModel> list) {
             this.list = list;
-            margin = Utils.dp2px(context, 4);
+            margin = Utils.dp2px(context, 3);
             maxImgHeight = maxImgWidth = (Utils.getWindowWidth(context) - Utils.dp2px(context, 16) * 2) * 3 / 4;
             cellHeight = cellWidth = (maxImgWidth - margin * 3) / 3;
             minImgHeight = minImgWidth = cellWidth;
@@ -67,7 +67,7 @@ public class NineImageViewActivity extends BaseActivity {
 
             viewHolder.vDesc.setText(model.desc);
             viewHolder.multiImageView.loadGif(false)
-                    .enableRoundCorner(false)
+                    .enableRoundCorner(true)
                     .setRoundCornerRadius(5)
                     .setData(model.images, getLayoutHelper(model.images));
 
@@ -87,14 +87,13 @@ public class NineImageViewActivity extends BaseActivity {
                 int width = list.get(0).realWidth;
                 int height = list.get(0).realHeight;
                 if (width > 0 && height > 0) {
+                    float whRatio = width * 1f / height;
                     if (width > height) {
                         width = Math.max(minImgWidth, Math.min(width, maxImgWidth));
-                        height = (int) (height * width * 1f / width);
-                        height = (int) Math.max(width / 3f, height);
+                        height = Math.max(minImgHeight, (int) (width / whRatio));
                     } else {
                         height = Math.max(minImgHeight, Math.min(height, maxImgHeight));
-                        width = (int) (width * height * 1f / height);
-                        width = (int) Math.max(height / 3f, width);
+                        width = Math.max(minImgWidth, (int) (height * whRatio));
                     }
                 } else {
                     width = cellWidth;

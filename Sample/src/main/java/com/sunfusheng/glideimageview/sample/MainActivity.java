@@ -112,8 +112,8 @@ public class MainActivity extends BaseActivity {
     }
 
     private void line2() {
-        image21.fitCenter().load(gif1);
-        image22.fitCenter().load(gif2, R.mipmap.image_loading, 10);
+        image21.fitCenter().load(gif2, R.mipmap.image_loading, 10);
+        image22.fitCenter().load(gif1);
         image23.fitCenter().loadCircle(gif3);
         image24.fitCenter().loadDrawable(R.drawable.gif_robot_walk);
     }
