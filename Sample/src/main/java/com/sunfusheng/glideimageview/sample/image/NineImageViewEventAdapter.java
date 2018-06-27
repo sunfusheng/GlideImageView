@@ -5,8 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.sunfusheng.glideimageview.sample.widget.MultiImageView.ImageData;
-import com.sunfusheng.glideimageview.sample.widget.MultiImageView.MultiImageView;
+import com.sunfusheng.glideimageview.sample.widget.NineImageView.ImageData;
+import com.sunfusheng.glideimageview.sample.widget.NineImageView.NineImageView;
 
 import java.io.Serializable;
 import java.util.List;
@@ -14,7 +14,7 @@ import java.util.List;
 
 public class NineImageViewEventAdapter {
 
-    protected void onImageItemClick(Context context, MultiImageView nineImageView, int index, List<ImageData> images) {
+    protected void onImageItemClick(Context context, NineImageView nineImageView, int index, List<ImageData> images) {
 //        for (int i = 0; i < images.size(); i++) {
 //            ImageData attr = images.get(i);
 //            View imageView = nineImageView.getChildAt(i);

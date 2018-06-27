@@ -1,4 +1,4 @@
-package com.sunfusheng.glideimageview.sample.widget.MultiImageView;
+package com.sunfusheng.glideimageview.sample.widget.NineImageView;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -34,18 +34,19 @@ public class ImageCell extends AppCompatImageView {
     private GlideRequests glideRequests;
     private ImageData imageData;
 
+    private static Drawable gifDrawable;
+    private static Drawable longDrawable;
     private boolean isGif;
     private boolean loadGif;
-    private Drawable gifDrawable;
-    private int gifWidth;
-    private int gifHeight;
-    private Rect gifRect;
-    private int gifMargin;
+
+    private Drawable cornerIconDrawable;
+    private int cornerIconWidth;
+    private int cornerIconHeight;
+    private Rect cornerIconBounds;
+    private int cornerIconMargin;
 
     private Paint textPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private Paint.FontMetricsInt fontMetrics;
-    private float textX;
-    private float textY;
 
     public ImageCell(Context context) {
         this(context, null);
@@ -62,8 +63,8 @@ public class ImageCell extends AppCompatImageView {
 
     private void init() {
         glideRequests = GlideApp.with(getContext());
-        gifRect = new Rect();
-        gifMargin = Utils.dp2px(getContext(), 4);
+        cornerIconBounds = new Rect();
+        cornerIconMargin = Utils.dp2px(getContext(), 4);
 
         textPaint.setTextSize(Utils.dp2px(getContext(), 20));
         textPaint.setTextAlign(Paint.Align.CENTER);
@@ -83,15 +84,6 @@ public class ImageCell extends AppCompatImageView {
         return this;
     }
 
-    public ImageCell setGifDrawable(Drawable gifDrawable) {
-        this.gifDrawable = gifDrawable;
-        if (gifDrawable != null) {
-            gifWidth = Utils.dp2px(getContext(), gifDrawable.getIntrinsicWidth());
-            gifHeight = Utils.dp2px(getContext(), gifDrawable.getIntrinsicHeight());
-        }
-        return this;
-    }
-
     public void load(String url) {
         glideRequests.load(url)
                 .placeholder(R.mipmap.image_loading)
@@ -100,44 +92,84 @@ public class ImageCell extends AppCompatImageView {
                 .transition(new DrawableTransitionOptions().dontTransition())
                 .thumbnail(THUMBNAIL_RATIO)
                 .diskCacheStrategy(DiskCacheStrategy.DATA)
-                .into(new ImageCellTarget(this) {
+                .into(new DrawableTarget(this) {
                     @Override
                     public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
                         Drawable drawable = resource;
                         isGif = false;
-                        if (!loadGif && resource instanceof GifDrawable) {
+                        if (resource instanceof GifDrawable) {
                             isGif = true;
-                            drawable = new BitmapDrawable(((GifDrawable) resource).getFirstFrame());
+                            if (!loadGif) {
+                                drawable = new BitmapDrawable(((GifDrawable) resource).getFirstFrame());
+                            }
+                        }
+
+                        cornerIconDrawable = null;
+                        if (isGif && !loadGif) {
+                            cornerIconDrawable = getGifDrawable();
+                        } else if (isLongImage()) {
+                            cornerIconDrawable = getLongDrawable();
+                        }
+
+                        if (cornerIconDrawable != null) {
+                            cornerIconWidth = Utils.dp2px(getContext(), cornerIconDrawable.getIntrinsicWidth());
+                            cornerIconHeight = Utils.dp2px(getContext(), cornerIconDrawable.getIntrinsicHeight());
                         }
                         super.onResourceReady(drawable, transition);
                     }
                 });
     }
 
+    public boolean isGifImage() {
+        return isGif;
+    }
+
+    public boolean isLongImage() {
+        int realWidth = imageData != null ? imageData.realWidth : 0;
+        int realHeight = imageData != null ? imageData.realHeight : 0;
+        if (realWidth == 0 || realHeight == 0 || realWidth >= realHeight) {
+            return false;
+        }
+        return (realHeight / realWidth) > 4;
+    }
+
+    public Drawable getGifDrawable() {
+        if (gifDrawable == null) {
+            gifDrawable = Utils.getTextDrawable(getContext().getApplicationContext(), 24, 14, 2, "GIF", 11, R.color.transparent30);
+        }
+        return gifDrawable;
+    }
+
+    public Drawable getLongDrawable() {
+        if (longDrawable == null) {
+            longDrawable = Utils.getTextDrawable(getContext().getApplicationContext(), 25, 14, 2, "长图", 10, R.color.transparent30);
+        }
+        return longDrawable;
+    }
+
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         super.onLayout(changed, l, t, r, b);
-        if (gifDrawable != null) {
-            gifRect.set(r - l - gifMargin - gifWidth,
-                    b - t - gifHeight - gifMargin,
-                    r - l - gifMargin,
-                    b - t - gifMargin);
+        if (cornerIconDrawable != null) {
+            cornerIconBounds.set(r - l - cornerIconMargin - cornerIconWidth,
+                    b - t - cornerIconHeight - cornerIconMargin,
+                    r - l - cornerIconMargin,
+                    b - t - cornerIconMargin);
         }
     }
 
     @Override
     public void draw(Canvas canvas) {
         super.draw(canvas);
-        if (isGif && gifDrawable != null) {
-            gifDrawable.setBounds(gifRect);
-            gifDrawable.draw(canvas);
+        if (cornerIconDrawable != null) {
+            cornerIconDrawable.setBounds(cornerIconBounds);
+            cornerIconDrawable.draw(canvas);
         }
 
         if (!TextUtils.isEmpty(imageData.text)) {
-            getDrawable().getBounds();
             canvas.drawColor(getResources().getColor(R.color.transparent30));
-            textX = getWidth() / 2;
-            textY = getHeight() / 2 + (fontMetrics.bottom - fontMetrics.top) / 2 - fontMetrics.bottom;
+            int textX = getWidth() / 2;
+            int textY = getHeight() / 2 + (fontMetrics.bottom - fontMetrics.top) / 2 - fontMetrics.bottom;
             canvas.drawText(imageData.text, textX, textY, textPaint);
         }
     }
@@ -152,19 +184,17 @@ public class ImageCell extends AppCompatImageView {
 
     public ImageCell setTextColor(@ColorRes int color) {
         textPaint.setColor(getResources().getColor(color));
-        postInvalidate();
         return this;
     }
 
     public ImageCell setTextSize(int size) {
         textPaint.setTextSize(Utils.dp2px(getContext(), size));
         fontMetrics = textPaint.getFontMetricsInt();
-        postInvalidate();
         return this;
     }
 
-    private class ImageCellTarget extends DrawableImageViewTarget {
-        ImageCellTarget(ImageView view) {
+    private class DrawableTarget extends DrawableImageViewTarget {
+        DrawableTarget(ImageView view) {
             super(view);
         }
 

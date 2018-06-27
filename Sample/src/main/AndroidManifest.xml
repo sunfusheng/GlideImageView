@@ -30,7 +30,7 @@
             android:name=".about.AboutActivity"
             android:theme="@style/AboutTheme"/>
 
-        <activity android:name=".MultiImageViewActivity"/>
+        <activity android:name=".NineImageViewActivity"/>
 
         <activity android:name=".RecyclerViewActivity"/>
 

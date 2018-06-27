@@ -1,4 +1,4 @@
-package com.sunfusheng.glideimageview.sample.widget.MultiImageView;
+package com.sunfusheng.glideimageview.sample.widget.NineImageView;
 
 import android.graphics.Point;
 
@@ -8,6 +8,9 @@ import android.graphics.Point;
 public class ImageData {
     public String url;
     public String text;
+
+    public int realWidth;
+    public int realHeight;
 
     public int startX;
     public int startY;

@@ -1,4 +1,4 @@
-package com.sunfusheng.glideimageview.sample.widget.MultiImageView;
+package com.sunfusheng.glideimageview.sample.widget.NineImageView;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -8,12 +8,14 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.RectF;
 import android.graphics.Xfermode;
-import android.graphics.drawable.Drawable;
 import android.os.SystemClock;
+import android.support.annotation.ColorRes;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.sunfusheng.glideimageview.sample.R;
 import com.sunfusheng.util.Utils;
 
 import java.util.List;
@@ -21,13 +23,17 @@ import java.util.List;
 /**
  * @author sunfusheng on 2018/6/19.
  */
-public class MultiImageView extends ViewGroup {
+public class NineImageView extends ViewGroup {
+
+    private static final int MAX_IMAGE_SIZE = 9;
+    private static final int MAX_SPAN_COUNT = 3;
 
     private List<ImageData> dataSource;
     private int size;
     private int margin;
     private int cellWidth;
     private int cellHeight;
+    private boolean shouldLoad;
 
     private boolean enableRoundCorner;
     private int roundCornerRadius;
@@ -37,55 +43,70 @@ public class MultiImageView extends ViewGroup {
     private RectF roundRect = new RectF(0, 0, 0, 0);
 
     private boolean loadGif;
-    private boolean shouldLoad;
-    private Drawable gifDrawable;
+    private int textColor;
+    private int textSize;
 
-
-    public MultiImageView(Context context) {
+    public NineImageView(Context context) {
         this(context, null);
     }
 
-    public MultiImageView(Context context, AttributeSet attrs) {
+    public NineImageView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public MultiImageView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public NineImageView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init();
+        init(context);
     }
 
-    private void init() {
-        margin = Utils.dp2px(getContext(), 3);
-        cellWidth = cellHeight = Utils.dp2px(getContext(), 60);
+    private void init(Context context) {
+        cellWidth = cellHeight = Utils.dp2px(context, 60);
+        setMargin(3);
         setRoundCornerRadius(5);
+        textColor = R.color.white;
+        textSize = 20;
     }
 
     public void setData(List<ImageData> list) {
-        setData(list, getDefaultLayoutHelper(list), "");
+        setData(list, getDefaultLayoutHelper(list));
     }
 
     private GridLayoutHelper getDefaultLayoutHelper(List<ImageData> list) {
-        int imageCount = list != null ? list.size() : 0;
-        if (imageCount > 3) {
-            imageCount = (int) Math.ceil(Math.sqrt(imageCount));
+        int spanCount = list != null ? list.size() : 0;
+        if (spanCount > MAX_SPAN_COUNT) {
+            spanCount = (int) Math.ceil(Math.sqrt(spanCount));
         }
-        return new GridLayoutHelper(imageCount, cellWidth, cellHeight, margin);
+        if (spanCount > MAX_SPAN_COUNT) {
+            spanCount = MAX_SPAN_COUNT;
+        }
+        return new GridLayoutHelper(spanCount, cellWidth, cellHeight, margin);
     }
 
-    public void setData(List<ImageData> list, LayoutHelper layoutHelper, String desc) {
-        this.dataSource = list;
+    public void setData(List<ImageData> data, LayoutHelper layoutHelper) {
+        this.dataSource = data;
         this.shouldLoad = true;
+        if (layoutHelper == null) {
+            layoutHelper = getDefaultLayoutHelper(data);
+        }
 
         long start = SystemClock.currentThreadTimeMillis();
-        size = dataSource != null ? dataSource.size() : 0;
-        if (size > 0 && layoutHelper != null) {
+        size = Utils.getSize(data);
+        if (size > MAX_IMAGE_SIZE) {
+            size = MAX_IMAGE_SIZE;
+            data.get(MAX_IMAGE_SIZE - 1).text = "+" + String.valueOf(Utils.getSize(data) - MAX_IMAGE_SIZE);
+        }
+
+        if (size > 0) {
             int index = 0;
             for (; index < size; index++) {
-                ImageData imageData = dataSource.get(index);
+                ImageData imageData = data.get(index);
                 imageData.from(imageData, layoutHelper, index);
                 ImageCell imageCell = (ImageCell) getChildAt(index);
                 if (imageCell == null) {
-                    imageCell = new ImageCell(getContext()).setLoadGif(loadGif).setGifDrawable(gifDrawable);
+                    imageCell = new ImageCell(getContext())
+                            .setLoadGif(loadGif)
+                            .setTextColor(textColor)
+                            .setTextSize(textSize);
                     addView(imageCell);
                 }
                 imageCell.setData(imageData);
@@ -96,30 +117,48 @@ public class MultiImageView extends ViewGroup {
             }
         }
         requestLayout();
-//        Log.d("--->", "MultiImageView setData() consume time:" + (SystemClock.currentThreadTimeMillis() - start) + " desc: " + desc);
+        Log.d("--->", "MultiImageView setData() consume time:" + (SystemClock.currentThreadTimeMillis() - start));
     }
 
     public List<ImageData> getData() {
         return dataSource;
     }
 
-    public MultiImageView enableRoundCorner(boolean enableRoundCorner) {
+    public NineImageView setMargin(int margin) {
+        this.margin = Utils.dp2px(getContext(), margin);
+        return this;
+    }
+
+    public NineImageView enableRoundCorner(boolean enableRoundCorner) {
         this.enableRoundCorner = enableRoundCorner;
         return this;
     }
 
-    public MultiImageView setRoundCornerRadius(int roundCornerRadius) {
+    public NineImageView setRoundCornerRadius(int roundCornerRadius) {
         this.roundCornerRadius = Utils.dp2px(getContext(), roundCornerRadius);
         return this;
     }
 
-    public MultiImageView loadGif(boolean loadGif) {
+    public NineImageView loadGif(boolean loadGif) {
         this.loadGif = loadGif;
         return this;
     }
 
-    public MultiImageView setGifDrawable(Drawable gifDrawable) {
-        this.gifDrawable = gifDrawable;
+    public NineImageView setText(int index, String text) {
+        ImageCell imageCell = getImageCell(index);
+        if (imageCell != null) {
+            imageCell.setText(text);
+        }
+        return this;
+    }
+
+    public NineImageView setTextColor(@ColorRes int textColor) {
+        this.textColor = textColor;
+        return this;
+    }
+
+    public NineImageView setTextSize(int textSize) {
+        this.textSize = textSize;
         return this;
     }
 

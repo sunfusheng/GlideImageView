@@ -1,4 +1,4 @@
-package com.sunfusheng.glideimageview.sample.widget.MultiImageView;
+package com.sunfusheng.glideimageview.sample.widget.NineImageView;
 
 import android.graphics.Point;
 

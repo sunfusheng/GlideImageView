@@ -80,7 +80,7 @@ public class MainActivity extends BaseActivity {
 
         draggableView = findViewById(R.id.draggableView);
         image11.setOnClickListener(v -> startActivity(new Intent(mContext, RecyclerViewActivity.class)));
-        draggableView.setOnClickListener(v -> startActivity(new Intent(mContext, MultiImageViewActivity.class)));
+        draggableView.setOnClickListener(v -> startActivity(new Intent(mContext, NineImageViewActivity.class)));
 
         image31.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, SingleImageActivity.class);

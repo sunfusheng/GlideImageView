@@ -12,6 +12,8 @@ import android.support.annotation.ColorRes;
 import android.util.DisplayMetrics;
 import android.view.WindowManager;
 
+import java.util.Collection;
+
 public class Utils {
 
     private static WindowManager windowManager;
@@ -80,5 +82,13 @@ public class Utils {
 
     public static Drawable getTextDrawable(Context context, int width, int height, int radius, String text, int textSize, @ColorRes int bgColor) {
         return new BitmapDrawable(getTextBitmap(context, width, height, radius, text, textSize, bgColor));
+    }
+
+    public static boolean isEmpty(Collection<?> collection) {
+        return collection == null || collection.isEmpty();
+    }
+
+    public static int getSize(Collection<?> collection) {
+        return collection == null ? 0 : collection.size();
     }
 }

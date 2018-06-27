@@ -1,5 +1,7 @@
 package com.sunfusheng.glideimageview.sample.model;
 
+import com.sunfusheng.glideimageview.sample.widget.NineImageView.ImageData;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -8,9 +10,9 @@ import java.util.List;
  */
 public class ImageModel implements Serializable {
     public String desc;
-    public List<String> images;
+    public List<ImageData> images;
 
-    public ImageModel(String desc, List<String> images) {
+    public ImageModel(String desc, List<ImageData> images) {
         this.desc = desc;
         this.images = images;
     }
