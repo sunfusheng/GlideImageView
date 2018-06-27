@@ -6,12 +6,14 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Xfermode;
 import android.os.SystemClock;
 import android.support.annotation.ColorRes;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -46,6 +48,12 @@ public class NineImageView extends ViewGroup {
     private int textColor;
     private int textSize;
 
+    private Rect cellRect = new Rect();
+    private int clickPosition;
+    private boolean hasPerformedLongClick;
+    private boolean hasPerformedItemClick;
+    private OnItemClickListener onItemClickListener;
+
     public NineImageView(Context context) {
         this(context, null);
     }
@@ -61,7 +69,7 @@ public class NineImageView extends ViewGroup {
 
     private void init(Context context) {
         cellWidth = cellHeight = Utils.dp2px(context, 60);
-        setMargin(3);
+        setMargin(4);
         setRoundCornerRadius(5);
         textColor = R.color.white;
         textSize = 20;
@@ -106,7 +114,8 @@ public class NineImageView extends ViewGroup {
                     imageCell = new ImageCell(getContext())
                             .setLoadGif(loadGif)
                             .setTextColor(textColor)
-                            .setTextSize(textSize);
+                            .setTextSize(textSize)
+                            .setRadius(enableRoundCorner ? roundCornerRadius : 0);
                     addView(imageCell);
                 }
                 imageCell.setData(imageData);
@@ -144,14 +153,6 @@ public class NineImageView extends ViewGroup {
         return this;
     }
 
-    public NineImageView setText(int index, String text) {
-        ImageCell imageCell = getImageCell(index);
-        if (imageCell != null) {
-            imageCell.setText(text);
-        }
-        return this;
-    }
-
     public NineImageView setTextColor(@ColorRes int textColor) {
         this.textColor = textColor;
         return this;
@@ -168,6 +169,13 @@ public class NineImageView extends ViewGroup {
             return (ImageCell) view;
         }
         return null;
+    }
+
+    public void setText(int index, String text) {
+        ImageCell imageCell = getImageCell(index);
+        if (imageCell != null) {
+            imageCell.setText(text);
+        }
     }
 
     @Override
@@ -283,5 +291,57 @@ public class NineImageView extends ViewGroup {
         } else {
             super.dispatchDraw(canvas);
         }
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        int x = (int) event.getX();
+        int y = (int) event.getY();
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                hasPerformedLongClick = false;
+                hasPerformedItemClick = false;
+                clickPosition = getPositionByXY(x, y);
+                break;
+            case MotionEvent.ACTION_UP:
+                if (onItemClickListener != null && !hasPerformedLongClick && clickPosition == getPositionByXY(x, y)) {
+                    if (clickPosition >= 0) {
+                        hasPerformedItemClick = true;
+                        onItemClickListener.onItemClick(clickPosition);
+                    }
+                }
+                break;
+        }
+        return super.onTouchEvent(event);
+    }
+
+    private int getPositionByXY(int x, int y) {
+        for (int i = 0; i < getChildCount(); i++) {
+            View view = getChildAt(i);
+            view.getHitRect(cellRect);
+            if (cellRect.contains(x, y)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    @Override
+    public boolean performLongClick() {
+        hasPerformedLongClick = true;
+        return super.performLongClick();
+    }
+
+    @Override
+    public boolean performClick() {
+        return !hasPerformedItemClick && super.performClick();
+    }
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(int position);
     }
 }

@@ -9,6 +9,7 @@ import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.ColorRes;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.WindowManager;
 
@@ -61,6 +62,23 @@ public class Utils {
 
     public static int getWindowHeight(Context context) {
         return getDisplayMetrics(context).heightPixels;
+    }
+
+    public static String getPathFormat(String path) {
+        if (!TextUtils.isEmpty(path)) {
+            int lastPeriodIndex = path.lastIndexOf('.');
+            if (lastPeriodIndex > 0 && lastPeriodIndex + 1 < path.length()) {
+                String format = path.substring(lastPeriodIndex + 1);
+                if (!TextUtils.isEmpty(format)) {
+                    return format.toLowerCase();
+                }
+            }
+        }
+        return "";
+    }
+
+    public static boolean isGif(String url) {
+        return "gif".equals(getPathFormat(url));
     }
 
     public static Bitmap getTextBitmap(Context context, int width, int height, int radius, String text, int textSize, @ColorRes int bgColor) {

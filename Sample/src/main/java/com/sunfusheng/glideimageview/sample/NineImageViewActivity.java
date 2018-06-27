@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.sunfusheng.glideimageview.sample.model.ImageModel;
 import com.sunfusheng.glideimageview.sample.model.ModelUtil;
@@ -47,7 +48,7 @@ public class NineImageViewActivity extends BaseActivity {
 
         RecyclerViewAdapter(Context context, List<ImageModel> list) {
             this.list = list;
-            margin = Utils.dp2px(context, 3);
+            margin = Utils.dp2px(context, 4);
             maxImgHeight = maxImgWidth = (Utils.getWindowWidth(context) - Utils.dp2px(context, 16) * 2) * 3 / 4;
             cellHeight = cellWidth = (maxImgWidth - margin * 3) / 3;
             minImgHeight = minImgWidth = cellWidth;
@@ -56,7 +57,7 @@ public class NineImageViewActivity extends BaseActivity {
         @NonNull
         @Override
         public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
-            View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_nine_imageview, viewGroup, false);
+            View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_nine_images, viewGroup, false);
             return new ViewHolder(view);
         }
 
@@ -66,8 +67,18 @@ public class NineImageViewActivity extends BaseActivity {
 
             viewHolder.vDesc.setText(model.desc);
             viewHolder.multiImageView.loadGif(false)
-                    .enableRoundCorner(true)
+                    .enableRoundCorner(false)
+                    .setRoundCornerRadius(5)
                     .setData(model.images, getLayoutHelper(model.images));
+
+            viewHolder.multiImageView.setOnLongClickListener(v -> {
+                Toast.makeText(getApplicationContext(), "长按：" + model.desc, Toast.LENGTH_SHORT).show();
+                return false;
+            });
+
+            viewHolder.multiImageView.setOnItemClickListener(index -> {
+                Toast.makeText(getApplicationContext(), "点击：position = " + index, Toast.LENGTH_SHORT).show();
+            });
         }
 
         private GridLayoutHelper getLayoutHelper(List<ImageData> list) {
