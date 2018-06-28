@@ -13,7 +13,7 @@ import com.github.chrisbanes.photoview.OnOutsidePhotoTapListener;
 import com.github.chrisbanes.photoview.OnPhotoTapListener;
 import com.github.chrisbanes.photoview.PhotoView;
 import com.sunfusheng.glideimageview.sample.R;
-import com.sunfusheng.glideimageview.sample.widget.NineImageView.ImageData;
+import com.sunfusheng.widget.ImageData;
 import com.sunfusheng.progress.CircleProgressView;
 
 import java.util.List;

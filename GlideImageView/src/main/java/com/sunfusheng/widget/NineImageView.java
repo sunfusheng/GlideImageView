@@ -1,4 +1,4 @@
-package com.sunfusheng.glideimageview.sample.widget.NineImageView;
+package com.sunfusheng.widget;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -11,13 +11,14 @@ import android.graphics.RectF;
 import android.graphics.Xfermode;
 import android.os.SystemClock;
 import android.support.annotation.ColorRes;
+import android.support.annotation.DrawableRes;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.sunfusheng.glideimageview.sample.R;
+import com.sunfusheng.glideimageview.R;
 import com.sunfusheng.util.Utils;
 
 import java.util.List;
@@ -47,6 +48,8 @@ public class NineImageView extends ViewGroup {
     private boolean loadGif;
     private int textColor;
     private int textSize;
+    private int placeholderResId;
+    private int errorResId;
 
     private Rect cellRect = new Rect();
     private int clickPosition;
@@ -69,10 +72,12 @@ public class NineImageView extends ViewGroup {
 
     private void init(Context context) {
         cellWidth = cellHeight = Utils.dp2px(context, 60);
-        setMargin(4);
+        setMargin(3);
         setRoundCornerRadius(5);
-        textColor = R.color.white;
+        textColor = R.color.nine_image_text_color;
         textSize = 20;
+        placeholderResId = R.mipmap.image_loading;
+        errorResId = R.mipmap.image_load_err;
     }
 
     public void setData(List<ImageData> list) {
@@ -115,6 +120,8 @@ public class NineImageView extends ViewGroup {
                             .setLoadGif(loadGif)
                             .setTextColor(textColor)
                             .setTextSize(textSize)
+                            .placeholder(placeholderResId)
+                            .error(errorResId)
                             .setRadius(enableRoundCorner ? roundCornerRadius : 0);
                     addView(imageCell);
                 }
@@ -160,6 +167,16 @@ public class NineImageView extends ViewGroup {
 
     public NineImageView setTextSize(int textSize) {
         this.textSize = textSize;
+        return this;
+    }
+
+    public NineImageView placeholder(@DrawableRes int resId) {
+        this.placeholderResId = resId;
+        return this;
+    }
+
+    public NineImageView error(@DrawableRes int resId) {
+        this.errorResId = resId;
         return this;
     }
 
@@ -264,11 +281,11 @@ public class NineImageView extends ViewGroup {
                 ImageData imageData = dataSource.get(i);
                 imageCell.layout(imageData.startX, imageData.startY, imageData.startX + imageCell.getMeasuredWidth(), imageData.startY + imageCell.getMeasuredHeight());
                 if (shouldLoad) {
+                    shouldLoad = false;
                     imageCell.setData(imageData);
                 }
             }
         }
-        shouldLoad = false;
     }
 
     @Override

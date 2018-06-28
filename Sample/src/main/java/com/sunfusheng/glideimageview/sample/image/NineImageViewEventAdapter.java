@@ -5,8 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.sunfusheng.glideimageview.sample.widget.NineImageView.ImageData;
-import com.sunfusheng.glideimageview.sample.widget.NineImageView.NineImageView;
+import com.sunfusheng.widget.ImageData;
+import com.sunfusheng.widget.NineImageView;
 
 import java.io.Serializable;
 import java.util.List;

@@ -15,7 +15,7 @@ import com.github.chrisbanes.photoview.PhotoView;
 import com.sunfusheng.glideimageview.sample.R;
 import com.sunfusheng.glideimageview.sample.util.ColorUtil;
 import com.sunfusheng.glideimageview.sample.util.StatusBarUtil;
-import com.sunfusheng.glideimageview.sample.widget.NineImageView.ImageData;
+import com.sunfusheng.widget.ImageData;
 import com.sunfusheng.util.Utils;
 
 import java.util.List;

@@ -1,11 +1,13 @@
-package com.sunfusheng.glideimageview.sample.widget.NineImageView;
+package com.sunfusheng.widget;
 
 import android.graphics.Point;
+
+import java.io.Serializable;
 
 /**
  * @author sunfusheng on 2018/6/19.
  */
-public class ImageData {
+public class ImageData implements Serializable {
     public String url;
     public String text;
 

@@ -1,4 +1,4 @@
-package com.sunfusheng.glideimageview.sample.widget.NineImageView;
+package com.sunfusheng.widget;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -8,9 +8,9 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.support.annotation.ColorRes;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.AppCompatImageView;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.widget.ImageView;
@@ -20,14 +20,14 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.load.resource.gif.GifDrawable;
 import com.bumptech.glide.request.target.DrawableImageViewTarget;
 import com.bumptech.glide.request.transition.Transition;
-import com.sunfusheng.glideimageview.sample.R;
+import com.sunfusheng.glideimageview.R;
 import com.sunfusheng.progress.GlideApp;
 import com.sunfusheng.util.Utils;
 
 /**
  * @author sunfusheng on 2018/6/19.
  */
-public class ImageCell extends AppCompatImageView {
+public class ImageCell extends ImageView {
 
     private static final float THUMBNAIL_RATIO = 0.1f;
     private ImageData imageData;
@@ -37,7 +37,10 @@ public class ImageCell extends AppCompatImageView {
     private static Drawable longDrawable;
     private boolean isGif;
     private boolean loadGif;
+    private int  placeholderResId;
+    private int errorResId;
 
+    private boolean hasDrawCornerIcon;
     private Drawable cornerIconDrawable;
     private int cornerIconWidth;
     private int cornerIconHeight;
@@ -62,7 +65,7 @@ public class ImageCell extends AppCompatImageView {
 
     private void init() {
         cornerIconBounds = new Rect();
-        cornerIconMargin = Utils.dp2px(getContext(), 4);
+        cornerIconMargin = Utils.dp2px(getContext(), 3);
         textPaint.setTextAlign(Paint.Align.CENTER);
     }
 
@@ -83,10 +86,20 @@ public class ImageCell extends AppCompatImageView {
         return this;
     }
 
+    public ImageCell placeholder(@DrawableRes int resId) {
+        this.placeholderResId = resId;
+        return this;
+    }
+
+    public ImageCell error(@DrawableRes int resId) {
+        this.errorResId = resId;
+        return this;
+    }
+
     public void load(String url) {
         GlideApp.with(getContext()).load(url)
-                .placeholder(R.mipmap.image_loading)
-                .error(R.mipmap.image_load_err)
+                .placeholder(placeholderResId)
+                .error(errorResId)
                 .fitCenter()
                 .transition(new DrawableTransitionOptions().dontTransition())
                 .thumbnail(THUMBNAIL_RATIO)
@@ -95,36 +108,42 @@ public class ImageCell extends AppCompatImageView {
                     @Override
                     public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
                         Drawable drawable = resource;
-                        isGif = false;
                         if (resource instanceof GifDrawable) {
                             isGif = true;
                             if (!loadGif) {
                                 drawable = new BitmapDrawable(((GifDrawable) resource).getFirstFrame());
                             }
+                        } else {
+                            isGif = false;
                         }
-                        checkCornerIcon(isGif);
+                        initCornerIcon();
                         super.onResourceReady(drawable, transition);
                     }
 
                     @Override
                     public void onLoadFailed(@Nullable Drawable errorDrawable) {
-                        checkCornerIcon(Utils.isGif(imageData.url));
+                        isGif = Utils.isGif(url);
+                        initCornerIcon();
                         super.onLoadFailed(errorDrawable);
                     }
                 });
     }
 
-    private void checkCornerIcon(boolean isGif) {
-        cornerIconDrawable = null;
+    private void initCornerIcon() {
         if (isGif && !loadGif) {
             cornerIconDrawable = getGifDrawable();
         } else if (isLongImage()) {
             cornerIconDrawable = getLongDrawable();
+        } else {
+            cornerIconDrawable = null;
         }
 
         if (cornerIconDrawable != null) {
             cornerIconWidth = Utils.dp2px(getContext(), cornerIconDrawable.getIntrinsicWidth());
             cornerIconHeight = Utils.dp2px(getContext(), cornerIconDrawable.getIntrinsicHeight());
+            if (!hasDrawCornerIcon) {
+                postInvalidate();
+            }
         }
     }
 
@@ -143,14 +162,14 @@ public class ImageCell extends AppCompatImageView {
 
     public Drawable getGifDrawable() {
         if (gifDrawable == null) {
-            gifDrawable = Utils.getTextDrawable(getContext().getApplicationContext(), 24, 14, 2, "GIF", 11, R.color.transparent30);
+            gifDrawable = Utils.getTextDrawable(getContext().getApplicationContext(), 24, 14, 2, "GIF", 11, R.color.nine_image_text_background_color);
         }
         return gifDrawable;
     }
 
     public Drawable getLongDrawable() {
         if (longDrawable == null) {
-            longDrawable = Utils.getTextDrawable(getContext().getApplicationContext(), 25, 14, 2, "长图", 10, R.color.transparent30);
+            longDrawable = Utils.getTextDrawable(getContext().getApplicationContext(), 25, 14, 2, "长图", 10, R.color.nine_image_text_background_color);
         }
         return longDrawable;
     }
@@ -170,12 +189,13 @@ public class ImageCell extends AppCompatImageView {
     public void draw(Canvas canvas) {
         super.draw(canvas);
         if (cornerIconDrawable != null) {
+            hasDrawCornerIcon = true;
             cornerIconDrawable.setBounds(cornerIconBounds);
             cornerIconDrawable.draw(canvas);
         }
 
         if (!TextUtils.isEmpty(imageData.text)) {
-            canvas.drawColor(getResources().getColor(R.color.transparent30));
+            canvas.drawColor(getResources().getColor(R.color.nine_image_text_background_color));
             int textX = getWidth() / 2;
             int textY = getHeight() / 2 + (fontMetrics.bottom - fontMetrics.top) / 2 - fontMetrics.bottom;
             canvas.drawText(imageData.text, textX, textY, textPaint);

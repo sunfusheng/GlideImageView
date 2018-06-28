@@ -13,9 +13,9 @@ import android.widget.Toast;
 
 import com.sunfusheng.glideimageview.sample.model.ImageModel;
 import com.sunfusheng.glideimageview.sample.model.ModelUtil;
-import com.sunfusheng.glideimageview.sample.widget.NineImageView.GridLayoutHelper;
-import com.sunfusheng.glideimageview.sample.widget.NineImageView.ImageData;
-import com.sunfusheng.glideimageview.sample.widget.NineImageView.NineImageView;
+import com.sunfusheng.widget.GridLayoutHelper;
+import com.sunfusheng.widget.ImageData;
+import com.sunfusheng.widget.NineImageView;
 import com.sunfusheng.util.Utils;
 
 import java.util.List;

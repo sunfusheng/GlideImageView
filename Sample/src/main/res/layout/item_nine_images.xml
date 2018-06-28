@@ -20,7 +20,7 @@
         android:textSize="@dimen/f6"
         tools:text="标题"/>
 
-    <com.sunfusheng.glideimageview.sample.widget.NineImageView.NineImageView
+    <com.sunfusheng.widget.NineImageView
         android:id="@+id/multiImageView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

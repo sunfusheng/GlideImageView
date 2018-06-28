@@ -1,6 +1,6 @@
 package com.sunfusheng.glideimageview.sample.model;
 
-import com.sunfusheng.glideimageview.sample.widget.NineImageView.ImageData;
+import com.sunfusheng.widget.ImageData;
 
 import java.util.ArrayList;
 import java.util.List;
