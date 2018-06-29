@@ -196,8 +196,8 @@ public class ImageCell extends ImageView {
 
         if (!TextUtils.isEmpty(imageData.text)) {
             canvas.drawColor(getResources().getColor(R.color.nine_image_text_background_color));
-            int textX = getWidth() / 2;
-            int textY = getHeight() / 2 + (fontMetrics.bottom - fontMetrics.top) / 2 - fontMetrics.bottom;
+            float textX = getWidth() / 2f;
+            float textY = getHeight() / 2f + (fontMetrics.bottom - fontMetrics.top) / 2f - fontMetrics.bottom;
             canvas.drawText(imageData.text, textX, textY, textPaint);
         }
     }
