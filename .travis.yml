@@ -50,13 +50,13 @@ deploy:
   file: Sample/outputs/GlideImageView.apk
   skip_cleanup: true
   on:
-    repo: sfsheng0322/GlideImageView
+    repo: sunfusheng/GlideImageView
     tags: true
     all_branches: true
 
 after_deploy:
-- "./gradlew clean build bintrayUpload -PbintrayUser=sfsheng0322 -PbintrayKey=$BINTRAY_TOKEN -PdryRun=false"
-- fir p Sample/outputs/GlideImageView.apk -T $FIR_TOKEN -c "基于Glide V4.7.1封装的图片加载库，可以监听加载图片时的进度"
+- "./gradlew clean build bintrayUpload -PbintrayUser=sunfusheng -PbintrayKey=$BINTRAY_TOKEN -PdryRun=false"
+- fir p Sample/outputs/GlideImageView.apk -T $FIR_TOKEN -c "基于Glide V4.0.0封装的图片加载库，可以监听加载图片时的进度"
 
 notifications:
   email:

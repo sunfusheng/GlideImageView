@@ -1,6 +1,6 @@
 # GlideImageView  [ ![Download](https://api.bintray.com/packages/sfsheng0322/maven/GlideImageView/images/download.svg) ](https://bintray.com/sfsheng0322/maven/GlideImageView/_latestVersion)
 
-### 该库是基于[Glide](https://github.com/bumptech/glide) V4.7.1设计的，实现如下特性:<br/>
+### 该库是基于[Glide](https://github.com/bumptech/glide) V4.8.0设计的，实现如下特性:<br/>
 1、监听加载网络图片的进度<br/>
 2、动态加载成有弧度的图片、圆形图片、高斯模糊图片更方便<br/>
 3、链式设置触摸图片的透明度和非使能的透明度<br/>
