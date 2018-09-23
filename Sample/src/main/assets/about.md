@@ -1,10 +1,10 @@
 #### GlideImageView 
                     
-该库是基于[Glide](https://github.com/bumptech/glide) V4.0设计的，实现如下特性:<br/>
-1、通过提供的属性可以设置图片的圆角、边框。<br/>
-2、可以设置点击触摸图片时的颜色、透明度。<br/>
-3、一行代码加载来自网络、res、SDCard中的图片，可加载成圆形。<br/>
-4、可以监听加载图片时的进度。<br/>
+#### 该库是基于[Glide](https://github.com/bumptech/glide) V4.7.1设计的，实现如下特性:<br/>
+1、监听加载网络图片的进度<br/>
+2、动态加载成有弧度的图片、圆形图片、高斯模糊图片更方便<br/>
+3、链式设置触摸图片的透明度和非使能的透明度<br/>
+4、增加九宫格控件，具体使用参考[NineImageViewActivity](https://github.com/sfsheng0322/GlideImageView/blob/master/Sample/src/main/java/com/sunfusheng/glideimageview/sample/NineImageViewActivity.java)<br/>
 
 #### GitHub地址
 
