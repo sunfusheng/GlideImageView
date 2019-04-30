@@ -1,42 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="com.sunfusheng.glideimageview.sample"
-          xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.sunfusheng.glideimageview.sample">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppCompatTheme">
+        android:theme="@style/AppCompatTheme"
+        android:usesCleartextTraffic="true"
+        tools:ignore="GoogleAppIndexingWarning,UnusedAttribute">
+
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
 
         <activity android:name=".MainActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
         <activity
             android:name=".image.SingleImageActivity"
-            android:theme="@style/AppCompatFullscreenStyle"/>
+            android:theme="@style/AppCompatFullscreenStyle" />
 
         <activity
             android:name=".about.AboutActivity"
-            android:theme="@style/AboutTheme"/>
+            android:theme="@style/AboutTheme" />
 
-        <activity android:name=".NineImageViewActivity"/>
+        <activity android:name=".NineImageViewActivity" />
 
-        <activity android:name=".RecyclerViewActivity"/>
+        <activity android:name=".RecyclerViewActivity" />
 
         <activity
             android:name=".image.ImagesActivity"
-            android:theme="@style/ImagesStyle"/>
+            android:theme="@style/ImagesStyle" />
     </application>
 
 </manifest>

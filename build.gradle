@@ -9,8 +9,8 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.1.4'
-        classpath 'com.novoda:bintray-release:0.8.1'
+        classpath 'com.android.tools.build:gradle:3.4.0'
+        classpath 'com.novoda:bintray-release:0.9'
     }
 }
 
@@ -23,19 +23,20 @@ allprojects {
         maven { url 'https://maven.google.com' }
         maven { url 'https://dl.bintray.com/sfsheng0322/maven' }
     }
+
+    ext {
+        COMPILE_SDK_VERSION = 28
+        BUILD_TOOL_VERSION = '28.0.3'
+        SUPPORT_LIBRARY_VERSION = '28.0.0'
+        GLIDE_VERSION = '4.9.0'
+
+        MIN_SDK_VERSION = 14
+        TARGET_SDK_VERSION = 28
+        VERSION_CODE = 8
+        VERSION_NAME = '2.1.0'
+    }
 }
 
 task clean(type: Delete) {
     delete rootProject.buildDir
-}
-
-ext {
-    compileSdkVersion = 27
-    buildToolsVersion = '27.1.1'
-    supportLibraryVersion = '27.1.1'
-
-    minSdkVersion = 14
-    targetSdkVersion = 27
-    versionCode = 7
-    versionName = "2.0.2"
 }

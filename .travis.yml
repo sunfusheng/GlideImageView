@@ -7,9 +7,9 @@ android:
   - tools
   - platform-tools
   - tools
-  - build-tools-27.1.1
+  - build-tools-28.0.3
   - android-27
-  - sys-img-armeabi-v7a-android-27
+  - sys-img-armeabi-v7a-android-28
   - extra-android-support
   - extra-android-m2repository
   - extra-google-m2repository
@@ -47,7 +47,7 @@ deploy:
   provider: releases
   api_key:
     secure: BwzVE9rrCLQ1CKalfO66vdBVrpajt1AZVzG8n2qwRSRQxIKabnQht2NCEVWA9jBCGan6ahKG3ZV4Ky5Xeue49FZHb69zuvi7pdhL2AVGDv/T48TXks39FviJD40gSvtOC9H8ju5LokRBoTs74bdhg/weu0fbwjarioS+gsx/AdLYoji5xpe+FaCuwZEKRQ2Cer000XSntmm4d91oW1gJ9DiBLEyb0eEA4t0Trd+zCvC38pv5+sEEag1FIOnOnwc5dixozL0FSSSSPC3mDMxLJL0cgrDmSHzhRL6/DOb/taRGpAyyhOlrIn1H6fPcot8oQFPMv9LUzltYrdYjaKEgg5fGP/+4GVA50UqmQ7UEdtN6i1+UqfnRtkAugJRozy6M0+c8fgg9l5eZfH0jXCpNL8wYsTC0nmDnsG5kLayIM23nQRQOeYEoIiPZxnwvwCwyVZ0GbTEQIql/GHHBpcW9fjBDASsnK3CGtVVf/EHzU/5f0Y71GSPJ5DUHl79ZBNmw+fYkjuoAIt27vP+sf3WPAkGOUGT7PvwpAEe16Xh8cYr37R/Ryuw57Rk3vN/Js0pCqlDymIjMeOIeU57RK8KXKsqrYQtleC8Erjx89eeq1oqq/zZ2g3gFl31c9ajiCjjSpkMR+df518tqgfa40/SfqHX+oz6ihAsCs2PGwqPG8ig=
-  file: Sample/outputs/GlideImageView.apk
+  file: sample/release/GlideImageView.apk
   skip_cleanup: true
   on:
     repo: sunfusheng/GlideImageView
@@ -56,7 +56,7 @@ deploy:
 
 after_deploy:
 - "./gradlew clean build bintrayUpload -PbintrayUser=sunfusheng -PbintrayKey=$BINTRAY_TOKEN -PdryRun=false"
-- fir p Sample/outputs/GlideImageView.apk -T $FIR_TOKEN -c "基于Glide V4.0.0封装的图片加载库，可以监听加载图片时的进度"
+- fir p sample/release/GlideImageView.apk -T $FIR_TOKEN -c "基于Glide V4.9.0封装的图片加载库，可以监听加载图片时的进度"
 
 notifications:
   email:
