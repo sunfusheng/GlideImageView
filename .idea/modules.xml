@@ -3,8 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/GlideImageView.iml" filepath="$PROJECT_DIR$/GlideImageView.iml" />
-      <module fileurl="file://$PROJECT_DIR$/glideimageview/glideimageview.iml" filepath="$PROJECT_DIR$/glideimageview/glideimageview.iml" />
       <module fileurl="file://$PROJECT_DIR$/Sample/Sample.iml" filepath="$PROJECT_DIR$/Sample/Sample.iml" />
+      <module fileurl="file://$PROJECT_DIR$/glideimageview/glideimageview.iml" filepath="$PROJECT_DIR$/glideimageview/glideimageview.iml" />
     </modules>
   </component>
 </project>
