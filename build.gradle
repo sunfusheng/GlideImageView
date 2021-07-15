@@ -9,7 +9,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.4.0'
+        classpath 'com.android.tools.build:gradle:3.5.1'
         classpath 'com.novoda:bintray-release:0.9'
     }
 }
@@ -39,4 +39,15 @@ allprojects {
 
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+
+ext {
+    compileSdkVersion = 27
+    buildToolsVersion = '27.1.1'
+    supportLibraryVersion = '27.1.1'
+
+    minSdkVersion = 14
+    targetSdkVersion = 27
+    versionCode = 7
+    versionName = "2.0.2"
 }
